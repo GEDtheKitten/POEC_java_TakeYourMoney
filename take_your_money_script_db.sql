@@ -5,7 +5,7 @@ CREATE DATABASE take_your_money;
 USE take_your_money;
 
 
-		-- Creation des tables --
+	-- Creation des tables --
 
 CREATE TABLE Clients(
    client_ID INT PRIMARY KEY AUTO_INCREMENT,
@@ -14,12 +14,14 @@ CREATE TABLE Clients(
    client_adresse1 VARCHAR(50),
    client_adresse2 VARCHAR(50),
    client_cp VARCHAR(5),
-   client_ville VARCHAR(30)
+   client_ville VARCHAR(30),
+   client_anonymise BOOLEAN  
 )ENGINE=InnoDB;
 
 CREATE TABLE Produits(
    produit_ID INT PRIMARY KEY AUTO_INCREMENT,
-   produit_designation VARCHAR(50)
+   produit_designation VARCHAR(50),
+   produit_desactive BOOLEAN
 )ENGINE=InnoDB;
 
 CREATE TABLE Commandes(
@@ -54,23 +56,23 @@ CREATE TABLE Produits_Commandes(
 )ENGINE=InnoDB;
 
 
-		-- Reemplissage des table --
+	-- Reemplissage des table --
 
-INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville)
-VALUES ('BAKININ', 'Mikhail', 'rue anar', '', 33000, 'Bordeaux');
-INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville)
-VALUES ('FREYA', 'Le chat', 'rue du chat noir', 'Miaou', 33000, 'Bordeaux');
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('BAKININ', 'Mikhail', 'rue anar', '', 33000, 'Bordeaux', false);
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('FREYA', 'Le chat', 'rue du chat noir', 'Miaou', 33000, 'Bordeaux', false);
 
-INSERT INTO Produits(produit_designation) VALUES ('Croquette pour chat');
-INSERT INTO Produits(produit_designation) VALUES ('Colier antispuce');
-INSERT INTO Produits(produit_designation) VALUES ('Arbre a chat');
-INSERT INTO Produits(produit_designation) VALUES ('Voiture');
-INSERT INTO Produits(produit_designation) VALUES ('Peluche de chat');
-INSERT INTO Produits(produit_designation) VALUES ('Peluche de rat');
-INSERT INTO Produits(produit_designation) VALUES ('Brosse a chat');
-INSERT INTO Produits(produit_designation) VALUES ('Litiere');
-INSERT INTO Produits(produit_designation) VALUES ('Pannier');
-INSERT INTO Produits(produit_designation) VALUES ('Balle rebondissante');
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Croquette pour chat', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Colier antispuce', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Arbre a chat', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Voiture', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Peluche de chat', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Peluche de rat', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Brosse a chat', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Litiere', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Pannier', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Balle rebondissante', false);
 
 
 
