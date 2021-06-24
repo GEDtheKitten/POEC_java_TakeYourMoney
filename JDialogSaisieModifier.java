@@ -93,14 +93,6 @@ public class JDialogSaisieModifier extends JDialog {
 		panelClient.add(panelBtnActions);
 		
 		btnModifier.addActionListener(e -> {
-			String nouveauNom = champNom.getText();
-			String nouveauPrenom = champPrenom.getText();
-			String nouveauAdress1 = champAdress1.getText();
-			String nouveauAdress2 = champAdress2.getText();
-			String nouveauCP = champCodePostal.getText();
-			String nouveauVille = champVille.getText();
-			String nouveauTelephone = champTelephone.getText();
-			
 			try {
 				ImportSQL.mettreAJourData(getWarningString(), null, getName());
 			} catch (IOException | SQLException e1) {
@@ -121,7 +113,7 @@ public class JDialogSaisieModifier extends JDialog {
 		setTitle("Modifier les informations (" + nomTable + ")");
 		setResizable(false);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // A REVERIFIER
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setModal(true);
 
 		setContentPane(construirePanelClient());
