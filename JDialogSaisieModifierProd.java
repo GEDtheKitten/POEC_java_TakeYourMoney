@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -67,10 +68,14 @@ public class JDialogSaisieModifierProd extends JDialog {
 
 		btnModifier.addActionListener(e -> {
 
-			// JDialog validation UTILISATEUR ***************
+			int confirmation = JOptionPane.showOptionDialog(null, "Êtes-vous sûr(e) de vouloir modifier cet item ?",
+					"Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+			if (confirmation == JOptionPane.YES_OPTION) {
 
-			String nouveauNom = champDesignation.getText();
-			String nouveauPrixHT = champPrixHT.getText();
+				String nouveauNom = champDesignation.getText();
+				String nouveauPrixHT = champPrixHT.getText();
+			} else {
+			}
 		});
 
 		btnAnnuler.addActionListener(e -> {
@@ -82,7 +87,7 @@ public class JDialogSaisieModifierProd extends JDialog {
 
 	private void constructJDialog(String nomTable, String item) throws IOException {
 		setSize(400, 200);
-		setTitle("Modifier les informations (" + nomTable + ")");
+		setTitle("Modifier les informations du produit");
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // A REVERIFIER

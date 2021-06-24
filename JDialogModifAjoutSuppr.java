@@ -12,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -184,16 +185,22 @@ public class JDialogModifAjoutSuppr extends JDialog {
 		});
 
 		btnAjouter.addActionListener(e -> {
+			String valeurSelectionnee = objetListeDeroulante(listeDeroulante);
 			ajouterData(type);
 		});
+
 		btnModifier.addActionListener(e -> {
 			String valeurSelectionnee = objetListeDeroulante(listeDeroulante);
-			modifierData(valeurSelectionnee, type);
+			modifierData(type, valeurSelectionnee);
 		});
 		btnSupprimer.addActionListener(e -> {
-			// JDialog validation UTILISATEUR ***************
-			String valeurSupprimee = objetListeDeroulante(listeDeroulante);
-			modifierData(valeurSupprimee, type);
+			int confirmation = JOptionPane.showOptionDialog(null, "Êtes-vous sûr(e) de vouloir supprimer cet item ?",
+					"Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+			if (confirmation == JOptionPane.YES_OPTION) {
+
+				String valeurSupprimee = objetListeDeroulante(listeDeroulante);
+				supprimerData(type, valeurSupprimee);
+			}
 		});
 
 		return panelTitle;
@@ -213,20 +220,63 @@ public class JDialogModifAjoutSuppr extends JDialog {
 
 	}
 
-	public void modifierData(String valeur, String type) {
-		System.out.println("Appel de la méthode modifierData()");
-		// JDialog modif selon type
+	public void modifierData(String type, String valeurSelectionnee) {
+		if (type == "Produits") {
+			JDialogSaisieModifierProd modifierProduit = null;
+			try {
+				modifierProduit = new JDialogSaisieModifierProd("Produits", valeurSelectionnee);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			modifierProduit.setModal(true);
+			modifierProduit.setVisible(true);
+		} else if (type == "Clients") {
+			JDialogSaisieModifierClient modifierClient = null;
+			try {
+				modifierClient = new JDialogSaisieModifierClient("Clients", valeurSelectionnee);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			modifierClient.setModal(true);
+			modifierClient.setVisible(true);
+
+		}
 	}
 
 	public void ajouterData(String type) {
-		System.out.println("Appel de la méthode ajouterData()");
-		// JDialog modif selon type
+		if (type == "Produits") {
+			JDialogSaisieAjouterProd ajouterProduit = null;
+			try {
+				ajouterProduit = new JDialogSaisieAjouterProd("Produits");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			ajouterProduit.setModal(true);
+			ajouterProduit.setVisible(true);
+		} else if (type == "Clients") {
+			JDialogSaisieAjouterClient ajouterClient = null;
+			try {
+				ajouterClient = new JDialogSaisieAjouterClient("Clients");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			ajouterClient.setModal(true);
+			ajouterClient.setVisible(true);
+
+		}
 	}
 
-	public void supprimerData(String valeur, String type) {
-		System.out.println("Appel de la méthode supprimerData()");
-		// JDialog validation UTILISATEUR SUPPRESSION *************** (renvoie à une
-		// fonction de test si inclus dans commande)
+	public void supprimerData(String type, String valeurSupprimee) {
+
+		// If (type.equals("Produits") {
+		// procédure de vérification si produit déjà acheté
+		// If true : appel requête de désactivation
+		// else : appel requête de suppression
+
+		// If (type.equals("Clients") {
+		// procédure de vérification si client a déjà acheté
+		// If true : appel requête d'anonymisation
+		// else : appel requête de suppression
 	}
 
 	/**

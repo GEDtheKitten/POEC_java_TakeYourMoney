@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -93,16 +94,21 @@ public class JDialogSaisieModifierClient extends JDialog {
 
 		btnModifier.addActionListener(e -> {
 
-			// JDialog validation UTILISATEUR ***************
+			int confirmation = JOptionPane.showOptionDialog(null, "Êtes-vous sûr(e) de vouloir modifier cet item ?",
+					"Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+			if (confirmation == JOptionPane.YES_OPTION) {
+				String nouveauNom = champNom.getText();
+				String nouveauPrenom = champPrenom.getText();
+				String nouveauAdress1 = champAdress1.getText();
+				String nouveauAdress2 = champAdress2.getText();
+				String nouveauCP = champCodePostal.getText();
+				String nouveauVille = champVille.getText();
+				String nouveauTelephone = champTelephone.getText();
 
-			String nouveauNom = champNom.getText();
-			String nouveauPrenom = champPrenom.getText();
-			String nouveauAdress1 = champAdress1.getText();
-			String nouveauAdress2 = champAdress2.getText();
-			String nouveauCP = champCodePostal.getText();
-			String nouveauVille = champVille.getText();
-			String nouveauTelephone = champTelephone.getText();
+				// Modification données SQL
+			} else {
 
+			}
 		});
 
 		btnAnnuler.addActionListener(e -> {
@@ -114,7 +120,7 @@ public class JDialogSaisieModifierClient extends JDialog {
 
 	private void constructJDialog(String nomTable, String item) throws IOException {
 		setSize(400, 400);
-		setTitle("Modifier les informations (" + nomTable + ")");
+		setTitle("Modifier les informations du client");
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // A REVERIFIER
