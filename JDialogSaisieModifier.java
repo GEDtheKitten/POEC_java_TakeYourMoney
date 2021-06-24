@@ -70,6 +70,10 @@ public class JDialogSaisieModifier extends JDialog {
 
 		// Ajout du bouton Modifier
 
+		JPanel panelBtnActions = new JPanel();
+		panelBtnActions.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		panelBtnActions..setBackground(Color.WHITE);
+		
 		JPanel panelBtnModifier = new JPanel();
 		panelBtnModifier.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		panelBtnModifier.setBackground(Color.WHITE);
@@ -77,8 +81,17 @@ public class JDialogSaisieModifier extends JDialog {
 		JButton btnModifier = new JButton("Modifier");
 		panelBtnModifier.add(btnModifier);
 
-		panelClient.add(panelBtnModifier);
+		JPanel panelBtnAnnuler = new JPanel();
+		panelBtnAnnuler.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		panelBtnAnnuler.setBackground(Color.WHITE);
 
+		JButton btnAnnuler= new JButton("Annuler");
+		panelBtnAnnuler.add(btnAnnuler);
+		
+		panelBtnActions.add(panelBtnAnnuler);
+		panelBtnActions.add(panelBtnModifier);
+		panelClient.add(panelBtnActions);
+		
 		btnModifier.addActionListener(e -> {
 			String nouveauNom = champNom.getText();
 			String nouveauPrenom = champPrenom.getText();
@@ -95,7 +108,11 @@ public class JDialogSaisieModifier extends JDialog {
 				e1.printStackTrace();
 			}
 		});
-
+		
+		btnAnnuler.addActionListener(e -> {
+			dispose();
+		});
+		
 		return panelClient;
 	}
 

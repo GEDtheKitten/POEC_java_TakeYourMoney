@@ -166,7 +166,7 @@ public class JDialogModifAjoutSuppr extends JDialog {
 
 		int iD = 0;
 		btnFermer.addActionListener(e -> {
-			this.dispose(); // QUELLE VARIABLE ?
+			dispose();
 		});
 		btnAjouter.addActionListener(e -> {
 			ajouterData(type);
