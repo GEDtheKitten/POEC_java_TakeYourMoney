@@ -74,5 +74,18 @@ INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Litiere', 
 INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Pannier', false);
 INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Balle rebondissante', false);
 
+INSERT INTO Prix(prix_date, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/01/2018', '%d/%m/%Y'), 25.5, 1);
+INSERT INTO Prix(prix_date, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/02/2018', '%d/%m/%Y'), 17, 2);
+INSERT INTO Prix(prix_date, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/03/2018', '%d/%m/%Y'), 15900, 3);
+INSERT INTO Prix(prix_date, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/04/2018', '%d/%m/%Y'), 55.9, 4);
+INSERT INTO Prix(prix_date, prix_HT, produit_ID) VALUES (STR_TO_DATE('23/05/2018', '%d/%m/%Y'), 20, 5);
+INSERT INTO Prix(prix_date, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/01/2018', '%d/%m/%Y'), 15, 6);
+INSERT INTO Prix(prix_date, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/01/2018', '%d/%m/%Y'), 14.9, 7);
+INSERT INTO Prix(prix_date, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/01/2018', '%d/%m/%Y'), 25.5, 8);
+INSERT INTO Prix(prix_date, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/01/2018', '%d/%m/%Y'), 20.5, 9);
+INSERT INTO Prix(prix_date, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/01/2018', '%d/%m/%Y'), 5.99, 10);
+
+
+
 
 
