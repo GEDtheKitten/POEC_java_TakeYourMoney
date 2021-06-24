@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -72,8 +71,8 @@ public class JDialogSaisieModifier extends JDialog {
 
 		JPanel panelBtnActions = new JPanel();
 		panelBtnActions.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		panelBtnActions..setBackground(Color.WHITE);
-		
+		panelBtnActions.setBackground(Color.WHITE);
+
 		JPanel panelBtnModifier = new JPanel();
 		panelBtnModifier.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		panelBtnModifier.setBackground(Color.WHITE);
@@ -85,26 +84,30 @@ public class JDialogSaisieModifier extends JDialog {
 		panelBtnAnnuler.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		panelBtnAnnuler.setBackground(Color.WHITE);
 
-		JButton btnAnnuler= new JButton("Annuler");
+		JButton btnAnnuler = new JButton("Annuler");
 		panelBtnAnnuler.add(btnAnnuler);
-		
+
 		panelBtnActions.add(panelBtnAnnuler);
 		panelBtnActions.add(panelBtnModifier);
 		panelClient.add(panelBtnActions);
-		
+
 		btnModifier.addActionListener(e -> {
-			try {
-				ImportSQL.mettreAJourData(getWarningString(), null, getName());
-			} catch (IOException | SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+
+			// JDialog validation UTILISATEUR ***************
+
+			String nouveauNom = champNom.getText();
+			String nouveauPrenom = champPrenom.getText();
+			String nouveauAdress1 = champAdress1.getText();
+			String nouveauAdress2 = champAdress2.getText();
+			String nouveauCP = champCodePostal.getText();
+			String nouveauVille = champVille.getText();
+			String nouveauTelephone = champTelephone.getText();
 		});
-		
+
 		btnAnnuler.addActionListener(e -> {
 			dispose();
 		});
-		
+
 		return panelClient;
 	}
 
@@ -113,7 +116,7 @@ public class JDialogSaisieModifier extends JDialog {
 		setTitle("Modifier les informations (" + nomTable + ")");
 		setResizable(false);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // A REVERIFIER
 		setModal(true);
 
 		setContentPane(construirePanelClient());

@@ -98,6 +98,13 @@ public class JDialogModifAjoutSuppr extends JDialog {
 		panelBtnModifier.setBackground(Color.white);
 
 		JButton btnModifier = new JButton("Modifier");
+
+		if (type.equals("COMMANDES")) {
+			btnModifier.setVisible(false);
+		} else {
+			btnModifier.setVisible(true);
+		}
+
 		panelBtnModifier.add(btnModifier);
 
 		panelActions.add(panelBtnModifier);
@@ -109,6 +116,13 @@ public class JDialogModifAjoutSuppr extends JDialog {
 		panelBtnSupprimer.setBackground(Color.white);
 
 		JButton btnSupprimer = new JButton("Supprimer");
+
+		if (type.equals("COMMANDES")) {
+			btnSupprimer.setVisible(false);
+		} else {
+			btnSupprimer.setVisible(true);
+		}
+
 		panelBtnSupprimer.add(btnSupprimer);
 
 		panelActions.add(panelBtnSupprimer);
@@ -168,24 +182,18 @@ public class JDialogModifAjoutSuppr extends JDialog {
 		btnFermer.addActionListener(e -> {
 			dispose();
 		});
+
 		btnAjouter.addActionListener(e -> {
 			ajouterData(type);
 		});
 		btnModifier.addActionListener(e -> {
-			modifierData(iD, type);
+			String valeurSelectionnee = objetListeDeroulante(listeDeroulante);
+			modifierData(valeurSelectionnee, type);
 		});
 		btnSupprimer.addActionListener(e -> {
-			supprimerData(iD, type);
-		});
-
-		// Récupérer valeur liste déroulante
-		listeDeroulante.addActionListener(e -> {
-			objetListeDeroulante(listeDeroulante);
-		});
-
-		// Action en cas de changement
-		listeDeroulante.addActionListener(e -> {
-			changementListeDeroulante(listeDeroulante);
+			// JDialog validation UTILISATEUR ***************
+			String valeurSupprimee = objetListeDeroulante(listeDeroulante);
+			modifierData(valeurSupprimee, type);
 		});
 
 		return panelTitle;
@@ -205,31 +213,33 @@ public class JDialogModifAjoutSuppr extends JDialog {
 
 	}
 
-	public void fermer(JDialogModifAjoutSuppr dialog) {
-		System.out.println("Fermer");
-		this.dispose();
-	}
-
-	public void modifierData(int iD, String type) {
+	public void modifierData(String valeur, String type) {
 		System.out.println("Appel de la méthode modifierData()");
+		// JDialog modif selon type
 	}
 
 	public void ajouterData(String type) {
 		System.out.println("Appel de la méthode ajouterData()");
+		// JDialog modif selon type
 	}
 
-	public void supprimerData(int iD, String type) {
+	public void supprimerData(String valeur, String type) {
 		System.out.println("Appel de la méthode supprimerData()");
+		// JDialog validation UTILISATEUR SUPPRESSION *************** (renvoie à une
+		// fonction de test si inclus dans commande)
 	}
 
-	// Méthode (facultative) si l'état de la liste déroulante change
-	public void changementListeDeroulante(JComboBox listeDeroulante) {
-		// action
-	}
+	/**
+	 * Méthode pour récupérer la valeur sélectionnée de la liste déroulante
+	 * 
+	 * @param JComboBox listeDeroulante
+	 * @return
+	 */
 
-	public Object objetListeDeroulante(JComboBox listeDeroulante) {
-		System.out.println("La valeur sélectionnée est " + (listeDeroulante.getSelectedItem()).toString());
-		return listeDeroulante.getSelectedItem();
+	public String objetListeDeroulante(JComboBox listeDeroulante) {
+		// System.out.println("La valeur sélectionnée est " +
+		// (listeDeroulante.getSelectedItem()).toString());
+		return (listeDeroulante.getSelectedItem()).toString();
 
 	}
 
