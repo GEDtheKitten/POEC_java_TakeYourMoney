@@ -13,9 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class JDialogSaisieModifier extends JDialog {
+public class JDialogSaisieModifierClient extends JDialog {
 
-	public JDialogSaisieModifier(String nomTable, String item) throws IOException {
+	public JDialogSaisieModifierClient(String nomTable, String item) throws IOException {
 		super();
 		constructJDialog(nomTable, item);
 	}
@@ -102,6 +102,7 @@ public class JDialogSaisieModifier extends JDialog {
 			String nouveauCP = champCodePostal.getText();
 			String nouveauVille = champVille.getText();
 			String nouveauTelephone = champTelephone.getText();
+
 		});
 
 		btnAnnuler.addActionListener(e -> {
