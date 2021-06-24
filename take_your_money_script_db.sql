@@ -26,24 +26,19 @@ CREATE TABLE Produits(
 
 CREATE TABLE Commandes(
    commande_ID INT PRIMARY KEY AUTO_INCREMENT,
-   commande_montant VARCHAR(50),
-   commande_date DATE
+   -- commande_montant VARCHAR(50),
+   commande_date DATE,
+   client_ID INT,
+   FOREIGN KEY FK_Commandes_Clients (client_ID) REFERENCES Clients (client_ID)
 )ENGINE=InnoDB;
 
 CREATE TABLE Prix(
    prix_ID INT PRIMARY KEY AUTO_INCREMENT,
-   prix_date DATE,
+   prix_date_debut DATE,
+   prix_date_fin DATE DEFAULT NULL,
    prix_HT DECIMAL(15,2),
    produit_ID INT,
    FOREIGN KEY FK_Prix_Produits (produit_ID) REFERENCES Produits (produit_ID)
-)ENGINE=InnoDB;
-
-CREATE TABLE Clients_Commandes(
-   client_ID INT,
-   commande_ID INT,
-   PRIMARY KEY(client_ID, commande_ID),
-   FOREIGN KEY FK_Clients_Commandes (commande_ID) REFERENCES Commandes (commande_ID),
-   FOREIGN KEY FK_Commandes_Clients (client_ID) REFERENCES Clients (client_ID)
 )ENGINE=InnoDB;
 
 CREATE TABLE Produits_Commandes(
@@ -74,16 +69,28 @@ INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Litiere', 
 INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Pannier', false);
 INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Balle rebondissante', false);
 
-INSERT INTO Prix(prix_date, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/01/2018', '%d/%m/%Y'), 25.5, 1);
-INSERT INTO Prix(prix_date, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/02/2018', '%d/%m/%Y'), 17, 2);
-INSERT INTO Prix(prix_date, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/03/2018', '%d/%m/%Y'), 15900, 3);
-INSERT INTO Prix(prix_date, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/04/2018', '%d/%m/%Y'), 55.9, 4);
-INSERT INTO Prix(prix_date, prix_HT, produit_ID) VALUES (STR_TO_DATE('23/05/2018', '%d/%m/%Y'), 20, 5);
-INSERT INTO Prix(prix_date, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/01/2018', '%d/%m/%Y'), 15, 6);
-INSERT INTO Prix(prix_date, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/01/2018', '%d/%m/%Y'), 14.9, 7);
-INSERT INTO Prix(prix_date, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/01/2018', '%d/%m/%Y'), 25.5, 8);
-INSERT INTO Prix(prix_date, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/01/2018', '%d/%m/%Y'), 20.5, 9);
-INSERT INTO Prix(prix_date, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/01/2018', '%d/%m/%Y'), 5.99, 10);
+INSERT INTO Prix(prix_date_debut, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/01/2018', '%d/%m/%Y'), 25.5, 1);
+INSERT INTO Prix(prix_date_debut, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/02/2018', '%d/%m/%Y'), 17, 2);
+INSERT INTO Prix(prix_date_debut, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/03/2018', '%d/%m/%Y'), 15900, 3);
+INSERT INTO Prix(prix_date_debut, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/04/2018', '%d/%m/%Y'), 55.9, 4);
+INSERT INTO Prix(prix_date_debut, prix_HT, produit_ID) VALUES (STR_TO_DATE('23/05/2018', '%d/%m/%Y'), 20, 5);
+INSERT INTO Prix(prix_date_debut, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/01/2018', '%d/%m/%Y'), 15, 6);
+INSERT INTO Prix(prix_date_debut, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/01/2018', '%d/%m/%Y'), 14.9, 7);
+INSERT INTO Prix(prix_date_debut, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/01/2018', '%d/%m/%Y'), 25.5, 8);
+INSERT INTO Prix(prix_date_debut, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/01/2018', '%d/%m/%Y'), 20.5, 9);
+INSERT INTO Prix(prix_date_debut, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/01/2018', '%d/%m/%Y'), 5.99, 10);
+
+INSERT INTO Commandes(commande_date, client_ID) VALUES (STR_TO_DATE('1/01/2018', '%d/%m/%Y'), 1);
+INSERT INTO Commandes(commande_date, client_ID) VALUES (CURRENT_DATE(), 2);
+
+INSERT INTO Produits_Commandes(produit_ID, commande_ID, qte_produit) VALUES (1, 1, 1);
+INSERT INTO Produits_Commandes(produit_ID, commande_ID, qte_produit) VALUES (2, 1, 1);
+INSERT INTO Produits_Commandes(produit_ID, commande_ID, qte_produit) VALUES (5, 1, 3);
+INSERT INTO Produits_Commandes(produit_ID, commande_ID, qte_produit) VALUES (6, 1, 1);
+INSERT INTO Produits_Commandes(produit_ID, commande_ID, qte_produit) VALUES (2, 2, 1);
+INSERT INTO Produits_Commandes(produit_ID, commande_ID, qte_produit) VALUES (10, 2, 1);
+INSERT INTO Produits_Commandes(produit_ID, commande_ID, qte_produit) VALUES (9, 2, 2);
+INSERT INTO Produits_Commandes(produit_ID, commande_ID, qte_produit) VALUES (3, 2, 1);
 
 
 
