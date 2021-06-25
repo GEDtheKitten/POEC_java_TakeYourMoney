@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -66,12 +67,12 @@ public class JDialogSaisieAjouterClient extends JDialog {
 		panelBtnActions.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		panelBtnActions.setBackground(Color.WHITE);
 
-		JPanel panelBtnModifier = new JPanel();
-		panelBtnModifier.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		panelBtnModifier.setBackground(Color.WHITE);
+		JPanel panelBtnAjouter = new JPanel();
+		panelBtnAjouter.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		panelBtnAjouter.setBackground(Color.WHITE);
 
-		JButton btnModifier = new JButton("Modifier");
-		panelBtnModifier.add(btnModifier);
+		JButton btnAjouter = new JButton("Ajouter");
+		panelBtnAjouter.add(btnAjouter);
 
 		JPanel panelBtnAnnuler = new JPanel();
 		panelBtnAnnuler.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -81,21 +82,29 @@ public class JDialogSaisieAjouterClient extends JDialog {
 		panelBtnAnnuler.add(btnAnnuler);
 
 		panelBtnActions.add(panelBtnAnnuler);
-		panelBtnActions.add(panelBtnModifier);
+		panelBtnActions.add(panelBtnAjouter);
 		panelClient.add(panelBtnActions);
 
-		btnModifier.addActionListener(e -> {
+		btnAjouter.addActionListener(e -> {
 
-			// JDialog validation UTILISATEUR ***************
+			int confirmation = JOptionPane.showOptionDialog(null, "Êtes-vous sûr(e) de vouloir  ajouter un client ?",
+					"Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+			if (confirmation == JOptionPane.YES_OPTION) {
 
-			String nouveauNom = champNom.getText();
-			String nouveauPrenom = champPrenom.getText();
-			String nouveauAdress1 = champAdress1.getText();
-			String nouveauAdress2 = champAdress2.getText();
-			String nouveauCP = champCodePostal.getText();
-			String nouveauVille = champVille.getText();
-			String nouveauTelephone = champTelephone.getText();
+				String nouveauNom = champNom.getText();
+				String nouveauPrenom = champPrenom.getText();
+				String nouveauAdress1 = champAdress1.getText();
+				String nouveauAdress2 = champAdress2.getText();
+				String nouveauCP = champCodePostal.getText();
+				String nouveauVille = champVille.getText();
+				String nouveauTelephone = champTelephone.getText();
 
+				ajouterClient(nouveauNom, nouveauPrenom, nouveauAdress1, nouveauAdress2, nouveauCP, nouveauVille,
+						nouveauTelephone);
+
+			} else {
+
+			}
 		});
 
 		btnAnnuler.addActionListener(e -> {
@@ -116,6 +125,11 @@ public class JDialogSaisieAjouterClient extends JDialog {
 		setContentPane(construirePanelClient());
 		getContentPane().setBackground(Color.WHITE);
 
+	}
+
+	public void ajouterClient(String nouveauNom, String nouveauPrenom, String nouveauAdress1, String nouveauAdress2,
+			String nouveauCP, String nouveauVille, String nouveauTelephone) {
+		// APPELER PROCEDURE D'AJOUT CLIENT
 	}
 
 }

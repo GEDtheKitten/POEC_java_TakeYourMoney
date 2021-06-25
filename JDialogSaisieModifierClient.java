@@ -105,7 +105,9 @@ public class JDialogSaisieModifierClient extends JDialog {
 				String nouveauVille = champVille.getText();
 				String nouveauTelephone = champTelephone.getText();
 
-				// Modification données SQL
+				modifierClient(nouveauNom, nouveauPrenom, nouveauAdress1, nouveauAdress2, nouveauCP, nouveauVille,
+						nouveauTelephone);
+
 			} else {
 
 			}
@@ -129,6 +131,11 @@ public class JDialogSaisieModifierClient extends JDialog {
 		setContentPane(construirePanelClient());
 		getContentPane().setBackground(Color.WHITE);
 
+	}
+
+	public void modifierClient(String nouveauNom, String nouveauPrenom, String nouveauAdress1, String nouveauAdress2,
+			String nouveauCP, String nouveauVille, String nouveauTelephone) {
+		// APPELER PROCEDURE DE MODIFICATION CLIENT
 	}
 
 }

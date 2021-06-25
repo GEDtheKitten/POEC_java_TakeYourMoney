@@ -74,6 +74,9 @@ public class JDialogSaisieModifierProd extends JDialog {
 
 				String nouveauNom = champDesignation.getText();
 				String nouveauPrixHT = champPrixHT.getText();
+
+				modifierProduit(nouveauNom, nouveauPrixHT);
+
 			} else {
 			}
 		});
@@ -96,6 +99,10 @@ public class JDialogSaisieModifierProd extends JDialog {
 		setContentPane(construirePanelProduit());
 		getContentPane().setBackground(Color.WHITE);
 
+	}
+
+	public void modifierProduit(String nouveauNom, String nouveauPrixHT) {
+		// APPELER PROCEDURE DE MODIFICATION DE PRODUIT
 	}
 
 }

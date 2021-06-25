@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -41,14 +42,14 @@ public class JDialogSaisieAjouterProd extends JDialog {
 		panelBtnActions.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		panelBtnActions.setBackground(Color.WHITE);
 
-		JPanel panelBtnModifier = new JPanel();
-		panelBtnModifier.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		JPanel panelBtnAjouter = new JPanel();
+		panelBtnAjouter.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
-		panelBtnModifier.setBackground(Color.WHITE);
+		panelBtnAjouter.setBackground(Color.WHITE);
 
-		JButton btnModifier = new JButton("Modifier");
+		JButton btnAjouter = new JButton("Ajouter");
 
-		panelBtnModifier.add(btnModifier);
+		panelBtnAjouter.add(btnAjouter);
 
 		JPanel panelBtnAnnuler = new JPanel();
 		panelBtnAnnuler.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -60,15 +61,23 @@ public class JDialogSaisieAjouterProd extends JDialog {
 		panelBtnAnnuler.add(btnAnnuler);
 
 		panelBtnActions.add(panelBtnAnnuler);
-		panelBtnActions.add(panelBtnModifier);
+		panelBtnActions.add(panelBtnAjouter);
 		panelProduit.add(panelBtnActions);
 
-		btnModifier.addActionListener(e -> {
+		btnAjouter.addActionListener(e -> {
 
-			// JDialog validation UTILISATEUR ***************
+			int confirmation = JOptionPane.showOptionDialog(null, "Êtes-vous sûr(e) de vouloir  ajouter un produit ?",
+					"Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+			if (confirmation == JOptionPane.YES_OPTION) {
 
-			String nouveauNom = champDesignation.getText();
-			String nouveauPrixHT = champPrixHT.getText();
+				String nouveauNom = champDesignation.getText();
+				String nouveauPrixHT = champPrixHT.getText();
+
+				ajouterProduit(nouveauNom, nouveauPrixHT);
+
+			} else {
+
+			}
 		});
 
 		btnAnnuler.addActionListener(e -> {
@@ -89,6 +98,10 @@ public class JDialogSaisieAjouterProd extends JDialog {
 		setContentPane(construirePanelProduit());
 		getContentPane().setBackground(Color.WHITE);
 
+	}
+
+	public void ajouterProduit(String nouveauNom, String nouveauPrixHT) {
+		// APPELER PROCEDURE D'AJOUT PRODUIT
 	}
 
 }

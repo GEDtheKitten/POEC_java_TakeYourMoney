@@ -268,15 +268,19 @@ public class JDialogModifAjoutSuppr extends JDialog {
 
 	public void supprimerData(String type, String valeurSupprimee) {
 
-		// If (type.equals("Produits") {
-		// procédure de vérification si produit déjà acheté
-		// If true : appel requête de désactivation
-		// else : appel requête de suppression
-
-		// If (type.equals("Clients") {
-		// procédure de vérification si client a déjà acheté
-		// If true : appel requête d'anonymisation
-		// else : appel requête de suppression
+		if (type.equals("Produits")) {
+			if (!produitDejaCommande(valeurSupprimee)) {
+				supprimerClient(valeurSupprimee);
+			} else {
+				anonymiserClient(valeurSupprimee);
+			}
+		} else if (type.equals("Clients")) {
+			if (!clientADejaCommande(valeurSupprimee)) {
+				supprimerClient(valeurSupprimee);
+			} else {
+				anonymiserClient(valeurSupprimee);
+			}
+		}
 	}
 
 	/**
@@ -291,6 +295,32 @@ public class JDialogModifAjoutSuppr extends JDialog {
 		// (listeDeroulante.getSelectedItem()).toString());
 		return (listeDeroulante.getSelectedItem()).toString();
 
+	}
+
+	public boolean clientADejaCommande(String nomClient) {
+		// APPEL PROCEDURE DE VERIFICATION POUR SAVOIR SI LE CLIENT A DEJA ACHETE
+		return true;
+	}
+
+	public boolean produitDejaCommande(String nomProduit) {
+		// APPEL PROCEDURE DE VERIFICATION POUR SAVOIR SI LE PRODUIT A DEJA ETE ACHETE
+		return true;
+	}
+
+	public void supprimerClient(String nomClient) {
+		// APPEL PROCEDURE POUR SUPPRIMER LE CLIENT
+	}
+
+	public void anonymiserClient(String nomClient) {
+		// APPEL PROCEDURE POUR ANONYMISER
+	}
+
+	public void supprimerProduit(String nomProduit) {
+		// APPEL PROCEDURE POUR SUPPRIMER LE PRODUIT
+	}
+
+	public void desactiverProduit(String nomProduit) {
+		// APPEL PROCEDURE POUR DESACTIVER LE PRODUIT
 	}
 
 }
