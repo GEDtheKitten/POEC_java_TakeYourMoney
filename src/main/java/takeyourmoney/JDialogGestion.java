@@ -205,6 +205,8 @@ public class JDialogGestion extends JDialog {
 
 				String valeurSupprimee = objetListeDeroulante(listeDeroulante);
 				supprimerData(type, valeurSupprimee);
+				JDialogConfirmationSuppression ecranConfirmationSuppression = new JDialogConfirmationSuppression();
+				ecranConfirmationSuppression.setVisible(true);
 			}
 		});
 
@@ -235,6 +237,7 @@ public class JDialogGestion extends JDialog {
 			JDialogSaisieModifierProd modifierProduit = null;
 			try {
 				modifierProduit = new JDialogSaisieModifierProd(valeurSelectionnee);
+				
 			} catch (IOException e1) {
 				JDialogError ecranErreur = new JDialogError();
 				ecranErreur.setVisible(true);
@@ -321,12 +324,14 @@ public class JDialogGestion extends JDialog {
 	}
 
 	public boolean clientADejaCommande(String nomClient) {
-		// APPEL PROCEDURE DE VERIFICATION POUR SAVOIR SI LE CLIENT A DEJA ACHETE ************************************
+		// APPEL PROCEDURE DE VERIFICATION POUR SAVOIR SI LE CLIENT A DEJA ACHETE
+		// ************************************
 		return true;
 	}
 
 	public boolean produitDejaCommande(String nomProduit) {
-		// APPEL PROCEDURE DE VERIFICATION POUR SAVOIR SI LE PRODUIT A DEJA ETE ACHETE ************************************
+		// APPEL PROCEDURE DE VERIFICATION POUR SAVOIR SI LE PRODUIT A DEJA ETE ACHETE
+		// ************************************
 		return true;
 	}
 
@@ -339,11 +344,13 @@ public class JDialogGestion extends JDialog {
 	}
 
 	public void supprimerProduit(String nomProduit) {
-		// APPEL PROCEDURE POUR SUPPRIMER LE PRODUIT ************************************
+		// APPEL PROCEDURE POUR SUPPRIMER LE PRODUIT
+		// ************************************
 	}
 
 	public void desactiverProduit(String nomProduit) {
-		// APPEL PROCEDURE POUR DESACTIVER LE PRODUIT ************************************
+		// APPEL PROCEDURE POUR DESACTIVER LE PRODUIT
+		// ************************************
 	}
 
 	public void mettreAJourTextArea(JTextArea display, String valeurSelectionnee) {
