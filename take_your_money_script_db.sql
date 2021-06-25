@@ -1,4 +1,3 @@
-
 DROP DATABASE IF EXISTS take_your_money;
 
 CREATE DATABASE take_your_money;
@@ -58,8 +57,63 @@ VALUES ('BAKININ', 'Mikhail', 'rue anar', '', 33000, 'Bordeaux', false);
 INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
 VALUES ('FREYA', 'Le chat', 'rue du chat noir', 'Miaou', 33000, 'Bordeaux', false);
 
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('BAKI', 'Mikhail', 'rue anar', '', 33000, 'Bordeaux', false);
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('FREY', 'Le chat', 'rue du chat noir', 'Miaou', 33000, 'Bordeaux', false);
+
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('BAK', 'Mikhail', 'rue anar', '', 33000, 'Bordeaux', false);
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('FRE', 'Le chat', 'rue du chat noir', 'Miaou', 33000, 'Bordeaux', false);
+
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('BA', 'Mikhail', 'rue anar', '', 33000, 'Bordeaux', false);
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('FR', 'Le chat', 'rue du chat noir', 'Miaou', 33000, 'Bordeaux', false);
+
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('B', 'Mikhail', 'rue anar', '', 33000, 'Bordeaux', false);
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('F', 'Le chat', 'rue du chat noir', 'Miaou', 33000, 'Bordeaux', false);
+
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('BAKININ', 'Mikh', 'rue anar', '', 33000, 'Bordeaux', false);
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('FREYA', 'chat', 'rue du chat noir', 'Miaou', 33000, 'Bordeaux', false);
+
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('BAKININ', 'Mik', 'rue anar', '', 33000, 'Bordeaux', false);
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('FREYA', 'Le', 'rue du chat noir', 'Miaou', 33000, 'Bordeaux', false);
+
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('BAKININ', 'Mi', 'rue anar', '', 33000, 'Bordeaux', false);
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('FREYA', 'L', 'rue du chat noir', 'Miaou', 33000, 'Bordeaux', false);
+
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('BAKININ', 'M', 'rue anar', '', 33000, 'Bordeaux', false);
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('FREYA', 'L', 'rue du chat noir', 'Miaou', 33000, 'Bordeaux', false);
+
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('BAKIN', 'M', 'rue anar', '', 33000, 'Bordeaux', false);
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('FRE', 'L', 'rue du chat noir', 'Miaou', 33000, 'Bordeaux', false);
+
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('BAK', 'Mikha', 'rue anar', '', 33000, 'Bordeaux', false);
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('FRE', 'Le ch', 'rue du chat noir', 'Miaou', 33000, 'Bordeaux', false);
+
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('B', 'Mik', 'rue anar', '', 33000, 'Bordeaux', false);
+INSERT INTO Clients(client_nom, client_prenom, client_adresse1, client_adresse2, client_cp, client_ville, client_anonymise)
+VALUES ('F', 'Le', 'rue du chat noir', 'Miaou', 33000, 'Bordeaux', false);
+
 INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Croquette pour chat', false);
-INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Colier antispuce', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Collier antispuce', false);
 INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Arbre a chat', false);
 INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Voiture', false);
 INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Peluche de chat', false);
@@ -68,6 +122,27 @@ INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Brosse a c
 INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Litiere', false);
 INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Pannier', false);
 INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Balle rebondissante', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Croq pour chat', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Coll antispuce', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Arb a chat', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Voit', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Pelu de chat', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Pelu de rat', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Bros a chat', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Lit', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Pan', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Balle', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Cro pour chat', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Co antispuce', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Ar a chat', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Vo', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Pe de chat', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Pe de rat', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Br a chat', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Li', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Pa', false);
+INSERT INTO Produits(produit_designation, produit_desactive) VALUES ('Ba rebondissante', false);
+
 
 INSERT INTO Prix(prix_date_debut, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/01/2018', '%d/%m/%Y'), 25.5, 1);
 INSERT INTO Prix(prix_date_debut, prix_HT, produit_ID) VALUES (STR_TO_DATE('1/02/2018', '%d/%m/%Y'), 17, 2);
@@ -91,8 +166,4 @@ INSERT INTO Produits_Commandes(produit_ID, commande_ID, qte_produit) VALUES (2, 
 INSERT INTO Produits_Commandes(produit_ID, commande_ID, qte_produit) VALUES (10, 2, 1);
 INSERT INTO Produits_Commandes(produit_ID, commande_ID, qte_produit) VALUES (9, 2, 2);
 INSERT INTO Produits_Commandes(produit_ID, commande_ID, qte_produit) VALUES (3, 2, 1);
-
-
-
-
 
