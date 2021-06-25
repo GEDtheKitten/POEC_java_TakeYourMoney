@@ -58,7 +58,7 @@ public class FrameIHM {
             statPan.add(quit);            
                      
         // label presentation
-        String bienvenuText = "<html><h2 style=margin-left:165;>Bienvenu sur Take Your Money!</h2></html";               
+        String bienvenuText = "<html><h2 style=margin-left:165;>Bienvenue sur Take Your Money !</h2></html";               
         JLabel bienvenuLabel = new JLabel(bienvenuText);
         
         // label gerer
@@ -109,36 +109,60 @@ public class FrameIHM {
     }
     
     // reflexe gerer Client
-    public void refGererClients(){
-        System.out.println("Appel de refGererClients");        
-    }
-    
-    public void refGererProduits(){
-        System.out.println("Appel de refGererProduits");        
-    }
-    
-    public void refGererCommandes(){
-        System.out.println("Appel de refGererCommandes"); 
+    	public void refGererClients() {
 
-    }
-    
-    public void refListerClients(){
-        System.out.println("Appel de refListerClients");
-        ListIHM listerClient = new ListIHM("Clients");
-    }
-    
-    public void refListerProduits(){
-        System.out.println("Appel de refListerProduits");       
-        ListIHM listerClient = new ListIHM("Produits");
-    }
-    
-    
-    public void refListerCommandes(){
-        System.out.println("Appel de refListerCommandes");       
-        ListIHM listerClient = new ListIHM("Commandes");    }
-      
-    public void refStat(){
-        System.out.println("Appel de refStat");
-        StatistiquesIHM stat = new StatistiquesIHM();
-    }
+		JDialogGestion ecranGestion = null;
+		try {
+			ecranGestion = new JDialogGestion("Clients");
+
+		} catch (HeadlessException e) {
+		} catch (IOException e) {
+
+		}
+		ecranGestion.setVisible(true);
+	}
+
+	public void refGererProduits() {
+
+		JDialogGestion ecranGestion = null;
+		try {
+			ecranGestion = new JDialogGestion("Produits");
+
+		} catch (HeadlessException e) {
+		} catch (IOException e) {
+
+		}
+		ecranGestion.setVisible(true);
+	}
+
+	public void refGererCommandes() {
+
+		JDialogGestion ecranGestion = null;
+		try {
+			ecranGestion = new JDialogGestion("Commandes");
+
+		} catch (HeadlessException e) {
+		} catch (IOException e) {
+
+		}
+		ecranGestion.setVisible(true);
+	}
+
+	}
+
+	public void refListerClients() {
+		ListIHM listerClient = new ListIHM("Clients");
+	}
+
+	public void refListerProduits() {
+		ListIHM listerClient = new ListIHM("Produits");
+	}
+
+	public void refListerCommandes() {
+		ListIHM listerClient = new ListIHM("Commandes");
+	}
+
+	public void refStat() {
+		StatistiquesIHM stat = new StatistiquesIHM();
+	}
 }
