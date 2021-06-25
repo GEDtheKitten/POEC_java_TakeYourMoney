@@ -38,7 +38,7 @@ public class JDialogSaisieModifierProd extends JDialog {
 		champPrixHT.setText("METTRE LA VALEUR SQL");
 		panelProduit.add(champPrixHT);
 
-		// Ajout du bouton Modifier
+		// Ajout des boutons Modifier et Annuler
 
 		JPanel panelBtnActions = new JPanel();
 		panelBtnActions.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -66,12 +66,17 @@ public class JDialogSaisieModifierProd extends JDialog {
 		panelBtnActions.add(panelBtnModifier);
 		panelProduit.add(panelBtnActions);
 
+		
+		// DEFINIR LES ACTIONS
+		
 		btnModifier.addActionListener(e -> {
 
 			int confirmation = JOptionPane.showOptionDialog(null, "Êtes-vous sûr(e) de vouloir modifier cet item ?",
 					"Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 			if (confirmation == JOptionPane.YES_OPTION) {
 
+				// CONTROLE SAISIE UTILISATEUR
+				
 				String nouveauNom = champDesignation.getText();
 				String nouveauPrixHT = champPrixHT.getText();
 
