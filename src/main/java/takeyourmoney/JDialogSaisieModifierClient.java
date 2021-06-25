@@ -16,16 +16,18 @@ import javax.swing.SwingConstants;
 
 public class JDialogSaisieModifierClient extends JDialog {
 
-	public JDialogSaisieModifierClient(String nomTable, String item) throws IOException {
+	public JDialogSaisieModifierClient(String nomClient) throws IOException {
 		super();
-		constructJDialog(nomTable, item);
+		constructJDialog(nomClient);
 	}
 
-	private JPanel construirePanelClient() {
+	private JPanel construirePanelClient (String nomClient) {
 		JPanel panelClient = new JPanel();
 		panelClient.setLayout(new GridLayout(9, 2));
 		panelClient.setBackground(Color.WHITE);
 
+		// Demander les informations requises
+		
 		JLabel titreNom = new JLabel("Nom :", SwingConstants.RIGHT);
 		panelClient.add(titreNom);
 		JTextField champNom = new JTextField();
@@ -68,7 +70,7 @@ public class JDialogSaisieModifierClient extends JDialog {
 		champTelephone.setText("METTRE LA VALEUR SQL");
 		panelClient.add(champTelephone);
 
-		// Ajout du bouton Modifier
+		// Ajout des boutons Modifier et Annuler
 
 		JPanel panelBtnActions = new JPanel();
 		panelBtnActions.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -92,6 +94,9 @@ public class JDialogSaisieModifierClient extends JDialog {
 		panelBtnActions.add(panelBtnModifier);
 		panelClient.add(panelBtnActions);
 
+		
+		// DEFINIR LES ACTIONS
+		
 		btnModifier.addActionListener(e -> {
 
 			int confirmation = JOptionPane.showOptionDialog(null, "Êtes-vous sûr(e) de vouloir modifier cet item ?",
@@ -120,22 +125,22 @@ public class JDialogSaisieModifierClient extends JDialog {
 		return panelClient;
 	}
 
-	private void constructJDialog(String nomTable, String item) throws IOException {
+	private void constructJDialog(String nomClient) throws IOException {
 		setSize(400, 400);
 		setTitle("Modifier les informations du client");
 		setResizable(false);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // A REVERIFIER
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setModal(true);
 
-		setContentPane(construirePanelClient());
+		setContentPane(construirePanelClient(nomClient));
 		getContentPane().setBackground(Color.WHITE);
 
 	}
 
 	public void modifierClient(String nouveauNom, String nouveauPrenom, String nouveauAdress1, String nouveauAdress2,
 			String nouveauCP, String nouveauVille, String nouveauTelephone) {
-		// APPELER PROCEDURE DE MODIFICATION CLIENT
+		// APPELER PROCEDURE DE MODIFICATION CLIENT *******************************
 	}
 
 }

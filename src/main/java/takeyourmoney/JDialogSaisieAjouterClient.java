@@ -16,7 +16,7 @@ import javax.swing.SwingConstants;
 
 public class JDialogSaisieAjouterClient extends JDialog {
 
-	public JDialogSaisieAjouterClient(String nomTable) throws IOException {
+	public JDialogSaisieAjouterClient() throws IOException {
 		super();
 		constructJDialog(nomTable);
 	}
@@ -85,6 +85,8 @@ public class JDialogSaisieAjouterClient extends JDialog {
 		panelBtnActions.add(panelBtnAjouter);
 		panelClient.add(panelBtnActions);
 
+		// DEFINIR LES ACTIONS
+		
 		btnAjouter.addActionListener(e -> {
 
 			int confirmation = JOptionPane.showOptionDialog(null, "Êtes-vous sûr(e) de vouloir  ajouter un client ?",
@@ -114,12 +116,12 @@ public class JDialogSaisieAjouterClient extends JDialog {
 		return panelClient;
 	}
 
-	private void constructJDialog(String nomTable) throws IOException {
+	private void constructJDialog() throws IOException {
 		setSize(400, 400);
 		setTitle("Ajouter un client");
 		setResizable(false);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // A REVERIFIER
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setModal(true);
 
 		setContentPane(construirePanelClient());
@@ -129,7 +131,7 @@ public class JDialogSaisieAjouterClient extends JDialog {
 
 	public void ajouterClient(String nouveauNom, String nouveauPrenom, String nouveauAdress1, String nouveauAdress2,
 			String nouveauCP, String nouveauVille, String nouveauTelephone) {
-		// APPELER PROCEDURE D'AJOUT CLIENT
+		// APPELER PROCEDURE D'AJOUT CLIENT **********************************************
 	}
 
 }

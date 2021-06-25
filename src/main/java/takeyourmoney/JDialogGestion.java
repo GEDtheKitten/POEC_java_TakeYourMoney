@@ -21,14 +21,14 @@ import javax.swing.ScrollPaneConstants;
 
 public class JDialogGestion extends JDialog {
 
-	public JDialogModifAjoutSuppr(String type) throws IOException {
+	public JDialogGestion(String type) throws IOException {
 		super();
 		constructJDialog(type);
 	}
 
 	private JPanel constructPanel(String type) throws IOException {
 
-		// PANEL PRINCIPAL : panel avec l'image de fond (800*200)
+		// PANEL PRINCIPAL : panel avec la bannière (800*200)
 		JPanelWithBackground panelTitle = new JPanelWithBackground();
 
 		panelTitle.setLayout(null);
@@ -41,43 +41,43 @@ public class JDialogGestion extends JDialog {
 		title.setFont(new Font("Calibri", Font.BOLD, 20));
 		panelTitle.add(title);
 
-		// PANEL CONTENT (2 colonnes)
+		// Content (panel de 2 colonnes)
 		JPanel panelContent = new JPanel();
 		panelContent.setLayout(new GridLayout(1, 2));
-		panelContent.setBounds(0, 100, 800, 500); // x = 0, y = 50
+		panelContent.setBounds(0, 100, 800, 500);
 		panelContent.setBackground(Color.white);
 
-		// Rattachement du layoutCONTENT de 2 colonnes dans le layout principal
+		// Rattachement du layout Content dans le layout principal
 		panelTitle.add(panelContent);
 
-		// PANEL n°3 (sous panel gauche du PANEL n°2)
+		// Sous panel gauche du panel Content
 		JPanel panelSelection = new JPanel();
 		panelSelection.setLayout(null);
 		panelSelection.setBounds(0, 100, 400, 500);
 		panelSelection.setBackground(Color.white);
 		// Mettre image !!! ***********************************
 
-		// PANEL n°4 (sous panel gauche du PANEL n°2)
+		// Sous panel du sous panel gauche
 		JPanel panelListeDeroulante = new JPanel();
-		panelSelection.setLayout(new GridLayout(3, 1)); // !!!!!!!!!!!!!!!
+		panelSelection.setLayout(new GridLayout(3, 1));
 		panelListeDeroulante.setBackground(Color.white);
 
-		// Ajout de la liste déroulante dans le PANEL n°3
 		Object[] liste;
 
 		if (type.equals("CLIENTS")) {
-			liste = new String[] { "Texte", "Texte"// IMPORTER NOMS CLIENTS PAR ORDRE ALPHABETIQUE
+			liste = new String[] { "Texte", "Texte"// IMPORTER NOMS CLIENTS PAR ORDRE ALPHABETIQUE ********************
 			};
 		} else if (type.equals("PRODUITS")) {
 			liste = new Object[] { "Texte", "Texte"// IMPORTER DESIGNATIONS PRODUITS PAR ORDRE ALPHABETIQUE
+													// *********************
 			};
 		} else {
-			liste = new Object[] { "Texte", "Texte"// IMPORTER NUM COMMANDE ?
+			liste = new Object[] { "Texte", "Texte"// IMPORTER NUM COMMANDE ? ************************
 			};
 		}
 
 		JComboBox listeDeroulante = new JComboBox(liste);
-		// ComboBoxClass listeDeroulante = new ComboBoxClass(liste);
+
 		listeDeroulante.setPreferredSize(new Dimension(350, 30));
 		panelListeDeroulante.add(listeDeroulante);
 		panelSelection.add(panelListeDeroulante);
@@ -93,7 +93,7 @@ public class JDialogGestion extends JDialog {
 
 		panelActions.setLayout(gridL);
 
-		// Ajout du bouton Modifier
+		// Ajout du bouton Modifier (non visible pour les commandes)
 
 		JPanel panelBtnModifier = new JPanel();
 		panelBtnModifier.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -111,7 +111,7 @@ public class JDialogGestion extends JDialog {
 
 		panelActions.add(panelBtnModifier);
 
-		// Ajout du bouton Supprimer
+		// Ajout du bouton Supprimer (non visible pour les Commandes)
 
 		JPanel panelBtnSupprimer = new JPanel();
 		panelBtnSupprimer.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -140,7 +140,7 @@ public class JDialogGestion extends JDialog {
 
 		panelActions.add(panelBtnAjouter);
 
-		// PANEL n°6 (sous panel droit du PANEL n°2)
+		// sous panel droit du panel Content
 		JPanel panelDisplay = new JPanel();
 		panelDisplay.setBackground(Color.white);
 		panelActions.setBounds(400, 100, 400, 300);
@@ -151,6 +151,10 @@ public class JDialogGestion extends JDialog {
 		panelContent.add(panelSelection);
 
 		// Importer les éléments à afficher ********************************
+		// Réimport des infos en fonction du type (Produits, Clients, Commandes)
+		// + des infos en fonction de (listeDeroulante.getSelectedItem()).toString()
+		// ****************************************************************************************
+
 		JTextArea display = new JTextArea(text);
 		display.setEditable(false); // textArea non éditable
 
@@ -204,6 +208,11 @@ public class JDialogGestion extends JDialog {
 			}
 		});
 
+		listeDeroulante.addActionListener(e -> {
+			String valeurSelectionnee = objetListeDeroulante(listeDeroulante);
+			mettreAJourTextArea(display, valeurSelectionnee);
+		});
+
 		return panelTitle;
 
 	}
@@ -225,18 +234,20 @@ public class JDialogGestion extends JDialog {
 		if (type == "Produits") {
 			JDialogSaisieModifierProd modifierProduit = null;
 			try {
-				modifierProduit = new JDialogSaisieModifierProd("Produits", valeurSelectionnee);
+				modifierProduit = new JDialogSaisieModifierProd(valeurSelectionnee);
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				JDialogError ecranErreur = new JDialogError();
+				ecranErreur.setVisible(true);
 			}
 			modifierProduit.setModal(true);
 			modifierProduit.setVisible(true);
 		} else if (type == "Clients") {
 			JDialogSaisieModifierClient modifierClient = null;
 			try {
-				modifierClient = new JDialogSaisieModifierClient("Clients", valeurSelectionnee);
+				modifierClient = new JDialogSaisieModifierClient(valeurSelectionnee);
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				JDialogError ecranErreur = new JDialogError();
+				ecranErreur.setVisible(true);
 			}
 			modifierClient.setModal(true);
 			modifierClient.setVisible(true);
@@ -248,7 +259,7 @@ public class JDialogGestion extends JDialog {
 		if (type == "Produits") {
 			JDialogSaisieAjouterProd ajouterProduit = null;
 			try {
-				ajouterProduit = new JDialogSaisieAjouterProd("Produits");
+				ajouterProduit = new JDialogSaisieAjouterProd();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -257,9 +268,10 @@ public class JDialogGestion extends JDialog {
 		} else if (type == "Clients") {
 			JDialogSaisieAjouterClient ajouterClient = null;
 			try {
-				ajouterClient = new JDialogSaisieAjouterClient("Clients");
+				ajouterClient = new JDialogSaisieAjouterClient();
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				JDialogError ecranErreur = new JDialogError();
+				ecranErreur.setVisible(true);
 			}
 			ajouterClient.setModal(true);
 			ajouterClient.setVisible(true);
@@ -269,7 +281,8 @@ public class JDialogGestion extends JDialog {
 			try {
 				ajouterCommande = new JDialogSaisieAjouterCommandeClient();
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				JDialogError ecranErreur = new JDialogError();
+				ecranErreur.setVisible(true);
 			}
 			ajouterCommande.setModal(true);
 			ajouterCommande.setVisible(true);
@@ -308,29 +321,39 @@ public class JDialogGestion extends JDialog {
 	}
 
 	public boolean clientADejaCommande(String nomClient) {
-		// APPEL PROCEDURE DE VERIFICATION POUR SAVOIR SI LE CLIENT A DEJA ACHETE
+		// APPEL PROCEDURE DE VERIFICATION POUR SAVOIR SI LE CLIENT A DEJA ACHETE ************************************
 		return true;
 	}
 
 	public boolean produitDejaCommande(String nomProduit) {
-		// APPEL PROCEDURE DE VERIFICATION POUR SAVOIR SI LE PRODUIT A DEJA ETE ACHETE
+		// APPEL PROCEDURE DE VERIFICATION POUR SAVOIR SI LE PRODUIT A DEJA ETE ACHETE ************************************
 		return true;
 	}
 
 	public void supprimerClient(String nomClient) {
-		// APPEL PROCEDURE POUR SUPPRIMER LE CLIENT
+		// APPEL PROCEDURE POUR SUPPRIMER LE CLIENT ************************************
 	}
 
 	public void anonymiserClient(String nomClient) {
-		// APPEL PROCEDURE POUR ANONYMISER
+		// APPEL PROCEDURE POUR ANONYMISER ************************************
 	}
 
 	public void supprimerProduit(String nomProduit) {
-		// APPEL PROCEDURE POUR SUPPRIMER LE PRODUIT
+		// APPEL PROCEDURE POUR SUPPRIMER LE PRODUIT ************************************
 	}
 
 	public void desactiverProduit(String nomProduit) {
-		// APPEL PROCEDURE POUR DESACTIVER LE PRODUIT
+		// APPEL PROCEDURE POUR DESACTIVER LE PRODUIT ************************************
+	}
+
+	public void mettreAJourTextArea(JTextArea display, String valeurSelectionnee) {
+		String texte = "Il faudra réimporter la liste à nouveau !";
+		// Réimport des infos en fonction du type (Produits, Clients, Commandes)
+		// Réimport des infos en fonction de
+		// (listeDeroulante.getSelectedItem()).toString() (= valeurSelectionnee)
+		// ****************************************************************************************
+		display.setText(texte);
+		display.repaint();
 	}
 
 }>>>>>>>321e00 a2db178011f91a45b587a18af1e91c9dbe:JDialogGestion.java

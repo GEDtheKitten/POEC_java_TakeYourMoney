@@ -16,7 +16,7 @@ import javax.swing.SwingConstants;
 
 public class JDialogSaisieAjouterProd extends JDialog {
 
-	public JDialogSaisieAjouterProd(String nomTable) throws IOException {
+	public JDialogSaisieAjouterProd() throws IOException {
 		super();
 		constructJDialog(nomTable);
 	}
@@ -26,6 +26,8 @@ public class JDialogSaisieAjouterProd extends JDialog {
 		panelProduit.setLayout(new GridLayout(4, 2));
 		panelProduit.setBackground(Color.WHITE);
 
+		// Demander la désignation et le PrixHT du produit
+		
 		JLabel titreDesignation = new JLabel("Désignation:", SwingConstants.RIGHT);
 		panelProduit.add(titreDesignation);
 		JTextField champDesignation = new JTextField();
@@ -36,8 +38,8 @@ public class JDialogSaisieAjouterProd extends JDialog {
 		JTextField champPrixHT = new JTextField();
 		panelProduit.add(champPrixHT);
 
-		// Ajout du bouton Modifier
-
+		// Ajout des boutons Ajouter et Annuler
+		
 		JPanel panelBtnActions = new JPanel();
 		panelBtnActions.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		panelBtnActions.setBackground(Color.WHITE);
@@ -63,7 +65,10 @@ public class JDialogSaisieAjouterProd extends JDialog {
 		panelBtnActions.add(panelBtnAnnuler);
 		panelBtnActions.add(panelBtnAjouter);
 		panelProduit.add(panelBtnActions);
-
+		
+		
+		// DEFINIR LES ACTIONS
+		
 		btnAjouter.addActionListener(e -> {
 
 			int confirmation = JOptionPane.showOptionDialog(null, "Êtes-vous sûr(e) de vouloir ajouter un produit ?",
@@ -87,12 +92,12 @@ public class JDialogSaisieAjouterProd extends JDialog {
 		return panelProduit;
 	}
 
-	private void constructJDialog(String nomTable) throws IOException {
+	private void constructJDialog() throws IOException {
 		setSize(400, 200);
 		setTitle("Ajouter un produit");
 		setResizable(false);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // A REVERIFIER
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setModal(true);
 
 		setContentPane(construirePanelProduit());
@@ -101,7 +106,7 @@ public class JDialogSaisieAjouterProd extends JDialog {
 	}
 
 	public void ajouterProduit(String nouveauNom, String nouveauPrixHT) {
-		// APPELER PROCEDURE D'AJOUT PRODUIT
+		// APPELER PROCEDURE D'AJOUT PRODUIT **********************
 	}
 
 }

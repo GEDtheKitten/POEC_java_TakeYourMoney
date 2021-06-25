@@ -16,12 +16,12 @@ import javax.swing.SwingConstants;
 
 public class JDialogSaisieModifierProd extends JDialog {
 
-	public JDialogSaisieModifierProd(String nomTable, String item) throws IOException {
+	public JDialogSaisieModifierProd(String nomProduit) throws IOException {
 		super();
-		constructJDialog(nomTable, item);
+		constructJDialog(nomProduit);
 	}
 
-	private JPanel construirePanelProduit() {
+	private JPanel construirePanelProduit(String nomProduit) {
 		JPanel panelProduit = new JPanel();
 		panelProduit.setLayout(new GridLayout(4, 2));
 		panelProduit.setBackground(Color.WHITE);
@@ -88,12 +88,12 @@ public class JDialogSaisieModifierProd extends JDialog {
 		return panelProduit;
 	}
 
-	private void constructJDialog(String nomTable, String item) throws IOException {
+	private void constructJDialog(String nomProduit) throws IOException {
 		setSize(400, 200);
 		setTitle("Modifier les informations du produit");
 		setResizable(false);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // A REVERIFIER
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setModal(true);
 
 		setContentPane(construirePanelProduit());
@@ -102,7 +102,7 @@ public class JDialogSaisieModifierProd extends JDialog {
 	}
 
 	public void modifierProduit(String nouveauNom, String nouveauPrixHT) {
-		// APPELER PROCEDURE DE MODIFICATION DE PRODUIT
+		// APPELER PROCEDURE DE MODIFICATION DE PRODUIT ************************************
 	}
 
 }

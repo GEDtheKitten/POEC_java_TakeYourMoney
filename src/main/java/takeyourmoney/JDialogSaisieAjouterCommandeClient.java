@@ -36,7 +36,7 @@ public class JDialogSaisieAjouterCommandeClient extends JDialog {
 		Object[] liste;
 
 		liste = new String[] { "Texte", "Texte"// IMPORTER NOMS CLIENTS PAR ORDRE ALPHABETIQUE -- Utiliser le nom de la
-												// table "Clients" !!!
+												// table "Clients" !!! ******************************************************
 		};
 
 		JComboBox listeDeroulanteClients = new JComboBox(liste);
@@ -44,7 +44,7 @@ public class JDialogSaisieAjouterCommandeClient extends JDialog {
 		panelListeDeroulanteClients.add(listeDeroulanteClients);
 		panel.add(panelListeDeroulanteClients);
 
-		// Ajout du bouton Continuer
+		// Ajout des boutons Continuer et Annuler
 
 		JPanel panelBtnActions = new JPanel();
 		panelBtnActions.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -68,6 +68,9 @@ public class JDialogSaisieAjouterCommandeClient extends JDialog {
 		panelBtnActions.add(panelBtnContinuer);
 		panel.add(panelBtnActions);
 
+		
+		// DEFINIR LES ACTIONS
+		
 		btnContinuer.addActionListener(e -> {
 
 			int confirmation = JOptionPane.showOptionDialog(null,
@@ -91,7 +94,7 @@ public class JDialogSaisieAjouterCommandeClient extends JDialog {
 		setTitle("Selectionner un client");
 		setResizable(false);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // A REVERIFIER
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setModal(true);
 
 		setContentPane(construirePanelClient());
