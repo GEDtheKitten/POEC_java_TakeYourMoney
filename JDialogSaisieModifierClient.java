@@ -111,6 +111,8 @@ public class JDialogSaisieModifierClient extends JDialog {
 			} else {
 
 			}
+
+			dispose();
 		});
 
 		btnAnnuler.addActionListener(e -> {

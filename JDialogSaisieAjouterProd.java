@@ -78,6 +78,8 @@ public class JDialogSaisieAjouterProd extends JDialog {
 			} else {
 
 			}
+
+			dispose();
 		});
 
 		btnAnnuler.addActionListener(e -> {

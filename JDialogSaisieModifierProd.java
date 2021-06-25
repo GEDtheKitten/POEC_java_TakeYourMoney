@@ -77,8 +77,12 @@ public class JDialogSaisieModifierProd extends JDialog {
 
 				modifierProduit(nouveauNom, nouveauPrixHT);
 
+				dispose();
+				
 			} else {
 			}
+
+			dispose();
 		});
 
 		btnAnnuler.addActionListener(e -> {

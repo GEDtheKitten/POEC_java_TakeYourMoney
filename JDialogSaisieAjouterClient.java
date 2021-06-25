@@ -101,7 +101,7 @@ public class JDialogSaisieAjouterClient extends JDialog {
 
 				ajouterClient(nouveauNom, nouveauPrenom, nouveauAdress1, nouveauAdress2, nouveauCP, nouveauVille,
 						nouveauTelephone);
-
+				dispose();
 			} else {
 
 			}
