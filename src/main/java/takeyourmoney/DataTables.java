@@ -33,19 +33,24 @@ public class DataTables {
         this.res = req.requeteBDD();
 
     // fermeture
+    try{
+        this.rsmd = this.res.getMetaData();
+    }
+       catch(Exception e){
+            System.out.println("SQLRequete extractResult : " + e);
+       }
     con.closeBDD();        
     }
     
     // extraction des resultats
     public void extractResult(){
         
-        try{
-                this.rsmd = this.res.getMetaData();
-                int nbColonnes = this.rsmd.getColumnCount();
+        try{                
+               System.out.println("rsmd");                 int nbColonnes = this.rsmd.getColumnCount();
                 System.out.println("nb colonne " + nbColonnes);
                 rsmd.getColumnLabel(nbColonnes);
                 this.entData = new String[nbColonnes];
-                
+            
                 // on recupere les noms des colonnes dans enteteData
                 for(int i = 1; i <= nbColonnes; i++){
                     this.entData[i-1] = rsmd.getColumnLabel(i);

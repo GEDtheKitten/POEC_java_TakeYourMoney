@@ -1,0 +1,17 @@
+takeyourmoney\CONSTANTS.class
+takeyourmoney\VerificationSaisie.class
+takeyourmoney\StatistiquesIHM.class
+takeyourmoney\JDialogSaisieAjouterProd.class
+takeyourmoney\MainTakeYourMoney.class
+takeyourmoney\SQLConnecteur.class
+takeyourmoney\SQLRequete.class
+takeyourmoney\JPanelWithBackground.class
+takeyourmoney\ListIHM.class
+takeyourmoney\ImportSQL.class
+takeyourmoney\JDialogSaisieAjouterClient.class
+takeyourmoney\FrameIHM.class
+takeyourmoney\DataTables.class
+takeyourmoney\GraphicIHM.class
+takeyourmoney\JDialogModifAjoutSuppr.class
+takeyourmoney\JDialogSaisieModifierClient.class
+takeyourmoney\JDialogSaisieModifierProd.class
