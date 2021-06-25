@@ -1,4 +1,4 @@
-<<<<<<< HEAD:src/main/java/takeyourmoney/JDialogModifAjoutSuppr.java
+<<<<<<<HEAD:src/main/java/takeyourmoney/JDialogModifAjoutSuppr.java
 package takeyourmoney;
 
 import java.awt.Color;
@@ -18,7 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
-
 
 public class JDialogGestion extends JDialog {
 
@@ -268,12 +267,13 @@ public class JDialogGestion extends JDialog {
 		} else if (type == "Commandes") {
 			JDialogSaisieAjouterCommandeClient ajouterCommande = null;
 			try {
-				ajouterCommande = new JDialogSaisieAjouterCommandeClient);
+				ajouterCommande = new JDialogSaisieAjouterCommandeClient();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 			ajouterCommande.setModal(true);
 			ajouterCommande.setVisible(true);
+		}
 	}
 
 	public void supprimerData(String type, String valeurSupprimee) {
@@ -333,5 +333,4 @@ public class JDialogGestion extends JDialog {
 		// APPEL PROCEDURE POUR DESACTIVER LE PRODUIT
 	}
 
-}
->>>>>>> 321e00a2db178011f91a45b587a18af1e91c9dbe:JDialogGestion.java
+}>>>>>>>321e00 a2db178011f91a45b587a18af1e91c9dbe:JDialogGestion.java
