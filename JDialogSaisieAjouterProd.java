@@ -66,7 +66,7 @@ public class JDialogSaisieAjouterProd extends JDialog {
 
 		btnAjouter.addActionListener(e -> {
 
-			int confirmation = JOptionPane.showOptionDialog(null, "Êtes-vous sûr(e) de vouloir  ajouter un produit ?",
+			int confirmation = JOptionPane.showOptionDialog(null, "Êtes-vous sûr(e) de vouloir ajouter un produit ?",
 					"Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 			if (confirmation == JOptionPane.YES_OPTION) {
 
