@@ -263,7 +263,15 @@ public class JDialogModifAjoutSuppr extends JDialog {
 			ajouterClient.setModal(true);
 			ajouterClient.setVisible(true);
 
-		}
+		} else if (type == "Commandes") {
+			JDialogSaisieAjouterCommandeClient ajouterCommande = null;
+			try {
+				ajouterCommande = new JDialogSaisieAjouterCommandeClient);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			ajouterCommande.setModal(true);
+			ajouterCommande.setVisible(true);
 	}
 
 	public void supprimerData(String type, String valeurSupprimee) {
