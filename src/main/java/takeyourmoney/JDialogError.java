@@ -1,4 +1,4 @@
-package ProjetTakeYourMoney;
+package takeyourmoney;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -14,7 +14,7 @@ import javax.swing.SwingConstants;
 
 public class JDialogError extends JDialog {
 
-	public JDialogError() throws IOException {
+	public JDialogError()  {
 		super();
 		constructJDialog();
 	}
@@ -51,7 +51,7 @@ public class JDialogError extends JDialog {
 		return panel;
 	}
 
-	private void constructJDialog() throws IOException {
+	private void constructJDialog() {
 		setSize(300, 200);
 		setTitle("Erreur 404");
 		setResizable(false);

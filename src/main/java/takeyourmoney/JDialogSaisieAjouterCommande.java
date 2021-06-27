@@ -1,4 +1,4 @@
-package ProjetTakeYourMoney;
+package takeyourmoney;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -130,11 +130,20 @@ public class JDialogSaisieAjouterCommande extends JDialog {
 				String produitSelectionne = (listeDeroulanteProduits.getSelectedItem()).toString();
 				String quantiteSaisie = champQuantite.getText();
 
+				// Vérifier si quantité
+				if (!VerificationSaisie.testerSiVide(quantiteSaisie)) {
+					JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli("Quantité");
+					ecranInfosManquantes.setVisible(true);
+				} else if (!Character.isDigit(Integer.parseInt(quantiteSaisie))) {
+					JDialogErreurSaisie ecranErreurSaisie = new JDialogErreurSaisie(
+							"La quantité saisie n'est pas valide.");
+					ecranErreurSaisie.setVisible(true);
+				} else {
 				ajouterProduitDansCommande(produitSelectionne, quantiteSaisie);
 
 				// Réactualiser la JTextArea display
 				mettreAJourTextArea(display);
-			}
+				}
 		});
 
 	btnTerminer.addActionListener(e->
