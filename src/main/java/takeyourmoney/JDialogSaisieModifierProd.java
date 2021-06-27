@@ -75,10 +75,27 @@ public class JDialogSaisieModifierProd extends JDialog {
 				String nouveauNom = champDesignation.getText();
 				String nouveauPrixHT = champPrixHT.getText();
 
-				modifierProduit(nouveauNom, nouveauPrixHT);
+				// Vérifier nom (si vide + si caractères)
+				if (!VerificationSaisie.testerSiVide(nouveauNom)) {
+					JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli("Nom du produit");
+					ecranInfosManquantes.setVisible(true);
+				} else if (!VerificationSaisie.testerSiCaracteres(nouveauNom)) {
+					JDialogErreurSaisie ecranErreurSaisie = new JDialogErreurSaisie(
+							"Le nom du produit n'est pas valide.");
+					ecranErreurSaisie.setVisible(true);
 
-			} else {
+					// Vérifier prix
+				} else if (!VerificationSaisie.testerSiVide(nouveauPrixHT)) {
+					JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli("Prix du produit");
+					ecranInfosManquantes.setVisible(true);
+				} else if (!VerificationSaisie.estUnPrix(nouveauPrixHT)) {
+					JDialogErreurSaisie ecranErreurSaisie = new JDialogErreurSaisie("Le prix saisi n'est pas valide.");
+					ecranErreurSaisie.setVisible(true);
+				} else {
+					modifierProduit(nouveauNom, nouveauPrixHT);
+				}
 			}
+
 		});
 
 		btnAnnuler.addActionListener(e -> {
@@ -102,7 +119,8 @@ public class JDialogSaisieModifierProd extends JDialog {
 	}
 
 	public void modifierProduit(String nouveauNom, String nouveauPrixHT) {
-		// APPELER PROCEDURE DE MODIFICATION DE PRODUIT ************************************
+		// APPELER PROCEDURE DE MODIFICATION DE PRODUIT
+		// ************************************
 	}
 
 }

@@ -21,13 +21,13 @@ public class JDialogSaisieModifierClient extends JDialog {
 		constructJDialog(nomClient);
 	}
 
-	private JPanel construirePanelClient (String nomClient) {
+	private JPanel construirePanelClient(String nomClient) {
 		JPanel panelClient = new JPanel();
 		panelClient.setLayout(new GridLayout(9, 2));
 		panelClient.setBackground(Color.WHITE);
 
 		// Demander les informations requises
-		
+
 		JLabel titreNom = new JLabel("Nom :", SwingConstants.RIGHT);
 		panelClient.add(titreNom);
 		JTextField champNom = new JTextField();
@@ -94,9 +94,8 @@ public class JDialogSaisieModifierClient extends JDialog {
 		panelBtnActions.add(panelBtnModifier);
 		panelClient.add(panelBtnActions);
 
-		
 		// DEFINIR LES ACTIONS
-		
+
 		btnModifier.addActionListener(e -> {
 
 			int confirmation = JOptionPane.showOptionDialog(null, "Êtes-vous sûr(e) de vouloir modifier cet item ?",
@@ -110,11 +109,58 @@ public class JDialogSaisieModifierClient extends JDialog {
 				String nouveauVille = champVille.getText();
 				String nouveauTelephone = champTelephone.getText();
 
-				modifierClient(nouveauNom, nouveauPrenom, nouveauAdress1, nouveauAdress2, nouveauCP, nouveauVille,
-						nouveauTelephone);
+				// Vérifier nom (si vide + si caractères)
+				if (!VerificationSaisie.testerSiVide(nouveauNom)) {
+					JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli("Nom du client");
+					ecranInfosManquantes.setVisible(true);
+				} else if (!VerificationSaisie.testerSiCaracteres(nouveauNom)) {
+					JDialogErreurSaisie ecranErreurSaisie = new JDialogErreurSaisie(
+							"Le nom du client n'est pas valide.");
+					ecranErreurSaisie.setVisible(true);
 
-			} else {
+					// Vérifier prénom (si vide + si caractères)
+				} else if (!VerificationSaisie.testerSiVide(nouveauPrenom)) {
+					JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli("Prénom du client");
+					ecranInfosManquantes.setVisible(true);
+				} else if (!VerificationSaisie.testerSiCaracteres(nouveauPrenom)) {
+					JDialogErreurSaisie ecranErreurSaisie = new JDialogErreurSaisie(
+							"Le prénom du client n'est pas valide.");
+					ecranErreurSaisie.setVisible(true);
 
+					// Vérifier adresse (si vide)
+				} else if (!VerificationSaisie.testerSiVide(nouveauAdress1)) {
+					JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli("Adresse");
+					ecranInfosManquantes.setVisible(true);
+
+					// Vérifier codePostal (si vide + si correspond à un code postal)
+				} else if (!VerificationSaisie.testerSiVide(nouveauCP)) {
+					JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli("Code postal");
+					ecranInfosManquantes.setVisible(true);
+				} else if (!VerificationSaisie.testerCodePostal(nouveauCP)) {
+					JDialogErreurSaisie ecranErreurSaisie = new JDialogErreurSaisie("Le code postal n'est pas valide.");
+					ecranErreurSaisie.setVisible(true);
+
+					// Vérifier ville (si vide + si caractères)
+				} else if (!VerificationSaisie.testerSiVide(nouveauVille)) {
+					JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli("Ville");
+					ecranInfosManquantes.setVisible(true);
+				} else if (!VerificationSaisie.testerSiCaracteres(nouveauVille)) {
+					JDialogErreurSaisie ecranErreurSaisie = new JDialogErreurSaisie("La ville n'est pas valide.");
+					ecranErreurSaisie.setVisible(true);
+
+					// Vérifier telephone (si vide + si correspond à un numero de téléphone)
+				} else if (!VerificationSaisie.testerSiVide(nouveauTelephone)) {
+					JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli(
+							"Numéro de téléphone");
+					ecranInfosManquantes.setVisible(true);
+				} else if (!VerificationSaisie.testerNumeroTel(nouveauTelephone)) {
+					JDialogErreurSaisie ecranErreurSaisie = new JDialogErreurSaisie(
+							"Le numéro de téléphone n'est pas valide.");
+					ecranErreurSaisie.setVisible(true);
+				} else {
+					modifierClient(nouveauNom, nouveauPrenom, nouveauAdress1, nouveauAdress2, nouveauCP, nouveauVille,
+							nouveauTelephone);
+				}
 			}
 		});
 

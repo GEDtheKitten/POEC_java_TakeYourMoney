@@ -1,5 +1,6 @@
 package takeyourmoney;
 
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,23 +58,18 @@ public class VerificationSaisie {
 		return true;
 	}
 
-	// Vérifier si toutes les JTextField ont été renseignés
+	// Vérifier si chiffres dans la chaine de caractères (prixHT)
 
-	public static boolean testerSiLesSixJTextFieldsSontRemplis(JTextField field1, JTextField field2, JTextField field3,
-			JTextField field4, JTextField field5, JTextField field6) {
-		if (field1.getText().length() < 1) {
-			return false;
-		} else if (field2.getText().length() < 1) {
-			return false;
-		} else if (field3.getText().length() < 1) {
-			return false;
-		} else if (field4.getText().length() < 1) {
-			return false;
-		} else if (field5.getText().length() < 1) {
-			return false;
-		} else if (field6.getText().length() < 1) {
+	public static boolean estUnPrix(String saisie) {
+		Pattern pattern = Pattern.compile("\\d{1,3}(?:[.,]\\d{3})*(?:[.,]\\d{2})", Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(saisie);
+		boolean matchFound = matcher.find();
+		if (matchFound) {
+			return true;
+		} else {
 			return false;
 		}
-		return true;
+
 	}
+
 }

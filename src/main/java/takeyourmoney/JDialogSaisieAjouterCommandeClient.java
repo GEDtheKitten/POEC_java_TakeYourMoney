@@ -36,7 +36,8 @@ public class JDialogSaisieAjouterCommandeClient extends JDialog {
 		Object[] liste;
 
 		liste = new String[] { "Texte", "Texte"// IMPORTER NOMS CLIENTS PAR ORDRE ALPHABETIQUE -- Utiliser le nom de la
-												// table "Clients" !!! ******************************************************
+												// table "Clients" !!!
+												// ******************************************************
 		};
 
 		JComboBox listeDeroulanteClients = new JComboBox(liste);
@@ -68,9 +69,8 @@ public class JDialogSaisieAjouterCommandeClient extends JDialog {
 		panelBtnActions.add(panelBtnContinuer);
 		panel.add(panelBtnActions);
 
-		
 		// DEFINIR LES ACTIONS
-		
+
 		btnContinuer.addActionListener(e -> {
 
 			int confirmation = JOptionPane.showOptionDialog(null,
