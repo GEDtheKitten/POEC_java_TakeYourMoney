@@ -7,25 +7,41 @@ package takeyourmoney;
 
 import java.awt.*;
 import javax.swing.*;
+import java.sql.*;
 
 /**
  *
  * @author Pascal
  */
-public class FrameIHM {
-        
+public class FrameIHM{
 
+    // connecteur vers la base de données
+    private final Connection connTakeYourMoney;
     
     // constructeur de l'interface de base
     FrameIHM(){
+
+        // instanciation d'un connecteur SINGLETON
+        SQLConnecteur sqlConnecteur = SQLConnecteur.getInstance(CONSTANTS.NAMEDRIVER, CONSTANTS.ADRESSE);
         
-        // Données provisoires
+        // initialisation de la connexion        
+        this.connTakeYourMoney = sqlConnecteur.openDB(CONSTANTS.NAMEBDD, CONSTANTS.USER, CONSTANTS.PASS);
+
         
+        // LES WIDGETS
         // Fenetre principale + widgets associés
         JFrame jf = new JFrame("TakeYourMoney");        
-        jf.setPreferredSize(new Dimension(600, 600));
+        jf.setPreferredSize(new Dimension(800, 600));
         jf.pack();
 
+        // label gerer
+        String gererText = "Gérer";
+        JLabel gererLabel = new JLabel(gererText, JLabel.CENTER);
+        
+         // label lister
+        String listerText = "Lister";        
+        JLabel listerLabel = new JLabel(listerText, JLabel.CENTER);
+        
         // boutons de gestion interface principale
         JButton gererClients = new JButton("Client");
         JButton gererProduits = new JButton("Produits");
@@ -41,104 +57,137 @@ public class FrameIHM {
         JButton quit = new JButton("quitter");
         
         // assemblage des boutons de gestion interface principale       
-        JPanel gererPan = new JPanel();
-            gererPan.add(gererClients);
-            gererPan.add(gererProduits);
-            gererPan.add(gererCommandes);
+        JPanel gererBoutonPan = new JPanel();
+            gererBoutonPan.add(gererLabel);
+            gererBoutonPan.add(gererClients);
+            gererBoutonPan.add(gererProduits);
+            gererBoutonPan.add(gererCommandes);
             
         // assemblage des boutons de listage interface principale       
-        JPanel listerPan = new JPanel();
-            listerPan.add(listerClients);
-            listerPan.add(listerProduits);
-            listerPan.add(listerCommandes);
+        JPanel listerBoutonPan = new JPanel();
+            listerBoutonPan.add(listerLabel);
+            listerBoutonPan.add(listerClients);
+            listerBoutonPan.add(listerProduits);
+            listerBoutonPan.add(listerCommandes);
             
         // assemblage des boutons de stat et fermeture interface principale
-        JPanel statPan = new JPanel();
-            statPan.add(statCA);
-            statPan.add(quit);            
+        JPanel statBoutonPan = new JPanel();
+            statBoutonPan.add(statCA);
+            statBoutonPan.add(quit);            
                      
-        // label presentation
-        String bienvenuText = "<html><h2 style=margin-left:165;>Bienvenu sur Take Your Money!</h2></html";               
-        JLabel bienvenuLabel = new JLabel(bienvenuText);
+        // label presentation        
+        //String banName = "C:\\Users\\Pascal\\epsi\\M5\\TakeYourMoney\\src\\main\\java\\takeyourmoney\\banniereTYM.jpg";
+        String banName = "banniereTYM.jpg";
+        JLabel banLabel = new JLabel("", new ImageIcon(banName), JLabel.CENTER);
         
-        // label gerer
-        String gererText = "<html><p style=margin-left:125;>Gérer<p></html>";       ;        
-        JLabel gererLabel = new JLabel(gererText);
-        
-         // label lister
-        String listerText = "<html><p style=margin-left:125;>Lister<p></html>";       ;        
-        JLabel listerLabel = new JLabel(listerText);        
-                
+        String bienvenueText = "<html><h2>Bienvenue sur Take Your Money!</h2></html>";
+        JLabel bienvenueLabel = new JLabel(bienvenueText, JLabel.CENTER);
+                                
         // assemblage JLabel et JPanel        
-        JPanel globalPanel = new JPanel();
-        LayoutManager layout = new BoxLayout(globalPanel, BoxLayout.Y_AXIS);  
-        globalPanel.setLayout(layout);
-                
-            globalPanel.add(gererLabel);
-            globalPanel.add(gererPan);
+        JPanel globalPan = new JPanel();
+        
+        JPanel gererPan = new JPanel(new BorderLayout());
+            gererPan.add(gererLabel, BorderLayout.NORTH);
+            gererPan.add(gererBoutonPan, BorderLayout.SOUTH);
+        
+        JPanel listerPan = new JPanel(new BorderLayout());
+            listerPan.add(listerLabel, BorderLayout.NORTH);
+            listerPan.add(listerBoutonPan, BorderLayout.SOUTH);
             
-            globalPanel.add(listerLabel);
-            globalPanel.add(listerPan);
-            
-            globalPanel.add(statPan);
+        GridLayout gl = new GridLayout(5,1, 0, 20);
+        globalPan.setLayout(gl);
+        
+            // assemblage du bloc de boutons
+            globalPan.add(gererPan);
+            globalPan.add(listerPan);
+            globalPan.add(statBoutonPan);
       
-        jf.add(bienvenuLabel, BorderLayout.CENTER);
-        jf.add(globalPanel, BorderLayout.SOUTH);
+        //jf.add(bienvenueLabel, BorderLayout.CENTER);
+        jf.add(banLabel, BorderLayout.NORTH);
+        jf.add(bienvenueLabel, BorderLayout.CENTER);
+        jf.add(globalPan, BorderLayout.SOUTH);
         
         // reflexes pour les boutons de l'interface principale
         // "à la lambda"
         
         // gerer
-        gererClients.addActionListener(e -> { refGererClients(); });        
-        gererProduits.addActionListener(e -> { refGererProduits(); });
-        gererCommandes.addActionListener(e -> { refGererCommandes(); });
+        gererClients.addActionListener(e ->    { refGererClients();   });        
+        gererProduits.addActionListener(e ->   { refGererProduits();  });
+        gererCommandes.addActionListener(e ->  { refGererCommandes(); });
         
         // lister
-        listerClients.addActionListener(e -> { refListerClients(); });        
-        listerProduits.addActionListener(e -> { refListerProduits(); });
+        listerClients.addActionListener(e ->   { refListerClients();   });        
+        listerProduits.addActionListener(e ->  { refListerProduits();  });
         listerCommandes.addActionListener(e -> { refListerCommandes(); });
                 
-        // statistiques et fermeture
-        statCA.addActionListener(e -> { refStat(); });
-        quit.addActionListener(e -> {jf.dispose();});
+        // statistiques et fermeture (on ferme également la connexion à TYM)
+        statCA.addActionListener(e -> { refStat();    });
+        quit.addActionListener(e ->   { sqlConnecteur.closeDB(); jf.dispose(); });
         
         
         // Paramètres sur JFrame visible et fermeture
         jf.setVisible(true);
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
     }
+
     
     // reflexe gerer Client
-    public void refGererClients(){
-        System.out.println("Appel de refGererClients");        
-    }
-    
-    public void refGererProduits(){
-        System.out.println("Appel de refGererProduits");        
-    }
-    
-    public void refGererCommandes(){
-        System.out.println("Appel de refGererCommandes"); 
+    public void refGererClients() {
 
+            /*JDialogGestion ecranGestion = null;
+            try {
+                    ecranGestion = new JDialogGestion("Clients");
+
+            } catch (HeadlessException e) {
+            } catch (IOException e) {
+                    JDialogError ecranErreur = new JDialogError();
+                    ecranErreur.setVisible(true);
+            }
+            ecranGestion.setVisible(true);*/
+    }
+
+    public void refGererProduits() {
+
+            /*JDialogGestion ecranGestion = null;
+            try {
+                    ecranGestion = new JDialogGestion("Produits");
+
+            } catch (HeadlessException e) {
+            } catch (IOException e) {
+                    JDialogError ecranErreur = new JDialogError();
+                    ecranErreur.setVisible(true);
+            }
+            ecranGestion.setVisible(true);*/
+    }
+
+    public void refGererCommandes() {
+
+            /*JDialogGestion ecranGestion = null;
+            try {
+                    ecranGestion = new JDialogGestion("Commandes");
+
+            } catch (HeadlessException e) {
+            } catch (IOException e) {
+                    JDialogError ecranErreur = new JDialogError();
+                    ecranErreur.setVisible(true);
+            }
+            ecranGestion.setVisible(true);*/
     }
     
     public void refListerClients(){
-        System.out.println("Appel de refListerClients");
-        ListIHM listerClient = new ListIHM("Clients");
+        ListIHM listerClient = new ListIHM(this.connTakeYourMoney, "Clients");
     }
     
-    public void refListerProduits(){
-        System.out.println("Appel de refListerProduits");       
-        ListIHM listerClient = new ListIHM("Produits");
+    public void refListerProduits(){       
+        ListIHM listerClient = new ListIHM(this.connTakeYourMoney, "Produits");
+    }    
+    
+    public void refListerCommandes(){       
+        ListIHM listerClient = new ListIHM(this.connTakeYourMoney, "Commandes");
     }
-    
-    
-    public void refListerCommandes(){
-        System.out.println("Appel de refListerCommandes");       
-        ListIHM listerClient = new ListIHM("Commandes");    }
       
     public void refStat(){
-        System.out.println("Appel de refStat");
         StatistiquesIHM stat = new StatistiquesIHM();
     }
 }

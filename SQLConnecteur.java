@@ -16,47 +16,52 @@ import java.sql.DriverManager;
 public class SQLConnecteur {
    
     /** Constructeur privé */
-    private SQLConnecteur(){}
+    private SQLConnecteur(){
+        }
  
     /** Instance unique pré-initialisée */
     private static SQLConnecteur INSTANCE = new SQLConnecteur();
-     
+          
     /** Point d'accès pour l'instance unique du singleton */
-    public static SQLConnecteur getInstance(){
+    public static SQLConnecteur getInstance(String nomPilote, String adresse){
+        driverName = nomPilote;
+        adress = adresse;
         return INSTANCE;
     }
     
+   // attribut et méthodes
+    private static String driverName;
+    private static String adress;
     private Connection conn;
     
-    public void connectBDD(String driverName, String nomBDD){
-        System.out.println("ESSAI DE JAVA BDD");
+    
+    public Connection openDB(String nomBDD, String user, String pass){
+        System.out.println("Connexion à " + nomBDD + "...");
             try{
                 //étape 1: charger la classe de driver
-                System.out.println("Charger la classe driver...");
-                Class.forName(driverName);
-                System.out.println("Charger la classe driver : OK");
+                Class.forName(this.driverName);
 
                 //étape 2: créer l'objet de connexion
-                this.conn = DriverManager.getConnection(
-                //"jdbc:mysql://localhost:3306/" + nomBDD, "root", "");
-                CONSTANTS.ADRESSE, CONSTANTS.USER, CONSTANTS.PASS);
-                System.out.println("Connexion OK");
+                this.conn = DriverManager.getConnection(this.adress, user, pass);
+                System.out.println("Connexion réussie");
             }
             catch(Exception e){ 
                 System.out.println("SQLConnecteur connectBDD : " + e);
             }
+            return this.conn;
     }
             
-    public void closeBDD(){
+    public void closeDB(){
         try{
             this.conn.close();
+            System.out.println("Connexion fermée");
         }
         catch(Exception e){
             System.out.println("SQLConnecteur closeBDD : " + e);
         }
     }
     
-    // getter pour recuperer l'objet Conn
+    // getter pour recuperer l'objet Conn (non utilisé actuellement)
     public Connection getConnecteur(){
         return this.conn;
     }
