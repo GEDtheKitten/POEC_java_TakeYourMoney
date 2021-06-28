@@ -1,5 +1,6 @@
 package takeyourmoney;
 
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,43 +58,6 @@ public class VerificationSaisie {
 		return true;
 	}
 
-	// Vérifier si toutes les JTextField ont été renseignés
-
-	public static boolean lesSixJTextFieldsSontRemplis(JTextField field1, JTextField field2, JTextField field3,
-			JTextField field4, JTextField field5, JTextField field6) { // TEST POUR AJOUT/MODIF CLIENT
-		if (field1.getText().length() < 1) {
-			return false;
-		} else if (field2.getText().length() < 1) {
-			return false;
-		} else if (field3.getText().length() < 1) {
-			return false;
-		} else if (field4.getText().length() < 1) {
-			return false;
-		} else if (field5.getText().length() < 1) {
-			return false;
-		} else if (field6.getText().length() < 1) {
-			return false;
-		}
-		return true;
-	}
-
-	public static boolean lesDeuxJTextFieldsSontRemplis(JTextField field1, JTextField field2) { // TEST POUR MODIF/AJOUT
-																								// PRODUIT
-		if (field1.getText().length() < 1) {
-			return false;
-		} else if (field2.getText().length() < 1) {
-			return false;
-		}
-		return true;
-	}
-
-	public static boolean leJTextFieldsEstRempli(JTextField field1) { // TEST POUR AJOUT CLIENT AVANT AJOUT DE COMMANDE
-		if (field1.getText().length() < 1) {
-			return false;
-		}
-		return true;
-	}
-
 	// Vérifier si chiffres dans la chaine de caractères (prixHT)
 
 	public static boolean estUnPrix(String saisie) {
@@ -107,4 +71,5 @@ public class VerificationSaisie {
 		}
 
 	}
+
 }

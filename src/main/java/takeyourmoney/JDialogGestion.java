@@ -1,4 +1,3 @@
-<<<<<<<HEAD:src/main/java/takeyourmoney/JDialogModifAjoutSuppr.java
 package takeyourmoney;
 
 import java.awt.Color;
@@ -101,7 +100,7 @@ public class JDialogGestion extends JDialog {
 
 		JButton btnModifier = new JButton("Modifier");
 
-		if (type.equals("COMMANDES")) {
+		if (type.equals("Commandes")) {
 			btnModifier.setVisible(false);
 		} else {
 			btnModifier.setVisible(true);
@@ -119,7 +118,7 @@ public class JDialogGestion extends JDialog {
 
 		JButton btnSupprimer = new JButton("Supprimer");
 
-		if (type.equals("COMMANDES")) {
+		if (type.equals("Commandes")) {
 			btnSupprimer.setVisible(false);
 		} else {
 			btnSupprimer.setVisible(true);
@@ -362,5 +361,4 @@ public class JDialogGestion extends JDialog {
 		display.setText(texte);
 		display.repaint();
 	}
-
-}>>>>>>>321e00 a2db178011f91a45b587a18af1e91c9dbe:JDialogGestion.java
+}

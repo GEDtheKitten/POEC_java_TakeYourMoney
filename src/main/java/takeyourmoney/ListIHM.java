@@ -7,55 +7,61 @@ package takeyourmoney;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.table.*;
+import java.sql.*;
 
 
 /**
  *
  * @author Pascal
  */
-public class ListIHM {
+public class ListIHM {    
     
-    // compteur pour la pagination
-    // voir methodes privées à la fin du fichier
-    int k = 1;
+    private final int PAGINATION = 10;    
+    private Pagination pag;
     
-    // taille de la table initialisée par requete SQL
-    int sizeData;
+    // nom de la table
+    private final String nomTable;
+    
+    // la JTable a reactualiser
+    private final JTable jtab;
+    
+    // La classe gestion de données
+    private final DataTables dat;
+
     
     // constructeur de la JDIALOG Liste    
-    ListIHM(String type){
+    ListIHM(Connection cn, String nomTab){
         
-        // definition de la requete SQL
-        String reqSQL = "SELECT * FROM " + type + ";";
+        this.nomTable = nomTab;        
         
-        // insertion des resultats dans DataTables;
-        DataTables dat = new DataTables();
-        dat.getDataFromBDD(CONSTANTS.NAMEDRIVER, CONSTANTS.NAMEBDD, reqSQL);
-        dat.extractResult();
+        // initialisation d'une DataTables : connecteur, nomTable
+        // => calcul auto de sizeTable (utile pour la pagination), recuperable par getSizeTable            
+        this.dat = new DataTables(cn, this.nomTable);
 
-        // appel de JTable
-        createJTable(type, dat.getData(), dat.getEntete());
-    }
-    
-    // creation d'une JTable
-    private void createJTable(String type, Object[][] data, String[] ent){
+        // la premiere requete se fait à l'offset 0
+        String rq = "SELECT * FROM " + this.nomTable + " LIMIT " + this.PAGINATION + " OFFSET 0;";
         
+        // lancement de la requete rq et insertion des résultats dans dat
+        this.dat.getDataFromRequest(rq);
+         
+        // on instancie l'objet pagination
+        int sizeTab = dat.getSizeTable();
+        pag = new Pagination(sizeTab, this.PAGINATION);
+        
+        // creation de jtab
+        this.jtab = new JTable(dat.getData(), dat.getEntete());
+        this.jtab.setEnabled(false);    //  JTable non editable
+
+        
+        // construction graphique
         // fenetre principale
         JDialog listerDialog = new JDialog();
             listerDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             listerDialog.setModal(true);
-            listerDialog.setSize(800, 400);
-            listerDialog.setTitle("Affichage des " + type);
+            listerDialog.setSize(800, 20*this.PAGINATION + 100);
+            listerDialog.setTitle("Affichage des " + this.nomTable);
         
-        // la table
-        JTable tab = new JTable(data, ent);
-        JScrollPane scroll = new JScrollPane(tab);
-                
-        // parametrage de la largeur des colonnes
-        tab.getColumnModel().getColumn(0).setPreferredWidth(1);
-        
-        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             
         // creation de la rampe de bouton pour defiler page par page
         JButton topJButton = new JButton("<<");
@@ -74,59 +80,50 @@ public class ListIHM {
         JButton fermerJButton = new JButton("Fermer");
         JPanel fermerPan = new JPanel();
             fermerPan.add(fermerJButton);
-            
-        // bloc boutons = rampe + fermer
-        JPanel blocPan = new JPanel(new BorderLayout());
-            blocPan.add(rampePan, BorderLayout.NORTH);
-            blocPan.add(fermerPan, BorderLayout.CENTER);          
+                     
         
         // assemblage
-        JPanel listerPan = new JPanel(new BorderLayout());
-            listerPan.add(tab.getTableHeader(), BorderLayout.NORTH);
-            listerPan.add(tab, BorderLayout.CENTER);
-            listerPan.add(blocPan, BorderLayout.SOUTH);
-            listerDialog.add(listerPan);
+        JPanel jtablePan = new JPanel(new BorderLayout());
+            jtablePan.add(this.jtab.getTableHeader(), BorderLayout.NORTH);
+            jtablePan.add(this.jtab, BorderLayout.CENTER);
+            
+            // Scroll vertical peut être inutile avec la pagination
+            JScrollPane scroll = new JScrollPane(jtablePan);
+            //scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+            scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            
+            JPanel blocPan = new JPanel(new BorderLayout());
+                blocPan.add(scroll, BorderLayout.NORTH);
+                blocPan.add(rampePan, BorderLayout.SOUTH);
+            
+            listerDialog.add(blocPan, BorderLayout.NORTH);
+            listerDialog.add(fermerPan, BorderLayout.SOUTH);
+
     
-        // reflexes de la rampe de bouton
-        topJButton.addActionListener(e -> { top(); });
-        pageUPJButton.addActionListener(e -> { pageUP(); });
-        pageDOWNJButton.addActionListener(e -> { pageDOWN(); });
-        bottomJButton.addActionListener(e -> { bottom(); });
+        // reflexes de la rampe de bouton gerant le defilement des ecrans
+        // on ne fait l'actualisation que si la page a changé pour éviter des requêtes inutiles
+        topJButton.addActionListener(e ->       { if (pag.pageTOP())    updateJTable(pag.getOffset()); });
+        pageUPJButton.addActionListener(e ->    { if (pag.pageUP())     updateJTable(pag.getOffset()); });
+        pageDOWNJButton.addActionListener(e ->  { if (pag.pageDOWN())   updateJTable(pag.getOffset()); });
+        bottomJButton.addActionListener(e ->    { if (pag.pageBOTTOM()) updateJTable(pag.getOffset()); });
         
         // reflexe de fermeture de la fenetre
         fermerJButton.addActionListener(e -> { listerDialog.dispose(); });
         
         // affichage de la fenetre
         listerDialog.setVisible(true);
+    }    
+           
+    private void updateJTable(int offset){
+        
+        // requete réactualisée avec l'offset
+        String rq = "SELECT * FROM " + this.nomTable + " LIMIT " + this.PAGINATION + " OFFSET " + offset + ";";
+
+        // lancement de la requete rq et insertion des résultats dans dat (mise à jour après avancée d'une page par ex.)
+        this.dat.getDataFromRequest(rq);
+                
+        // mise à jour de la JTable
+        DefaultTableModel defTab = new DefaultTableModel(dat.getData(), dat.getEntete());
+        this.jtab.setModel(defTab);
     }
-    
-    // reflexes gerant le defilement des ecrans (à implémenter...)
-    public void top(){
-        System.out.println("ListIHM : Debut de page");
-        this.k = 1;
-    }
-    
-    public void pageUP(){
-        System.out.println("ListIHM : recule d'une page");
-        int var = this.k;
-        var -= 1;
-        this.k = java.lang.Math.max(1, var);
-    }
-    
-    public void pageDOWN(){
-        System.out.println("ListIHM : avance d'une page");
-        int var = this.k;
-        var += 1;
-        this.k = java.lang.Math.min(1 + (this.sizeData/20), var);
-    }
-    
-    public void bottom(){
-        System.out.println("ListIHM : Fin de page");
-        this.k = this.sizeData/20;
-    }
-    
-    // methodes renvoyant les indices de début et de fin pour la pagination (20 lignes)
-    private int id_debut(){ return (this.k - 1)*20 + 1; }
-    private int id_fin(){ return java.lang.Math.min(this.k*20, this.sizeData); }
-    
 }

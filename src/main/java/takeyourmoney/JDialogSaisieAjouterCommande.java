@@ -1,4 +1,4 @@
-package ProjetTakeYourMoney;
+package takeyourmoney;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -130,18 +130,29 @@ public class JDialogSaisieAjouterCommande extends JDialog {
 				String produitSelectionne = (listeDeroulanteProduits.getSelectedItem()).toString();
 				String quantiteSaisie = champQuantite.getText();
 
+				// Vérifier si quantité
+				if (!VerificationSaisie.testerSiVide(quantiteSaisie)) {
+					JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli("Quantité");
+					ecranInfosManquantes.setVisible(true);
+				} else if (!Character.isDigit(Integer.parseInt(quantiteSaisie))) {
+					JDialogErreurSaisie ecranErreurSaisie = new JDialogErreurSaisie(
+							"La quantité saisie n'est pas valide.");
+					ecranErreurSaisie.setVisible(true);
+				} else {
 				ajouterProduitDansCommande(produitSelectionne, quantiteSaisie);
 
 				// Réactualiser la JTextArea display
 				mettreAJourTextArea(display);
-			}
+				}
 		});
 
-		btnTerminer.addActionListener(e -> {
-			dispose();
-		});
+	btnTerminer.addActionListener(e->
 
-		return panelCommande;
+	{
+		dispose();
+	});
+
+	return panelCommande;
 	}
 
 	private void constructJDialog(String nomClient) throws IOException {
@@ -158,12 +169,14 @@ public class JDialogSaisieAjouterCommande extends JDialog {
 	}
 
 	public void ajouterProduitDansCommande(String produitSelectionne, String quantiteSaisie) {
-		// APPELER PROCEDURE D'AJOUT PRODUIT DANS LA COMMANDE ***********************************
+		// APPELER PROCEDURE D'AJOUT PRODUIT DANS LA COMMANDE
+		// ***********************************
 	}
 
 	public void mettreAJourTextArea(JTextArea display) {
 		String texte = "Il faudra réimporter la liste à nouveau !";
-		// Réimport de la liste produits + quantite **********************************************
+		// Réimport de la liste produits + quantite
+		// **********************************************
 		display.setText(texte);
 		display.repaint();
 	}

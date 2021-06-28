@@ -1,4 +1,6 @@
 
+  
+
 USE take_your_money;
 
 -- a implementer 
@@ -188,10 +190,5 @@ BEGIN
 END //
 
 
-
-
-
 DELIMITER ;
-
-
 

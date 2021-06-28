@@ -1,9 +1,8 @@
-package ProjetTakeYourMoney;
+package takeyourmoney;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -14,7 +13,7 @@ import javax.swing.SwingConstants;
 
 public class JDialogConfirmationSuppression extends JDialog {
 
-	public JDialogConfirmationSuppression() throws IOException {
+	public JDialogConfirmationSuppression() {
 		super();
 		constructJDialog();
 	}
@@ -50,7 +49,7 @@ public class JDialogConfirmationSuppression extends JDialog {
 		return panel;
 	}
 
-	private void constructJDialog() throws IOException {
+	private void constructJDialog() {
 		setSize(300, 200);
 		setTitle("Erreur 404");
 		setResizable(false);

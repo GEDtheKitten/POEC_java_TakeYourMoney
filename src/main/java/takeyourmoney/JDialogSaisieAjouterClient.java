@@ -18,7 +18,7 @@ public class JDialogSaisieAjouterClient extends JDialog {
 
 	public JDialogSaisieAjouterClient() throws IOException {
 		super();
-		constructJDialog(nomTable);
+		constructJDialog();
 	}
 
 	private JPanel construirePanelClient() {
@@ -86,7 +86,7 @@ public class JDialogSaisieAjouterClient extends JDialog {
 		panelClient.add(panelBtnActions);
 
 		// DEFINIR LES ACTIONS
-		
+
 		btnAjouter.addActionListener(e -> {
 
 			int confirmation = JOptionPane.showOptionDialog(null, "Êtes-vous sûr(e) de vouloir  ajouter un client ?",
@@ -101,11 +101,60 @@ public class JDialogSaisieAjouterClient extends JDialog {
 				String nouveauVille = champVille.getText();
 				String nouveauTelephone = champTelephone.getText();
 
-				ajouterClient(nouveauNom, nouveauPrenom, nouveauAdress1, nouveauAdress2, nouveauCP, nouveauVille,
-						nouveauTelephone);
+				// Vérifier nom (si vide + si caractères)
+				if (!VerificationSaisie.testerSiVide(nouveauNom)) {
+					JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli("Nom du client");
+					ecranInfosManquantes.setVisible(true);
+				} else if (!VerificationSaisie.testerSiCaracteres(nouveauNom)) {
+					JDialogErreurSaisie ecranErreurSaisie = new JDialogErreurSaisie(
+							"Le nom du client n'est pas valide.");
+					ecranErreurSaisie.setVisible(true);
 
-			} else {
+					// Vérifier prénom (si vide + si caractères)
+				} else if (!VerificationSaisie.testerSiVide(nouveauPrenom)) {
+					JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli("Prénom du client");
+					ecranInfosManquantes.setVisible(true);
+				} else if (!VerificationSaisie.testerSiCaracteres(nouveauPrenom)) {
+					JDialogErreurSaisie ecranErreurSaisie = new JDialogErreurSaisie(
+							"Le prénom du client n'est pas valide.");
+					ecranErreurSaisie.setVisible(true);
 
+					// Vérifier adresse (si vide)
+				} else if (!VerificationSaisie.testerSiVide(nouveauAdress1)) {
+					JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli("Adresse");
+					ecranInfosManquantes.setVisible(true);
+
+					// Vérifier codePostal (si vide + si correspond à un code postal)
+				} else if (!VerificationSaisie.testerSiVide(nouveauCP)) {
+					JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli("Code postal");
+					ecranInfosManquantes.setVisible(true);
+				} else if (!VerificationSaisie.testerCodePostal(nouveauCP)) {
+					JDialogErreurSaisie ecranErreurSaisie = new JDialogErreurSaisie("Le code postal n'est pas valide.");
+					ecranErreurSaisie.setVisible(true);
+
+					// Vérifier ville (si vide + si caractères)
+				} else if (!VerificationSaisie.testerSiVide(nouveauVille)) {
+					JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli("Ville");
+					ecranInfosManquantes.setVisible(true);
+				} else if (!VerificationSaisie.testerSiCaracteres(nouveauVille)) {
+					JDialogErreurSaisie ecranErreurSaisie = new JDialogErreurSaisie("La ville n'est pas valide.");
+					ecranErreurSaisie.setVisible(true);
+
+					// Vérifier telephone (si vide + si correspond à un numero de téléphone)
+				} else if (!VerificationSaisie.testerSiVide(nouveauTelephone)) {
+					JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli(
+							"Numéro de téléphone");
+					ecranInfosManquantes.setVisible(true);
+				} else if (!VerificationSaisie.testerNumeroTel(nouveauTelephone)) {
+					JDialogErreurSaisie ecranErreurSaisie = new JDialogErreurSaisie(
+							"Le numéro de téléphone n'est pas valide.");
+					ecranErreurSaisie.setVisible(true);
+				} else {
+					ajouterClient(nouveauNom, nouveauPrenom, nouveauAdress1, nouveauAdress2, nouveauCP, nouveauVille,
+							nouveauTelephone);
+                                        // jDialog confirmation
+                                        dispose();
+				}
 			}
 		});
 
@@ -131,7 +180,8 @@ public class JDialogSaisieAjouterClient extends JDialog {
 
 	public void ajouterClient(String nouveauNom, String nouveauPrenom, String nouveauAdress1, String nouveauAdress2,
 			String nouveauCP, String nouveauVille, String nouveauTelephone) {
-		// APPELER PROCEDURE D'AJOUT CLIENT **********************************************
+		// APPELER PROCEDURE D'AJOUT CLIENT
+		// **********************************************
 	}
 
 }

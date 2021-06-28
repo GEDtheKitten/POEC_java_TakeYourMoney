@@ -18,7 +18,7 @@ public class JDialogSaisieAjouterProd extends JDialog {
 
 	public JDialogSaisieAjouterProd() throws IOException {
 		super();
-		constructJDialog(nomTable);
+		constructJDialog();
 	}
 
 	private JPanel construirePanelProduit() {
@@ -27,7 +27,7 @@ public class JDialogSaisieAjouterProd extends JDialog {
 		panelProduit.setBackground(Color.WHITE);
 
 		// Demander la désignation et le PrixHT du produit
-		
+
 		JLabel titreDesignation = new JLabel("Désignation:", SwingConstants.RIGHT);
 		panelProduit.add(titreDesignation);
 		JTextField champDesignation = new JTextField();
@@ -39,7 +39,7 @@ public class JDialogSaisieAjouterProd extends JDialog {
 		panelProduit.add(champPrixHT);
 
 		// Ajout des boutons Ajouter et Annuler
-		
+
 		JPanel panelBtnActions = new JPanel();
 		panelBtnActions.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		panelBtnActions.setBackground(Color.WHITE);
@@ -65,10 +65,9 @@ public class JDialogSaisieAjouterProd extends JDialog {
 		panelBtnActions.add(panelBtnAnnuler);
 		panelBtnActions.add(panelBtnAjouter);
 		panelProduit.add(panelBtnActions);
-		
-		
+
 		// DEFINIR LES ACTIONS
-		
+
 		btnAjouter.addActionListener(e -> {
 
 			int confirmation = JOptionPane.showOptionDialog(null, "Êtes-vous sûr(e) de vouloir ajouter un produit ?",
@@ -78,9 +77,27 @@ public class JDialogSaisieAjouterProd extends JDialog {
 				String nouveauNom = champDesignation.getText();
 				String nouveauPrixHT = champPrixHT.getText();
 
-				ajouterProduit(nouveauNom, nouveauPrixHT);
+				// Vérifier nom (si vide + si caractères)
+				if (!VerificationSaisie.testerSiVide(nouveauNom)) {
+					JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli("Prix du produit");
+					ecranInfosManquantes.setVisible(true);
+				} else if (!VerificationSaisie.testerSiCaracteres(nouveauNom)) {
+					JDialogErreurSaisie ecranErreurSaisie = new JDialogErreurSaisie(
+							"Le nom du produit n'est pas valide.");
+					ecranErreurSaisie.setVisible(true);
 
-			} else {
+					// Vérifier prix
+				} else if (!VerificationSaisie.testerSiVide(nouveauPrixHT)) {
+					JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli("Prix du produit");
+					ecranInfosManquantes.setVisible(true);
+				} else if (!VerificationSaisie.estUnPrix(nouveauPrixHT)) {
+					JDialogErreurSaisie ecranErreurSaisie = new JDialogErreurSaisie("Le prix saisi n'est pas valide.");
+					ecranErreurSaisie.setVisible(true);
+				} else {
+					ajouterProduit(nouveauNom, nouveauPrixHT);
+                                        // jDialog confirmation
+                                        dispose();
+				}
 
 			}
 		});

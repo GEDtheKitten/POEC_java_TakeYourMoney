@@ -13,65 +13,66 @@ import java.sql.*;
  */
 public class DataTables {
 
-    private ResultSet res;
-    private ResultSetMetaData rsmd;
-    
+    // structure de données récupérée
     private String[] entData;
     private Object[][] data;
+    int nbLignes;
+    int nbColonnes;
     
-    DataTables(){}
+    // la table explorée    
+    private final String nomTable;
+    private final int sizeTable;
     
-    public void getDataFromBDD(String nameDriver, String nameBDD, String reqSQL){
-
-    // connexion
-    SQLConnecteur con = SQLConnecteur.getInstance();
-        //con.connectBDD(CONSTANTS.NAMEDRIVER, CONSTANTS.NAMEBDD);
-        con.connectBDD(nameDriver, nameBDD);
+    // connecteur à la base de données
+    private final Connection conTYM;
     
-    // requete
-    SQLRequete req = new SQLRequete(con.getConnecteur(), reqSQL);
-        this.res = req.requeteBDD();
-
-    // fermeture
-    try{
-        this.rsmd = this.res.getMetaData();
-    }
-       catch(Exception e){
-            System.out.println("SQLRequete extractResult : " + e);
-       }
-    con.closeBDD();        
-    }
-    
-    // extraction des resultats
-    public void extractResult(){
+    // constructeur : en attendant de trouver mieux on passe nbLign en argument...
+    DataTables(Connection cn, String nomTab){
+        this.nomTable = nomTab;
+        this.conTYM = cn;
         
-        try{                
-               System.out.println("rsmd");                 int nbColonnes = this.rsmd.getColumnCount();
-                System.out.println("nb colonne " + nbColonnes);
-                rsmd.getColumnLabel(nbColonnes);
-                this.entData = new String[nbColonnes];
-            
+        // on definit la taille de nomTable par la méthode privée
+        this.sizeTable = setSizeTable();
+    }
+    
+    public void getDataFromRequest(String reqSQL){
+        
+        // requete
+        SQLRequete req = new SQLRequete(this.conTYM);
+        ResultSet res = req.pullRequest(reqSQL);
+               
+        
+        // extraction des resultats        
+        try{
+                // nombre de lignes != sizeTable selon les requetes...
+                // action possible uniquement si ResultSet.SCROLL_(IN)SENTIVE
+                res.last();               
+                this.nbLignes = res.getRow();
+                res.beforeFirst();
+                
+                // la structure des données (entete)
+                ResultSetMetaData rsmd = res.getMetaData();
+                this.nbColonnes = rsmd.getColumnCount();
+                //System.out.println("nb colonne " + this.nbColonnes);
+                
+                rsmd.getColumnLabel(this.nbColonnes);
+                this.entData = new String[this.nbColonnes];
+                
                 // on recupere les noms des colonnes dans enteteData
-                for(int i = 1; i <= nbColonnes; i++){
+                for(int i = 1; i <= this.nbColonnes; i++){
                     this.entData[i-1] = rsmd.getColumnLabel(i);
-                    System.out.println("colonne " + i + " " + this.entData[i-1] + "\n");
+                    //System.out.println("colonne " + i + " " + this.entData[i-1] + "\n");
                 }
-                
-                // on compte le nombre de lignes
-                int nbLignes = 0;
-                while(this.res.next())
-                    nbLignes ++;
-                
 
                 // allocation dynamique de data[][]
-                this.data = new Object[nbLignes][nbColonnes];
+                this.data = new Object[this.nbLignes][this.nbColonnes];
                 
-                // insertion des donnees dans data
-                for(int i = 1; i <= nbLignes; i++){
-                    this.res.absolute(i);       // on se positionne aà la ligne i
-                    for(int j = 1; j <= nbColonnes; j++){
+                // extraction / insertion des donnees dans data
+                for(int i = 1; i <= this.nbLignes; i++){
+                    res.absolute(i);                            // possible uniquement si ResultSet.SCROLL_(IN)SENTSIIVE
+                    for(int j = 1; j <= this.nbColonnes; j++){
                         this.data[i-1][j-1] = res.getObject(j);
-                        System.out.println("value(" + i + "," + j + ") = " + this.data[i-1][j-1].toString());
+                        //System.out.println("value(" + i + "," + j + ") = " + this.data[i-1][j-1].toString());
                     }
                 }
         }
@@ -87,4 +88,29 @@ public class DataTables {
     public Object[][] getData(){
         return this.data;
     }
+    
+    // utilisée uniquement par getDataFromRequest
+    private int setSizeTable(){
+        
+        int size = 0;
+        // requete SQL pour compter le nombre de lignes
+        String reqSQL = "SELECT COUNT(*) FROM " + this.nomTable + ";";
+
+        // requete
+        SQLRequete req = new SQLRequete(this.conTYM);
+        try{                        
+            ResultSet res = req.pullRequest(reqSQL);
+            while(res.next()){
+                size = res.getInt("count(*)");
+            }
+        }
+        catch(Exception e){
+                System.out.println("ListIHM getSizeTable : " + e);
+        }        
+        return size;
+    }
+    
+    public int getSizeTable(){
+        return this.sizeTable;
+    }    
 }
