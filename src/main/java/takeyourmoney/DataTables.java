@@ -76,7 +76,7 @@ public class DataTables {
                     }
                 }
         }
-        catch(Exception e){
+        catch(SQLException e){
             System.out.println("SQLRequete extractResult : " + e);
         }
     }
@@ -104,7 +104,7 @@ public class DataTables {
                 size = res.getInt("count(*)");
             }
         }
-        catch(Exception e){
+        catch(SQLException e){
                 System.out.println("ListIHM getSizeTable : " + e);
         }        
         return size;

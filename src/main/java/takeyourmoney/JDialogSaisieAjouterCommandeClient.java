@@ -17,89 +17,87 @@ import javax.swing.SwingConstants;
 
 public class JDialogSaisieAjouterCommandeClient extends JDialog {
 
-	public JDialogSaisieAjouterCommandeClient() throws IOException {
-		super();
-		constructJDialog();
-	}
+    public JDialogSaisieAjouterCommandeClient() throws IOException {
+        super();
+        constructJDialog();
+    }
 
-	private JPanel construirePanelClient() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(3, 1));
-		panel.setBackground(Color.WHITE);
+    private JPanel construirePanelClient() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(3, 1));
+        panel.setBackground(Color.WHITE);
 
-		JLabel titreConsigne = new JLabel("Sélectionner le client :", SwingConstants.LEFT);
-		panel.add(titreConsigne);
+        JLabel titreConsigne = new JLabel("Sélectionner le client :", SwingConstants.LEFT);
+        panel.add(titreConsigne);
 
-		JPanel panelListeDeroulanteClients = new JPanel();
-		panelListeDeroulanteClients.setBackground(Color.white);
+        JPanel panelListeDeroulanteClients = new JPanel();
+        panelListeDeroulanteClients.setBackground(Color.white);
 
-		Object[] liste;
+        Object[] liste;
 
-		liste = new String[] { "Texte", "Texte"// IMPORTER NOMS CLIENTS PAR ORDRE ALPHABETIQUE -- Utiliser le nom de la
-												// table "Clients" !!!
-												// ******************************************************
-		};
+        liste = new String[]{"Texte", "Texte"// IMPORTER NOMS CLIENTS PAR ORDRE ALPHABETIQUE -- Utiliser le nom de la
+        // table "Clients" !!!
+        // ******************************************************
+        };
 
-		JComboBox listeDeroulanteClients = new JComboBox(liste);
-		listeDeroulanteClients.setPreferredSize(new Dimension(350, 30));
-		panelListeDeroulanteClients.add(listeDeroulanteClients);
-		panel.add(panelListeDeroulanteClients);
+        JComboBox listeDeroulanteClients = new JComboBox(liste);
+        listeDeroulanteClients.setPreferredSize(new Dimension(350, 30));
+        panelListeDeroulanteClients.add(listeDeroulanteClients);
+        panel.add(panelListeDeroulanteClients);
 
-		// Ajout des boutons Continuer et Annuler
+        // Ajout des boutons Continuer et Annuler
+        JPanel panelBtnActions = new JPanel();
+        panelBtnActions.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        panelBtnActions.setBackground(Color.WHITE);
 
-		JPanel panelBtnActions = new JPanel();
-		panelBtnActions.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		panelBtnActions.setBackground(Color.WHITE);
+        JPanel panelBtnContinuer = new JPanel();
+        panelBtnContinuer.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        panelBtnContinuer.setBackground(Color.WHITE);
 
-		JPanel panelBtnContinuer = new JPanel();
-		panelBtnContinuer.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		panelBtnContinuer.setBackground(Color.WHITE);
+        JButton btnContinuer = new JButton("Continuer");
+        panelBtnContinuer.add(btnContinuer);
 
-		JButton btnContinuer = new JButton("Continuer");
-		panelBtnContinuer.add(btnContinuer);
+        JPanel panelBtnAnnuler = new JPanel();
+        panelBtnAnnuler.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        panelBtnAnnuler.setBackground(Color.WHITE);
 
-		JPanel panelBtnAnnuler = new JPanel();
-		panelBtnAnnuler.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		panelBtnAnnuler.setBackground(Color.WHITE);
+        JButton btnAnnuler = new JButton("Annuler");
+        panelBtnAnnuler.add(btnAnnuler);
 
-		JButton btnAnnuler = new JButton("Annuler");
-		panelBtnAnnuler.add(btnAnnuler);
+        panelBtnActions.add(panelBtnAnnuler);
+        panelBtnActions.add(panelBtnContinuer);
+        panel.add(panelBtnActions);
 
-		panelBtnActions.add(panelBtnAnnuler);
-		panelBtnActions.add(panelBtnContinuer);
-		panel.add(panelBtnActions);
+        // DEFINIR LES ACTIONS
+        btnContinuer.addActionListener(e -> {
 
-		// DEFINIR LES ACTIONS
+            int confirmation = JOptionPane.showOptionDialog(null,
+                    "Êtes-vous sûr(e) de vouloir créer une commande pour ce client ?", "Confirmation",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            if (confirmation == JOptionPane.YES_OPTION) {
 
-		btnContinuer.addActionListener(e -> {
+                String clientSelectionne = (listeDeroulanteClients.getSelectedItem()).toString();
+            }
+        });
 
-			int confirmation = JOptionPane.showOptionDialog(null,
-					"Êtes-vous sûr(e) de vouloir créer une commande pour ce client ?", "Confirmation",
-					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-			if (confirmation == JOptionPane.YES_OPTION) {
+        btnAnnuler.addActionListener(e -> {
+            dispose();
+        });
 
-				String clientSelectionne = (listeDeroulanteClients.getSelectedItem()).toString();
-			}
-		});
+        return panel;
+    }
 
-		btnAnnuler.addActionListener(e -> {
-			dispose();
-		});
+    private void constructJDialog() throws IOException {
+        setSize(400, 200);
+        setTitle("Selectionner un client");
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setModal(true);
 
-		return panel;
-	}
+        setContentPane(construirePanelClient());
+        getContentPane().setBackground(Color.WHITE);
 
-	private void constructJDialog() throws IOException {
-		setSize(400, 200);
-		setTitle("Selectionner un client");
-		setResizable(false);
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setModal(true);
-
-		setContentPane(construirePanelClient());
-		getContentPane().setBackground(Color.WHITE);
-
-	}
+    }
 
 }

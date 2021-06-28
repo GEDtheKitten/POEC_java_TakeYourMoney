@@ -5,9 +5,9 @@
  */
 package takeyourmoney;
 
-import java.awt.*;
-import java.util.*;
-import javax.swing.*;
+//import java.awt.*;
+//import java.util.*;
+//import javax.swing.*;
 
 /**
  *
@@ -18,7 +18,7 @@ public class MainTakeYourMoney {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {                    
-        FrameIHM ihm = new FrameIHM();        
-    }    
+    public static void main(String[] args) {
+        FrameIHM ihm = new FrameIHM();
+    }
 }
