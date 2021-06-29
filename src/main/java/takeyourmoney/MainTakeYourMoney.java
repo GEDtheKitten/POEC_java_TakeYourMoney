@@ -5,10 +5,6 @@
  */
 package takeyourmoney;
 
-//import java.awt.*;
-//import java.util.*;
-//import javax.swing.*;
-
 /**
  *
  * @author Pascal

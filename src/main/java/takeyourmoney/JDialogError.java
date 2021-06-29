@@ -3,7 +3,6 @@ package takeyourmoney;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-//import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;

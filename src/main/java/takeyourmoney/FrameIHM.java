@@ -26,9 +26,8 @@ public class FrameIHM{
 
         // instanciation d'un connecteur SINGLETON
         SQLConnecteur sqlConnecteur = SQLConnecteur.getInstance(CONSTANTS.NAMEDRIVER, CONSTANTS.ADRESSE);
-        
         // initialisation de la connexion        
-        this.connTakeYourMoney = sqlConnecteur.openDB(CONSTANTS.NAMEBDD, CONSTANTS.USER, CONSTANTS.PASS);
+        connTakeYourMoney = sqlConnecteur.openDB(CONSTANTS.NAMEBDD, CONSTANTS.USER, CONSTANTS.PASS);
 
         
         // LES WIDGETS
@@ -153,7 +152,7 @@ public class FrameIHM{
 
             JDialogGestion ecranGestion = null;
             try {
-                    ecranGestion = new JDialogGestion("Clients");
+                    ecranGestion = new JDialogGestion(this.connTakeYourMoney, "Clients");
 
             } catch (HeadlessException e) {
             } catch (IOException e) {
@@ -167,7 +166,7 @@ public class FrameIHM{
 
             JDialogGestion ecranGestion = null;
             try {
-                    ecranGestion = new JDialogGestion("Produits");
+                    ecranGestion = new JDialogGestion(this.connTakeYourMoney, "Produits");
 
             } catch (HeadlessException e) {
             } catch (IOException e) {
@@ -181,7 +180,7 @@ public class FrameIHM{
 
             JDialogGestion ecranGestion = null;
             try {
-                    ecranGestion = new JDialogGestion("Commandes");
+                    ecranGestion = new JDialogGestion(this.connTakeYourMoney, "Commandes");
 
             } catch (HeadlessException e) {
             } catch (IOException e) {

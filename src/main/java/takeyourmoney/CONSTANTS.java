@@ -15,10 +15,10 @@ public class CONSTANTS {
     // Connexion à la base de données
 //    public static final String USER = "root";
 //    public static final String PASS = "/#123root321#/";    
-//    public static final String USER = "atelierjava";
-//    public static final String PASS = "atelierjava";
-    public static final String USER = "root";
-    public static final String PASS = "123456";
+    public static final String USER = "atelierJava";
+    public static final String PASS = "atelierJava";
+//    public static final String USER = "root";
+//    public static final String PASS = "123456";
 
     public static final String NAMEBDD = "take_your_money";
 

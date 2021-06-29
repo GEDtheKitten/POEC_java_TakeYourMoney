@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.IOException;
+import java.sql.Connection;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -19,9 +20,12 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
 public class JDialogGestion extends JDialog {
+    
+    private final Connection conTYM;
 
-    public JDialogGestion(String type) throws IOException {
+    public JDialogGestion(Connection connTakeYourMoney, String type) throws IOException {
         super();
+        this.conTYM = connTakeYourMoney;
         constructJDialog(type);
     }
 
@@ -63,12 +67,11 @@ public class JDialogGestion extends JDialog {
 
         Object[] liste;
 
-        if (type.equals("CLIENTS")) {
+        if (type.equals("Clients")) {
             liste = new String[]{"Texte", "Texte"// IMPORTER NOMS CLIENTS PAR ORDRE ALPHABETIQUE ********************
             };
-        } else if (type.equals("PRODUITS")) {
-            liste = new Object[]{"Texte", "Texte"// IMPORTER DESIGNATIONS PRODUITS PAR ORDRE ALPHABETIQUE
-            // *********************
+        } else if (type.equals("Produits")) {
+            liste = new Object[]{"Texte", "Texte"// IMPORTER DESIGNATIONS PRODUITS PAR ORDRE ALPHABETIQUE *********************
             };
         } else {
             liste = new Object[]{"Texte", "Texte"// IMPORTER NUM COMMANDE ? ************************
@@ -230,7 +233,6 @@ public class JDialogGestion extends JDialog {
             JDialogSaisieModifierProd modifierProduit = null;
             try {
                 modifierProduit = new JDialogSaisieModifierProd(valeurSelectionnee);
-
             } catch (IOException e1) {
                 JDialogError ecranErreur = new JDialogError();
                 ecranErreur.setVisible(true);
@@ -247,7 +249,6 @@ public class JDialogGestion extends JDialog {
             }
             modifierClient.setModal(true);
             modifierClient.setVisible(true);
-
         }
     }
 
@@ -264,7 +265,7 @@ public class JDialogGestion extends JDialog {
         } else if ("Clients".equals(type)) {
             JDialogSaisieAjouterClient ajouterClient = null;
             try {
-                ajouterClient = new JDialogSaisieAjouterClient();
+                ajouterClient = new JDialogSaisieAjouterClient(conTYM);
             } catch (IOException e1) {
                 JDialogError ecranErreur = new JDialogError();
                 ecranErreur.setVisible(true);
