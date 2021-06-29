@@ -11,7 +11,6 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -21,164 +20,155 @@ import javax.swing.SwingConstants;
 
 public class JDialogSaisieAjouterCommande extends JDialog {
 
-	public JDialogSaisieAjouterCommande(String nomClient) throws IOException {
-		super();
-		constructJDialog(nomClient);
-	}
+    public JDialogSaisieAjouterCommande(String nomClient) throws IOException {
+        super();
+        constructJDialog(nomClient);
+    }
 
-	private JPanel construirePanelCommande(String nomClient) {
-		
-		JPanel panelCommande = new JPanel();
-		panelCommande.setLayout(new GridLayout(5, 1));
-		panelCommande.setBackground(Color.WHITE);
-		panelCommande.setPreferredSize(new Dimension(380, 500));
+    private JPanel construirePanelCommande(String nomClient) {
 
+        JPanel panelCommande = new JPanel();
+        panelCommande.setLayout(new GridLayout(5, 1));
+        panelCommande.setBackground(Color.WHITE);
+        panelCommande.setPreferredSize(new Dimension(380, 500));
 
-		JLabel titre = new JLabel("Création d'une nouvelle commande");
-		panelCommande.add(titre);
+        JLabel titre = new JLabel("Création d'une nouvelle commande");
+        panelCommande.add(titre);
 
+        JPanel panelZoneTexte = new JPanel();
+        panelZoneTexte.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelZoneTexte.setPreferredSize(new Dimension(350, 80));
+        panelZoneTexte.setBackground(Color.WHITE);
 
-		JPanel panelZoneTexte = new JPanel();
-		panelZoneTexte.setLayout(new FlowLayout(FlowLayout.LEFT));
-		panelZoneTexte.setPreferredSize(new Dimension(350, 80));
-		panelZoneTexte.setBackground(Color.WHITE);
+        // Zone de texte affichant les produits déjà enregistrés dans la commande (a minima désignation et quantité)
+        String text = "Il faudra afficher les produits + les quantités associées déjà saisies de la commande" + "\n"
+                + "Ceci est un test ; test " + "\n" + "Ceci est un test ; test " + "\n" + "Ceci est un test ; test "
+                + "\n" + "Ceci est un test ; test " + "\n";
 
-		// Zone de texte affichant les produits déjà enregistrés dans la commande (a minima désignation et quantité)
+        // Importer les éléments à afficher ********************************
+        JTextArea display = new JTextArea(text);
+        display.setEditable(false); // textArea non éditable
 
-		String text = "Il faudra afficher les produits + les quantités associées déjà saisies de la commande" + "\n"
-				+ "Ceci est un test ; test " + "\n" + "Ceci est un test ; test " + "\n" + "Ceci est un test ; test "
-				+ "\n" + "Ceci est un test ; test " + "\n";
+        display.setPreferredSize(new Dimension(350, 80));
+        display.setLineWrap(true);
+        display.setWrapStyleWord(true);
 
-		// Importer les éléments à afficher ********************************
-		JTextArea display = new JTextArea(text);
-		display.setEditable(false); // textArea non éditable
+        JScrollPane scroll = new JScrollPane(display);
+        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-		display.setPreferredSize(new Dimension(350, 80));
-		display.setLineWrap(true);
-		display.setWrapStyleWord(true);
+        panelZoneTexte.add(scroll);
+        panelCommande.add(panelZoneTexte);
 
-		JScrollPane scroll = new JScrollPane(display);
-		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        // LISTE DEROULANTE PRODUIT
+        JPanel panelListeDeroulanteProduits = new JPanel();
+        panelListeDeroulanteProduits.setPreferredSize(new Dimension(300, 50));
+        panelListeDeroulanteProduits.setBackground(Color.white);
 
-		panelZoneTexte.add(scroll);
-		panelCommande.add(panelZoneTexte);
+        Object[] liste;
 
-		// LISTE DEROULANTE PRODUIT
+        liste = new String[]{"Texte", "Texte"// IMPORTER NOMS PRODUITS PAR ORDRE ALPHABETIQUE -- Utiliser le nom de la
+        // table "Produits" !!! ************************************
+        };
 
-		JPanel panelListeDeroulanteProduits = new JPanel();
-		panelListeDeroulanteProduits.setPreferredSize(new Dimension(300, 50));
-		panelListeDeroulanteProduits.setBackground(Color.white);
+        JComboBox listeDeroulanteProduits = new JComboBox(liste);
+        listeDeroulanteProduits.setPreferredSize(new Dimension(300, 30));
+        panelListeDeroulanteProduits.add(listeDeroulanteProduits);
+        panelCommande.add(panelListeDeroulanteProduits);
 
-		Object[] liste;
+        // Demander Quantité
+        JPanel panelQuantite = new JPanel();
+        panelQuantite.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        panelQuantite.setPreferredSize(new Dimension(350, 100));
+        panelQuantite.setBackground(Color.white);
 
-		liste = new String[] { "Texte", "Texte"// IMPORTER NOMS PRODUITS PAR ORDRE ALPHABETIQUE -- Utiliser le nom de la
-												// table "Produits" !!! ************************************
-		};
+        JLabel titreQuantite = new JLabel("quantité :", SwingConstants.RIGHT);
+        titreQuantite.setPreferredSize(new Dimension(100, 30));
+        panelQuantite.add(titreQuantite);
 
-		JComboBox listeDeroulanteProduits = new JComboBox(liste);
-		listeDeroulanteProduits.setPreferredSize(new Dimension(300, 30));
-		panelListeDeroulanteProduits.add(listeDeroulanteProduits);
-		panelCommande.add(panelListeDeroulanteProduits);
+        JTextField champQuantite = new JTextField();
+        champQuantite.setPreferredSize(new Dimension(100, 30));
+        panelQuantite.add(champQuantite);
 
-		// Demander Quantité
+        panelCommande.add(panelQuantite);
 
-		JPanel panelQuantite = new JPanel();
-		panelQuantite.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		panelQuantite.setPreferredSize(new Dimension(350, 100));
-		panelQuantite.setBackground(Color.white);
+        // Ajout du bouton Ajouter et Terminer
+        // La fenêtre ne doit pas se fermer après l'ajout d'un produit car une commande peut être composée de plusieurs produits
+        JPanel panelBtnActions = new JPanel();
+        panelBtnActions.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        panelBtnActions.setBackground(Color.WHITE);
 
-		JLabel titreQuantite = new JLabel("quantité :", SwingConstants.RIGHT);
-		titreQuantite.setPreferredSize(new Dimension(100, 30));
-		panelQuantite.add(titreQuantite);
+        JPanel panelBtnAjouter = new JPanel();
+        panelBtnAjouter.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        panelBtnAjouter.setBackground(Color.WHITE);
 
-		JTextField champQuantite = new JTextField();
-		champQuantite.setPreferredSize(new Dimension(100, 30));
-		panelQuantite.add(champQuantite);
+        JButton btnAjouter = new JButton("Ajouter");
+        panelBtnAjouter.add(btnAjouter);
 
-		panelCommande.add(panelQuantite);
+        JPanel panelBtnTerminer = new JPanel();
+        panelBtnTerminer.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        panelBtnTerminer.setBackground(Color.WHITE);
 
-		// Ajout du bouton Ajouter et Terminer
-		// La fenêtre ne doit pas se fermer après l'ajout d'un produit car une commande peut être composée de plusieurs produits
+        JButton btnTerminer = new JButton("Terminer");
+        panelBtnTerminer.add(btnTerminer);
 
-		JPanel panelBtnActions = new JPanel();
-		panelBtnActions.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		panelBtnActions.setBackground(Color.WHITE);
+        panelBtnActions.add(panelBtnTerminer);
+        panelBtnActions.add(panelBtnAjouter);
+        panelCommande.add(panelBtnActions);
 
-		JPanel panelBtnAjouter = new JPanel();
-		panelBtnAjouter.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		panelBtnAjouter.setBackground(Color.WHITE);
+        // DEFINIR LES ACTIONS
+        btnAjouter.addActionListener(e -> {
 
-		JButton btnAjouter = new JButton("Ajouter");
-		panelBtnAjouter.add(btnAjouter);
+            String produitSelectionne = (listeDeroulanteProduits.getSelectedItem()).toString();
+            String quantiteSaisie = champQuantite.getText();
 
-		JPanel panelBtnTerminer = new JPanel();
-		panelBtnTerminer.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		panelBtnTerminer.setBackground(Color.WHITE);
+            // Vérifier si quantité
+            if (!VerificationSaisie.testerSiVide(quantiteSaisie)) {
+                JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli("Quantité");
+                ecranInfosManquantes.setVisible(true);
+            } else if (!Character.isDigit(Integer.parseInt(quantiteSaisie))) {
+                JDialogErreurSaisie ecranErreurSaisie = new JDialogErreurSaisie(
+                        "La quantité saisie n'est pas valide.");
+                ecranErreurSaisie.setVisible(true);
+            } else {
+                ajouterProduitDansCommande(produitSelectionne, quantiteSaisie);
 
-		JButton btnTerminer = new JButton("Terminer");
-		panelBtnTerminer.add(btnTerminer);
+                // Réactualiser la JTextArea display
+                mettreAJourTextArea(display);
+            }
+        });
 
-		panelBtnActions.add(panelBtnTerminer);
-		panelBtnActions.add(panelBtnAjouter);
-		panelCommande.add(panelBtnActions);
+        btnTerminer.addActionListener(e
+                -> {
+            dispose();
+        });
 
-		
-		// DEFINIR LES ACTIONS
-		
-		btnAjouter.addActionListener(e -> {
+        return panelCommande;
+    }
 
-				String produitSelectionne = (listeDeroulanteProduits.getSelectedItem()).toString();
-				String quantiteSaisie = champQuantite.getText();
+    private void constructJDialog(String nomClient) throws IOException {
+        setSize(400, 500);
+        setTitle("Créer une commande");
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setModal(true);
 
-				// Vérifier si quantité
-				if (!VerificationSaisie.testerSiVide(quantiteSaisie)) {
-					JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli("Quantité");
-					ecranInfosManquantes.setVisible(true);
-				} else if (!Character.isDigit(Integer.parseInt(quantiteSaisie))) {
-					JDialogErreurSaisie ecranErreurSaisie = new JDialogErreurSaisie(
-							"La quantité saisie n'est pas valide.");
-					ecranErreurSaisie.setVisible(true);
-				} else {
-				ajouterProduitDansCommande(produitSelectionne, quantiteSaisie);
+        setContentPane(construirePanelCommande(nomClient));
+        getContentPane().setBackground(Color.WHITE);
 
-				// Réactualiser la JTextArea display
-				mettreAJourTextArea(display);
-				}
-		});
+    }
 
-	btnTerminer.addActionListener(e->
+    public void ajouterProduitDansCommande(String produitSelectionne, String quantiteSaisie) {
+        // APPELER PROCEDURE D'AJOUT PRODUIT DANS LA COMMANDE
+        // ***********************************
+    }
 
-	{
-		dispose();
-	});
-
-	return panelCommande;
-	}
-
-	private void constructJDialog(String nomClient) throws IOException {
-		setSize(400, 500);
-		setTitle("Créer une commande");
-		setResizable(false);
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setModal(true);
-
-		setContentPane(construirePanelCommande(nomClient));
-		getContentPane().setBackground(Color.WHITE);
-
-	}
-
-	public void ajouterProduitDansCommande(String produitSelectionne, String quantiteSaisie) {
-		// APPELER PROCEDURE D'AJOUT PRODUIT DANS LA COMMANDE
-		// ***********************************
-	}
-
-	public void mettreAJourTextArea(JTextArea display) {
-		String texte = "Il faudra réimporter la liste à nouveau !";
-		// Réimport de la liste produits + quantite
-		// **********************************************
-		display.setText(texte);
-		display.repaint();
-	}
+    public void mettreAJourTextArea(JTextArea display) {
+        String texte = "Il faudra réimporter la liste à nouveau !";
+        // Réimport de la liste produits + quantite
+        // **********************************************
+        display.setText(texte);
+        display.repaint();
+    }
 
 }

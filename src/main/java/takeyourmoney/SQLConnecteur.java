@@ -7,6 +7,7 @@ package takeyourmoney;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  *
@@ -20,7 +21,7 @@ public class SQLConnecteur {
         }
  
     /** Instance unique pré-initialisée */
-    private static SQLConnecteur INSTANCE = new SQLConnecteur();
+    private static final SQLConnecteur INSTANCE = new SQLConnecteur();
           
     /** Point d'accès pour l'instance unique du singleton */
     public static SQLConnecteur getInstance(String nomPilote, String adresse){
@@ -39,13 +40,13 @@ public class SQLConnecteur {
         System.out.println("Connexion à " + nomBDD + "...");
             try{
                 //étape 1: charger la classe de driver
-                Class.forName(this.driverName);
+                Class.forName(SQLConnecteur.driverName);
 
                 //étape 2: créer l'objet de connexion
-                this.conn = DriverManager.getConnection(this.adress, user, pass);
+                this.conn = DriverManager.getConnection(SQLConnecteur.adress, user, pass);
                 System.out.println("Connexion réussie");
             }
-            catch(Exception e){ 
+            catch(ClassNotFoundException | SQLException e){ 
                 System.out.println("SQLConnecteur connectBDD : " + e);
             }
             return this.conn;
@@ -56,7 +57,7 @@ public class SQLConnecteur {
             this.conn.close();
             System.out.println("Connexion fermée");
         }
-        catch(Exception e){
+        catch(SQLException e){
             System.out.println("SQLConnecteur closeBDD : " + e);
         }
     }
