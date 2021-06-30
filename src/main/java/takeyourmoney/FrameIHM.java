@@ -6,7 +6,6 @@
 package takeyourmoney;
 
 import java.awt.*;
-import java.io.IOException;
 import javax.swing.*;
 import java.sql.*;
 import java.util.logging.Level;
@@ -147,12 +146,7 @@ public class FrameIHM{
         gererProduits.addActionListener(e ->   { refGerer("Produits");  });
         gererCommandes.addActionListener(e ->  { refGerer("Commandes"); });
         
-        /*gererCommandes.addActionListener(e ->  { try {
-            refGererCommandes();
-            } catch (IOException ex) {
-                Logger.getLogger(FrameIHM.class.getName()).log(Level.SEVERE, null, ex);
-            }
-});*/
+        /*gererCommandes.addActionListener(e ->  { refGererCommandes(); });*/
         
         // affichage
         listerClients.addActionListener(e ->   { refAfficher("Clients");   });        
@@ -182,29 +176,15 @@ public class FrameIHM{
     public void refGerer(String nomTable) {
 
             JDialogGestion ecranGestion = null;
-            try {
-                    ecranGestion = new JDialogGestion(this.connTakeYourMoney, nomTable);
-
-            } catch (HeadlessException e) {
-            } catch (IOException e) {
-                    JDialogError ecranErreur = new JDialogError();
-                    ecranErreur.setVisible(true);
-            }
+            ecranGestion = new JDialogGestion(this.connTakeYourMoney, nomTable);
             ecranGestion.setVisible(true);
     }
 
 
-    /*public void refGererCommandes() throws IOException {
+    /*public void refGererCommandes() {
 
             JDialogGestion ecranGestion = null;
-            try {
-                    ecranGestion = new JDialogGestion(this.connTakeYourMoney, "Commandes");
-
-            } catch (HeadlessException e) {
-            } catch (IOException e) {
-                    JDialogError ecranErreur = new JDialogError();
-                    ecranErreur.setVisible(true);
-            }
+            ecranGestion = new JDialogGestion(this.connTakeYourMoney, "Commandes");
             ecranGestion.setVisible(true);
     }*/
     
