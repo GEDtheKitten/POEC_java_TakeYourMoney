@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -23,7 +22,7 @@ public class JDialogSaisieAjouterCommandeClient extends JDialog {
 
     private final Connection conTYM;
 
-    public JDialogSaisieAjouterCommandeClient(Connection connTakeYourMoney) throws IOException, SQLException {
+    public JDialogSaisieAjouterCommandeClient(Connection connTakeYourMoney) throws SQLException {
         super();
         this.conTYM = connTakeYourMoney;
         constructJDialog();
@@ -102,7 +101,7 @@ public class JDialogSaisieAjouterCommandeClient extends JDialog {
         return panel;
     }
 
-    private void constructJDialog() throws IOException, SQLException {
+    private void constructJDialog() throws SQLException {
         setSize(400, 200);
         setTitle("Selectionner un client");
         setResizable(false);

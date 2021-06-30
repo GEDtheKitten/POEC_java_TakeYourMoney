@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,7 +19,7 @@ import javax.swing.SwingConstants;
 
 public class JDialogSaisieAjouterCommande extends JDialog {
 
-    public JDialogSaisieAjouterCommande(String nomClient) throws IOException {
+    public JDialogSaisieAjouterCommande(String nomClient) {
         super();
         constructJDialog(nomClient);
     }
@@ -145,7 +144,7 @@ public class JDialogSaisieAjouterCommande extends JDialog {
         return panelCommande;
     }
 
-    private void constructJDialog(String nomClient) throws IOException {
+    private void constructJDialog(String nomClient) {
         setSize(400, 500);
         setTitle("Créer une commande");
         setResizable(false);
