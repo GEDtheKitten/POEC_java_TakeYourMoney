@@ -59,9 +59,13 @@ public class ListIHM {
         JDialog listerDialog = new JDialog();
             listerDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             listerDialog.setModal(true);
-            listerDialog.setSize(800, 20*this.PAGINATION + 100);
+            listerDialog.setSize(800, 20*this.PAGINATION + 200);
             listerDialog.setTitle("Affichage des " + this.nomTable);
-        
+
+        // label presentation        
+        String banName = "banniereTYM.jpg";
+        JLabel banLabel = new JLabel("", new ImageIcon(banName), JLabel.CENTER);
+
             
         // creation de la rampe de bouton pour defiler page par page
         JButton topJButton = new JButton("<<");
@@ -74,12 +78,14 @@ public class ListIHM {
             rampePan.add(pageUPJButton);
             rampePan.add(pageDOWNJButton);
             rampePan.add(bottomJButton);
+            rampePan.setBackground(Color.WHITE);
             
             
         // creation du bouton fermer
         JButton fermerJButton = new JButton("Fermer");
         JPanel fermerPan = new JPanel();
             fermerPan.add(fermerJButton);
+            fermerPan.setBackground(Color.WHITE);
                      
         
         // assemblage
@@ -95,9 +101,12 @@ public class ListIHM {
             JPanel blocPan = new JPanel(new BorderLayout());
                 blocPan.add(scroll, BorderLayout.NORTH);
                 blocPan.add(rampePan, BorderLayout.SOUTH);
+                blocPan.setBackground(Color.WHITE);
             
-            listerDialog.add(blocPan, BorderLayout.NORTH);
+            listerDialog.add(banLabel, BorderLayout.NORTH);
+            listerDialog.add(blocPan, BorderLayout.CENTER);
             listerDialog.add(fermerPan, BorderLayout.SOUTH);
+            listerDialog.getContentPane().setBackground(Color.WHITE);
 
     
         // reflexes de la rampe de bouton gerant le defilement des ecrans
