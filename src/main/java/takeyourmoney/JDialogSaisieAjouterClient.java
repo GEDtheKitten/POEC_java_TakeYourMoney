@@ -3,7 +3,6 @@ package takeyourmoney;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -21,7 +20,7 @@ public class JDialogSaisieAjouterClient extends JDialog {
 
     private final Connection conTYM;
 
-    JDialogSaisieAjouterClient(Connection connTakeYourMoney) throws IOException {
+    JDialogSaisieAjouterClient(Connection connTakeYourMoney) {
         super();
         this.conTYM = connTakeYourMoney;
         constructJDialog();
@@ -169,7 +168,7 @@ public class JDialogSaisieAjouterClient extends JDialog {
         return panelClient;
     }
 
-    private void constructJDialog() throws IOException {
+    private void constructJDialog() {
         setSize(400, 400);
         setTitle("Ajouter un client");
         setResizable(false);
