@@ -222,6 +222,27 @@ public class JDialogGestion extends JDialog {
                 supprimerData(type, valeurSupprimee);
                 JDialogConfirmationSuppression ecranConfirmationSuppression = new JDialogConfirmationSuppression();
                 ecranConfirmationSuppression.setVisible(true);
+                
+                // exctraction des donnees et insertion dans un ArrayList
+                
+                switch (type) {
+                    case "Clients":
+                        dat.getDataFromRequest("call P_lister_client();");
+                        break;
+                    case "Produits":
+                        dat.getDataFromRequest("call P_lister_produits();");
+                        break;
+                    case "Commandes":
+                        dat.getDataFromRequest("call P_lister_commandes();");
+                        break;
+                }
+
+                // insertion des donne dans jcombo
+                liste.clear();
+                for (int i = 0; i < dat.nbLignes; i++) {
+                    liste.add(dat.getData()[i][0].toString());
+                }
+                listeDeroulante.repaint();
             }
         });
 

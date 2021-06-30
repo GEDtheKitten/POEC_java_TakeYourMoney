@@ -214,9 +214,10 @@ DELIMITER //
 -- CREATE PROCEDURE P_lister_client (OUT clients VARCHAR(50))
 CREATE PROCEDURE P_lister_client ()
 BEGIN
-    SELECT CONCAT(client_nom, ' ', client_prenom) AS clients
+--     SELECT CONCAT(client_nom, ' ', client_prenom) AS clients
+    SELECT client_nom AS clients
     FROM Clients
-    ORDER BY client_nom, client_prenom;
+    ORDER BY client_nom;
 END //
 
 
