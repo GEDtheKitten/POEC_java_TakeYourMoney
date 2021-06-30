@@ -174,14 +174,19 @@ INSERT INTO Produits_Commandes(produit_ID, commande_ID, qte_produit) VALUES (3, 
 
 DROP PROCEDURE IF EXISTS P_lister_client;
 DROP PROCEDURE IF EXISTS P_lister_produits;
+DROP PROCEDURE IF EXISTS P_num_commande;
+DROP PROCEDURE IF EXISTS P_lister_produits_and_price;
 DROP PROCEDURE IF EXISTS P_get_client;
 DROP PROCEDURE IF EXISTS P_get_produit;
 DROP PROCEDURE IF EXISTS P_ajouter_client;
 DROP PROCEDURE IF EXISTS P_ajouter_produit;
 DROP PROCEDURE IF EXISTS P_modifier_client;
 DROP PROCEDURE IF EXISTS P_modifier_produit;
+DROP PROCEDURE IF EXISTS P_desactiver_produit;
 DROP PROCEDURE IF EXISTS P_modifier_prix_produit;
 DROP PROCEDURE IF EXISTS P_supprimer_client;
+DROP PROCEDURE IF EXISTS P_supprimer_client_par_nom;
+DROP PROCEDURE IF EXISTS P_ID_produit;
 DROP PROCEDURE IF EXISTS P_supprimer_produit;
 DROP PROCEDURE IF EXISTS P_produits_deja_achete;
 
@@ -195,7 +200,6 @@ DROP PROCEDURE IF EXISTS P_CA_total;
 -- DROP PROCEDURE IF EXISTS P_CA_par_ans;
 -- DROP PROCEDURE IF EXISTS P_CA_par_mois;
 
-
 -- DROP PROCEDURE IF EXISTS P_CA_moyenne_mensuelle_par_client;
 -- DROP PROCEDURE IF EXISTS P_CA_moyenne_annuelle_par_client;
 -- DROP PROCEDURE IF EXISTS P_CA_par_mois_par_client;
@@ -206,19 +210,38 @@ DROP PROCEDURE IF EXISTS P_CA_total;
 DELIMITER //
 
 -- Procedure - lister les clients 
-CREATE PROCEDURE P_lister_client ()
+CREATE PROCEDURE P_lister_client (OUT clients VARCHAR(50))
 BEGIN
-	SELECT CONCAT(client_nom, ' ', client_prenom) AS Clients
-	FROM Clients;
+    SELECT CONCAT(client_nom, ' ', client_prenom) AS clients
+    FROM Clients
+    ORDER BY client_nom, client_prenom;
 END //
 
 
--- Procedure - lister les produits 
-CREATE PROCEDURE P_lister_produits ()
+-- Procedure - lister les produits
+CREATE PROCEDURE P_lister_produits (OUT produits VARCHAR(50))
 BEGIN
-	-- SELECT produit_designation AS Produit, prix_HT, prix_date_debut 
-    SELECT *
-	FROM Produits AS p
+    SELECT produit_designation AS produits
+    FROM Produits 
+    ORDER BY produit_designation;
+END //
+
+
+-- Procedure - lister les commandes par ID / num commande
+CREATE PROCEDURE P_num_commande (OUT num_commande INT)
+BEGIN
+    SELECT commande_ID AS num_commande
+    FROM Commandes 
+    ORDER BY commande_ID;
+END //
+
+
+-- Procedure - lister les produits avec le prix
+CREATE PROCEDURE P_lister_produits_and_price ()
+BEGIN
+    SELECT produit_designation AS Produit, prix_HT, prix_date_debut 
+--     SELECT *
+    FROM Produits AS p
     LEFT JOIN Prix AS px on p.produit_ID = px.produit_ID
     WHERE prix_date_fin IS NULL;
 END //
@@ -227,8 +250,8 @@ END //
 -- Procedure - selectionner un client par nom / prenom 
 CREATE PROCEDURE P_get_client (IN client_nom VARCHAR(50), IN client_prenom VARCHAR(50))
 BEGIN
-	SELECT * 
-	FROM Clients AS c
+    SELECT * 
+    FROM Clients AS c
     WHERE c.client_nom = client_nom AND c.client_prenom = client_prenom;
 END //
 
@@ -255,11 +278,12 @@ END //
 
 -- Procedure - ajouter un produit
 CREATE PROCEDURE P_ajouter_produit (IN produit_designation VARCHAR(50), IN produit_desactive BOOLEAN, 
-									IN prix_date_debut DATE, prix_HT DECIMAL(15,2))
+                                    prix_HT DECIMAL(15,2))
 BEGIN
     INSERT INTO Produits (produit_designation, produit_desactive) VALUES (produit_designation, produit_desactive);
-    INSERT INTO Prix (prix_date_debut, prix_HT, produit_ID) VALUES (prix_date_debut, prix_HT, LAST_INSERT_ID());
+    INSERT INTO Prix (prix_date_debut, prix_HT, produit_ID) VALUES (CURRENT_DATE(), prix_HT, LAST_INSERT_ID());
 END //
+
 
 -- Procedure - modifier un client
 CREATE PROCEDURE P_modifier_client (IN c_ID INT, IN c_nom VARCHAR(50), IN c_prenom VARCHAR(50), IN c_adresse1 VARCHAR(50),
@@ -281,6 +305,15 @@ BEGIN
 END //
 
 
+-- Procedure - modifier un produit
+CREATE PROCEDURE P_desactiver_produit (IN p_designation VARCHAR(50))
+BEGIN
+    UPDATE Produits
+	SET produit_desactive = true
+    WHERE produit_designation = p_designation;
+END //
+
+
 -- Procedure - modifier le prix d'un produit
 CREATE PROCEDURE P_modifier_prix_produit (IN p_ID INT, IN prix_date_debut DATE, prix_HT DECIMAL(15,2))
 BEGIN
@@ -296,6 +329,22 @@ BEGIN
 END //
 
 
+-- Procedure - supprimer un client
+CREATE PROCEDURE P_supprimer_client_par_nom (IN c_nom INT)
+BEGIN
+    DELETE FROM Clients	WHERE client_nom = c_nom;
+END //
+
+
+-- Procedure - retourne ID du produit 
+CREATE PROCEDURE P_ID_produit ( IN p_designation VARCHAR(50), OUT produit_ID INT)
+BEGIN
+    SELECT produit_ID AS produit_ID
+    FROM Produits 
+    WHERE produit_designation = p_designation;
+END //
+
+
 -- Procedure - supprimer un produit
 CREATE PROCEDURE P_supprimer_produit (IN p_ID INT)
 BEGIN
@@ -305,12 +354,13 @@ END //
 
 
 -- Procedure - verifier si un porduit appartient a une commande 
-CREATE PROCEDURE P_produits_deja_achete (IN p_ID INT)
+-- CREATE PROCEDURE P_produits_deja_achete (IN p_ID INT)
+CREATE PROCEDURE P_produits_deja_achete (IN produit_designation INT, OUT produit_designation VARCHAR(50))
 BEGIN
-    SELECT * FROM Produits AS p
+    SELECT produit_designation FROM Produits AS p
     JOIN Produits_Commandes AS pc ON p.produit_ID = pc.produit_ID
     WHERE commande_ID IS NOT NULL AND p.produit_ID = p_ID
-	ORDER BY commande_ID;
+        ORDER BY commande_ID;
 END //
 
 
@@ -387,6 +437,7 @@ CREATE OR REPLACE VIEW V_produits_jamais_vendus AS
 
 DROP USER IF EXISTS 'atelierJava'@HOSTNAME;
 CREATE USER 'atelierJava'@'localhost' IDENTIFIED BY 'atelierJava';
+-- attribution des autorisations
 GRANT ALL PRIVILEGES ON take_your_money.* To 'atelierJava'@'localhost';
 GRANT SELECT ON mysql.proc TO 'atelierJava'@'localhost';
 FLUSH PRIVILEGES;

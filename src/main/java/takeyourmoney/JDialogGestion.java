@@ -6,7 +6,12 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.IOException;
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,16 +25,16 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
 public class JDialogGestion extends JDialog {
-    
+
     private final Connection conTYM;
 
-    public JDialogGestion(Connection connTakeYourMoney, String type) throws IOException {
+    public JDialogGestion(Connection connTakeYourMoney, String type) throws IOException, SQLException {
         super();
         this.conTYM = connTakeYourMoney;
         constructJDialog(type);
     }
 
-    private JPanel constructPanel(String type) throws IOException {
+    private JPanel constructPanel(String type) throws IOException, SQLException {
 
         // PANEL PRINCIPAL : panel avec la bannière (800*200)
         JPanelWithBackground panelTitle = new JPanelWithBackground();
@@ -67,15 +72,41 @@ public class JDialogGestion extends JDialog {
 
         Object[] liste;
 
-        if (type.equals("Clients")) {
-            liste = new String[]{"Texte", "Texte"// IMPORTER NOMS CLIENTS PAR ORDRE ALPHABETIQUE ********************
-            };
-        } else if (type.equals("Produits")) {
-            liste = new Object[]{"Texte", "Texte"// IMPORTER DESIGNATIONS PRODUITS PAR ORDRE ALPHABETIQUE *********************
-            };
-        } else {
-            liste = new Object[]{"Texte", "Texte"// IMPORTER NUM COMMANDE ? ************************
-            };
+        switch (type) {
+            case "Clients":
+                CallableStatement cs_clients = this.conTYM.prepareCall("{call P_lister_client(?)}");
+//                cstmt.setString(1, topicname);
+                cs_clients.registerOutParameter(1, java.sql.Types.VARCHAR);
+                ResultSet rs_clients = cs_clients.executeQuery();
+                while (rs_clients.next()) {
+//                    int i = rs.getInt("userid");
+//                    String str = rs.getString("client");
+                    System.out.println(rs_clients.getString("clients"));
+                }
+                liste = new String[]{"Texte", "Texte"// IMPORTER NOMS CLIENTS PAR ORDRE ALPHABETIQUE ********************
+                };
+                break;
+            case "Produits":
+                CallableStatement cs_produits = this.conTYM.prepareCall("{call P_lister_produits(?)}");
+                cs_produits.registerOutParameter(1, java.sql.Types.VARCHAR);
+                ResultSet rs_produits = cs_produits.executeQuery();
+                while (rs_produits.next()) {
+                    System.out.println(rs_produits.getString("produits"));
+                }
+                liste = new Object[]{"Texte", "Texte"// IMPORTER DESIGNATIONS PRODUITS PAR ORDRE ALPHABETIQUE *********************
+                };
+                break;
+            default:
+                CallableStatement cs_num_commande = this.conTYM.prepareCall("{call P_num_commande(?)}");
+                cs_num_commande.registerOutParameter(1, java.sql.Types.INTEGER);
+                ResultSet rs_num_commande = cs_num_commande.executeQuery();
+                while (rs_num_commande.next()) {
+                    int num_commande = rs_num_commande.getInt("num_commande");
+                    System.out.println(Integer.toString(num_commande));
+                }
+                liste = new Object[]{"Texte", "Texte"// IMPORTER NUM COMMANDE ? ************************
+                };
+                break;
         }
 
         JComboBox listeDeroulante = new JComboBox(liste);
@@ -187,7 +218,11 @@ public class JDialogGestion extends JDialog {
 
         btnAjouter.addActionListener(e -> {
             String valeurSelectionnee = objetListeDeroulante(listeDeroulante);
-            ajouterData(type);
+            try {
+                ajouterData(type);
+            } catch (SQLException ex) {
+                Logger.getLogger(JDialogGestion.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
 
         btnModifier.addActionListener(e -> {
@@ -215,7 +250,7 @@ public class JDialogGestion extends JDialog {
 
     }
 
-    private void constructJDialog(String type) throws IOException {
+    private void constructJDialog(String type) throws IOException, SQLException {
         setSize(800, 600);
         setTitle(type);
         setResizable(false);
@@ -232,7 +267,7 @@ public class JDialogGestion extends JDialog {
         if ("Produits".equals(type)) {
             JDialogSaisieModifierProd modifierProduit = null;
             try {
-                modifierProduit = new JDialogSaisieModifierProd(valeurSelectionnee);
+                modifierProduit = new JDialogSaisieModifierProd(conTYM, valeurSelectionnee);
             } catch (IOException e1) {
                 JDialogError ecranErreur = new JDialogError();
                 ecranErreur.setVisible(true);
@@ -242,7 +277,7 @@ public class JDialogGestion extends JDialog {
         } else if ("Clients".equals(type)) {
             JDialogSaisieModifierClient modifierClient = null;
             try {
-                modifierClient = new JDialogSaisieModifierClient(valeurSelectionnee);
+                modifierClient = new JDialogSaisieModifierClient(conTYM, valeurSelectionnee);
             } catch (IOException e1) {
                 JDialogError ecranErreur = new JDialogError();
                 ecranErreur.setVisible(true);
@@ -252,11 +287,11 @@ public class JDialogGestion extends JDialog {
         }
     }
 
-    public void ajouterData(String type) {
+    public void ajouterData(String type) throws SQLException {
         if ("Produits".equals(type)) {
             JDialogSaisieAjouterProd ajouterProduit = null;
             try {
-                ajouterProduit = new JDialogSaisieAjouterProd();
+                ajouterProduit = new JDialogSaisieAjouterProd(conTYM);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
@@ -276,7 +311,7 @@ public class JDialogGestion extends JDialog {
         } else if ("Commandes".equals(type)) {
             JDialogSaisieAjouterCommandeClient ajouterCommande = null;
             try {
-                ajouterCommande = new JDialogSaisieAjouterCommandeClient();
+                ajouterCommande = new JDialogSaisieAjouterCommandeClient(conTYM);
             } catch (IOException e1) {
                 JDialogError ecranErreur = new JDialogError();
                 ecranErreur.setVisible(true);
@@ -313,7 +348,6 @@ public class JDialogGestion extends JDialog {
         // System.out.println("La valeur sélectionnée est " +
         // (listeDeroulante.getSelectedItem()).toString());
         return (listeDeroulante.getSelectedItem()).toString();
-
     }
 
     public boolean clientADejaCommande(String nomClient) {
@@ -325,11 +359,46 @@ public class JDialogGestion extends JDialog {
     public boolean produitDejaCommande(String nomProduit) {
         // APPEL PROCEDURE DE VERIFICATION POUR SAVOIR SI LE PRODUIT A DEJA ETE ACHETE
         // ************************************
-        return true;
+        Boolean est_vide = false;
+        try {
+            CallableStatement cs_pdc = this.conTYM.prepareCall("{CALL P_produits_deja_achete(?,?)}");
+            cs_pdc.setString(1, nomProduit);
+            cs_pdc.registerOutParameter(2, java.sql.Types.VARCHAR);
+            ResultSet rs = cs_pdc.executeQuery();
+            if (!rs.next()) {
+                est_vide = true;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            if (conTYM != null) {
+                try {
+                    conTYM.close();
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+            }
+        }
+        return est_vide;
     }
 
     public void supprimerClient(String nomClient) {
         // APPEL PROCEDURE POUR SUPPRIMER LE CLIENT ************************************
+        try {
+            CallableStatement cs_sc = this.conTYM.prepareCall("{CALL P_supprimer_client_par_nom(?)}");
+            cs_sc.setString(1, nomClient);
+            cs_sc.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            if (conTYM != null) {
+                try {
+                    conTYM.close();
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+            }
+        }
     }
 
     public void anonymiserClient(String nomClient) {
@@ -339,11 +408,48 @@ public class JDialogGestion extends JDialog {
     public void supprimerProduit(String nomProduit) {
         // APPEL PROCEDURE POUR SUPPRIMER LE PRODUIT
         // ************************************
+        try {
+            // on recuppere l'ID
+            CallableStatement cs_IDp = this.conTYM.prepareCall("{CALL P_ID_produit(?,?)}");
+            cs_IDp.setString(1, nomProduit);
+            cs_IDp.registerOutParameter(2, java.sql.Types.INTEGER);
+            ResultSet rs_IDp = cs_IDp.executeQuery();
+            int p_ID = rs_IDp.getInt("userid");
+            // on supprime le produit par l'ID
+            CallableStatement cs_sp = this.conTYM.prepareCall("{CALL P_supprimer_produit(?)}");
+            cs_sp.setInt(1, p_ID);
+            cs_sp.executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            if (conTYM != null) {
+                try {
+                    conTYM.close();
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+            }
+        }
     }
 
     public void desactiverProduit(String nomProduit) {
         // APPEL PROCEDURE POUR DESACTIVER LE PRODUIT
         // ************************************
+        try {
+            CallableStatement cs_dp = this.conTYM.prepareCall("{CALL P_desactiver_produit(?)}");
+            cs_dp.setString(1, nomProduit);
+            cs_dp.executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            if (conTYM != null) {
+                try {
+                    conTYM.close();
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+            }
+        }
     }
 
     public void mettreAJourTextArea(JTextArea display, String valeurSelectionnee) {

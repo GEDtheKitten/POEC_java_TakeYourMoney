@@ -5,6 +5,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.io.IOException;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,12 +21,15 @@ import javax.swing.SwingConstants;
 
 public class JDialogSaisieAjouterCommandeClient extends JDialog {
 
-    public JDialogSaisieAjouterCommandeClient() throws IOException {
+    private final Connection conTYM;
+
+    public JDialogSaisieAjouterCommandeClient(Connection connTakeYourMoney) throws IOException, SQLException {
         super();
+        this.conTYM = connTakeYourMoney;
         constructJDialog();
     }
 
-    private JPanel construirePanelClient() {
+    private JPanel construirePanelClient() throws SQLException {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(3, 1));
         panel.setBackground(Color.WHITE);
@@ -35,9 +42,17 @@ public class JDialogSaisieAjouterCommandeClient extends JDialog {
 
         Object[] liste;
 
+        CallableStatement cs_clients = this.conTYM.prepareCall("{call P_lister_client(?)}");
+        cs_clients.registerOutParameter(1, java.sql.Types.VARCHAR);
+        ResultSet rs_clients = cs_clients.executeQuery();
+        while (rs_clients.next()) {
+            System.out.println(rs_clients.getString("clients"));
+        }
+
         liste = new String[]{"Texte", "Texte"// IMPORTER NOMS CLIENTS PAR ORDRE ALPHABETIQUE -- Utiliser le nom de la
         // table "Clients" !!!
         // ******************************************************
+
         };
 
         JComboBox listeDeroulanteClients = new JComboBox(liste);
@@ -87,7 +102,7 @@ public class JDialogSaisieAjouterCommandeClient extends JDialog {
         return panel;
     }
 
-    private void constructJDialog() throws IOException {
+    private void constructJDialog() throws IOException, SQLException {
         setSize(400, 200);
         setTitle("Selectionner un client");
         setResizable(false);

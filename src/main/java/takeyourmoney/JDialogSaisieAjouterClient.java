@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 public class JDialogSaisieAjouterClient extends JDialog {
-    
+
     private final Connection conTYM;
 
     JDialogSaisieAjouterClient(Connection connTakeYourMoney) throws IOException {
@@ -184,15 +184,7 @@ public class JDialogSaisieAjouterClient extends JDialog {
 
     public void ajouterClient(String nouveauNom, String nouveauPrenom, String nouveauAdress1, String nouveauAdress2,
             String nouveauCP, String nouveauVille, String nouveauTelephone) {
-        // APPELER PROCEDURE D'AJOUT CLIENT
         try {
-//            // instanciation d'un connecteur SINGLETON
-//            SQLConnecteur sqlConnecteur = SQLConnecteur.getInstance(CONSTANTS.NAMEDRIVER, CONSTANTS.ADRESSE);
-//            // initialisation de la connexion        
-//            Connection conn = sqlConnecteur.openDB(CONSTANTS.NAMEBDD, CONSTANTS.USER, CONSTANTS.PASS);
- 
-//            conn = getConnection();
-
             CallableStatement cs = this.conTYM.prepareCall("{CALL P_ajouter_client(?,?,?,?,?,?,?)}");
             cs.setString(1, nouveauNom);
             cs.setString(2, nouveauPrenom);
@@ -201,13 +193,7 @@ public class JDialogSaisieAjouterClient extends JDialog {
             cs.setString(5, nouveauCP);
             cs.setString(6, nouveauVille);
             cs.setString(7, nouveauTelephone);
-            
-//            cs.registerOutParameter(3, java.sql.Types.INTEGER);
             cs.executeUpdate();
-
-//            int resultado = cs.getInt(3);
-//            System.out.println(resultado);
-
         } catch (SQLException e) {
             System.out.println(e);
         } finally {

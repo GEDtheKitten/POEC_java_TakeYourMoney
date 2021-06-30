@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.io.IOException;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -16,8 +19,11 @@ import javax.swing.SwingConstants;
 
 public class JDialogSaisieAjouterProd extends JDialog {
 
-    public JDialogSaisieAjouterProd() throws IOException {
+    private final Connection conTYM;
+
+    public JDialogSaisieAjouterProd(Connection connTakeYourMoney) throws IOException {
         super();
+        this.conTYM = connTakeYourMoney;
         constructJDialog();
     }
 
@@ -121,6 +127,23 @@ public class JDialogSaisieAjouterProd extends JDialog {
 
     public void ajouterProduit(String nouveauNom, String nouveauPrixHT) {
         // APPELER PROCEDURE D'AJOUT PRODUIT **********************
+        try {
+            CallableStatement cs = this.conTYM.prepareCall("{CALL P_ajouter_produit(?,?,?,?)}");
+            cs.setString(1, nouveauNom);
+            cs.setString(2, "false");
+            cs.setString(3, nouveauPrixHT);
+            cs.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            if (conTYM != null) {
+                try {
+                    conTYM.close();
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+            }
+        }
     }
 
 }
