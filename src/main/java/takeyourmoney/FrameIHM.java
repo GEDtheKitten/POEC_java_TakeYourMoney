@@ -16,22 +16,23 @@ import java.util.logging.Logger;
  *
  * @author Pascal
  */
-public class FrameIHM {
+public class FrameIHM{
 
     // connecteur vers la base de données
     private final Connection connTakeYourMoney;
-
+    
     // constructeur de l'interface de base
-    FrameIHM() {
+    FrameIHM(){
 
         // instanciation d'un connecteur SINGLETON
         SQLConnecteur sqlConnecteur = SQLConnecteur.getInstance(CONSTANTS.NAMEDRIVER, CONSTANTS.ADRESSE);
         // initialisation de la connexion        
         connTakeYourMoney = sqlConnecteur.openDB(CONSTANTS.NAMEBDD, CONSTANTS.USER, CONSTANTS.PASS);
 
+        
         // LES WIDGETS
         // Fenetre principale + widgets associés
-        JFrame jf = new JFrame("TakeYourMoney");
+        JFrame jf = new JFrame("TakeYourMoney");        
         jf.setPreferredSize(new Dimension(800, 600));
         jf.getContentPane().setBackground(Color.white);
         jf.pack();
@@ -39,187 +40,172 @@ public class FrameIHM {
         // label gerer
         String gererText = "Gérer";
         JLabel gererLabel = new JLabel(gererText, JLabel.CENTER);
-
-        // label affichage
-        String listerText = "Afficher";
+        
+         // label affichage
+        String listerText = "Afficher";        
         JLabel listerLabel = new JLabel(listerText, JLabel.CENTER);
-
-        // label affichage particulier sur les produits
-        String produitText = "Affichages particuliers sur les produits";
+        
+         // label affichage particulier sur les produits
+        String produitText = "Affichages particuliers sur les produits";        
         JLabel produitLabel = new JLabel(produitText, JLabel.CENTER);
-
+        
         // boutons de gestion
         JButton gererClients = new JButton("Client");
         JButton gererProduits = new JButton("Produits");
         JButton gererCommandes = new JButton("Commandes");
-
+        
         // boutons d'affichage
         JButton listerClients = new JButton("Client");
         JButton listerProduits = new JButton("Produits");
         JButton listerCommandes = new JButton("Commandes");
-
+        
         // boutons d'affichage particulier sur les produits
         JButton produitsPlusVendus = new JButton("Les plus vendus");
         JButton produitsMoinsVendus = new JButton("Les moins vendus");
         JButton produitsJamaisVendus = new JButton("Ceux jamais vendus");
-
+        
         // boutons de statistiques et fermeture
         JButton statCA = new JButton("statistiques");
         JButton quit = new JButton("quitter");
-
+        
         // assemblage des boutons de gestion      
         JPanel gererBoutonPan = new JPanel();
         gererBoutonPan.setBackground(Color.WHITE);
-        gererBoutonPan.add(gererLabel);
-        gererBoutonPan.add(gererClients);
-        gererBoutonPan.add(gererProduits);
-        gererBoutonPan.add(gererCommandes);
-
+            gererBoutonPan.add(gererLabel);
+            gererBoutonPan.add(gererClients);
+            gererBoutonPan.add(gererProduits);
+            gererBoutonPan.add(gererCommandes);
+            
         // assemblage des boutons d'affichage      
         JPanel listerBoutonPan = new JPanel();
         listerBoutonPan.setBackground(Color.WHITE);
-        listerBoutonPan.add(listerLabel);
-        listerBoutonPan.add(listerClients);
-        listerBoutonPan.add(listerProduits);
-        listerBoutonPan.add(listerCommandes);
-
+            listerBoutonPan.add(listerLabel);
+            listerBoutonPan.add(listerClients);
+            listerBoutonPan.add(listerProduits);
+            listerBoutonPan.add(listerCommandes);
+            
         // assemblage des boutons d'affichage particulier sur les produits      
         JPanel produitBoutonPan = new JPanel();
         produitBoutonPan.setBackground(Color.WHITE);
-        produitBoutonPan.add(produitLabel);
-        produitBoutonPan.add(produitsPlusVendus);
-        produitBoutonPan.add(produitsMoinsVendus);
-        produitBoutonPan.add(produitsJamaisVendus);
-
+            produitBoutonPan.add(produitLabel);
+            produitBoutonPan.add(produitsPlusVendus);
+            produitBoutonPan.add(produitsMoinsVendus);
+            produitBoutonPan.add(produitsJamaisVendus);
+            
         // assemblage des boutons de stat et fermeture
         JPanel statBoutonPan = new JPanel();
         statBoutonPan.setBackground(Color.WHITE);
-        statBoutonPan.add(statCA);
-        statBoutonPan.add(quit);
-
+            statBoutonPan.add(statCA);
+            statBoutonPan.add(quit);            
+                     
         // label presentation        
         String banName = "banniereTYM.jpg";
         JLabel banLabel = new JLabel("", new ImageIcon(banName), JLabel.CENTER);
-
+        
         String bienvenueText = "<html><h2>Bienvenue sur Take Your Money!</h2></html>";
         JLabel bienvenueLabel = new JLabel(bienvenueText, JLabel.CENTER);
-
+                                
         // assemblage JLabel et JPanel        
         JPanel globalPan = new JPanel();
-
+        
         JPanel gererPan = new JPanel(new BorderLayout());
-        gererPan.add(gererLabel, BorderLayout.NORTH);
-        gererPan.add(gererBoutonPan, BorderLayout.SOUTH);
-        gererPan.setBackground(Color.WHITE);
-
+            gererPan.add(gererLabel, BorderLayout.NORTH);
+            gererPan.add(gererBoutonPan, BorderLayout.SOUTH);
+            gererPan.setBackground(Color.WHITE);
+        
         JPanel listerPan = new JPanel(new BorderLayout());
-        listerPan.add(listerLabel, BorderLayout.NORTH);
-        listerPan.add(listerBoutonPan, BorderLayout.SOUTH);
-        listerPan.setBackground(Color.WHITE);
-
+            listerPan.add(listerLabel, BorderLayout.NORTH);
+            listerPan.add(listerBoutonPan, BorderLayout.SOUTH);            
+            listerPan.setBackground(Color.WHITE);
+            
         JPanel produitPan = new JPanel(new BorderLayout());
-        produitPan.add(produitLabel, BorderLayout.NORTH);
-        produitPan.add(produitBoutonPan, BorderLayout.SOUTH);
-        produitPan.setBackground(Color.WHITE);
-
-        GridLayout gl = new GridLayout(5, 1, 0, 20);
+            produitPan.add(produitLabel, BorderLayout.NORTH);
+            produitPan.add(produitBoutonPan, BorderLayout.SOUTH);            
+            produitPan.setBackground(Color.WHITE);
+            
+        GridLayout gl = new GridLayout(5,1, 0, 20);
         globalPan.setLayout(gl);
-
-        // assemblage du bloc de boutons
-        globalPan.add(gererPan);
-        globalPan.add(listerPan);
-        globalPan.add(produitPan);
-        globalPan.add(statBoutonPan);
-        globalPan.setBackground(Color.WHITE);
-
+        
+            // assemblage du bloc de boutons
+            globalPan.add(gererPan);
+            globalPan.add(listerPan);
+            globalPan.add(produitPan);
+            globalPan.add(statBoutonPan);
+            globalPan.setBackground(Color.WHITE);
+      
         //jf.add(bienvenueLabel, BorderLayout.CENTER);
         jf.add(banLabel, BorderLayout.NORTH);
         jf.add(bienvenueLabel, BorderLayout.CENTER);
         jf.add(globalPan, BorderLayout.SOUTH);
-
+        
+        
         // reflexes pour les boutons de l'interface principale
         // "à la lambda"
+        
         // gerer
-        gererClients.addActionListener(e -> {
-            try {
-                refGerer("Clients");
-
+        gererClients.addActionListener(e ->    { try {
+            refGerer("Clients");
             } catch (SQLException ex) {
                 Logger.getLogger(FrameIHM.class.getName()).log(Level.SEVERE, null, ex);
             }
-        });
-        gererProduits.addActionListener(e -> {
-            try {
-                refGerer("Produits");
+ });        
+        gererProduits.addActionListener(e ->   { try {
+            refGerer("Produits");
             } catch (SQLException ex) {
                 Logger.getLogger(FrameIHM.class.getName()).log(Level.SEVERE, null, ex);
             }
-        });
-        gererCommandes.addActionListener(e -> {
-            try {
-                refGerer("Commandes");
+ });
+        gererCommandes.addActionListener(e ->  { try {
+            refGerer("Commandes");
             } catch (SQLException ex) {
                 Logger.getLogger(FrameIHM.class.getName()).log(Level.SEVERE, null, ex);
             }
-        });
-
+});
+        
         /*gererCommandes.addActionListener(e ->  { try {
             refGererCommandes();
             } catch (IOException ex) {
                 Logger.getLogger(FrameIHM.class.getName()).log(Level.SEVERE, null, ex);
             }
 });*/
+        
         // affichage
-        listerClients.addActionListener(e -> {
-            refAfficher("Clients");
-        });
-        listerProduits.addActionListener(e -> {
-            refAfficher("Produits");
-        });
-        listerCommandes.addActionListener(e -> {
-            refAfficher("Commandes");
-        });
-
+        listerClients.addActionListener(e ->   { refAfficher("Clients");   });        
+        listerProduits.addActionListener(e ->  { refAfficher("Produits");  });
+        listerCommandes.addActionListener(e -> { refAfficher("Commandes"); });
+                
         // affichages particuliers sur les produits        
-        produitsPlusVendus.addActionListener(e -> {
-            refAffParticuliersProd("V_produits_plus_vendus");
-        });
-        produitsMoinsVendus.addActionListener(e -> {
-            refAffParticuliersProd("V_produits_moins_vendus");
-        });
-        produitsJamaisVendus.addActionListener(e -> {
-            refAffParticuliersProd("V_produits_jamais_vendus");
-        });
-
+        produitsPlusVendus.addActionListener(e ->   { refAffParticuliersProd("V_produits_plus_vendus");   });
+        produitsMoinsVendus.addActionListener(e ->  { refAffParticuliersProd("V_produits_moins_vendus");  });
+        produitsJamaisVendus.addActionListener(e -> { refAffParticuliersProd("V_produits_jamais_vendus"); });
+                
         // statistiques et fermeture (on ferme également la connexion à TYM)
-        statCA.addActionListener(e -> {
-            refStat();
-        });
-        quit.addActionListener(e -> {
-            sqlConnecteur.closeDB();
-            jf.dispose();
-        });
-
+        statCA.addActionListener(e -> { refStat();    });
+        quit.addActionListener(e ->   { sqlConnecteur.closeDB(); jf.dispose(); });
+        
+        
         // Paramètres sur JFrame visible et fermeture
         jf.getContentPane().setBackground(Color.WHITE);
         jf.setVisible(true);
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        
     }
 
+    
     // gestion
+    
     public void refGerer(String nomTable) throws SQLException {
 
-        JDialogGestion ecranGestion = null;
-        try {
-            ecranGestion = new JDialogGestion(this.connTakeYourMoney, nomTable);
+            JDialogGestion ecranGestion = null;
+            try {
+                    ecranGestion = new JDialogGestion(this.connTakeYourMoney, nomTable);
 
-        } catch (HeadlessException e) {
-        } catch (IOException e) {
-            JDialogError ecranErreur = new JDialogError();
-            ecranErreur.setVisible(true);
-        }
-        ecranGestion.setVisible(true);
+            } catch (HeadlessException e) {
+            } catch (IOException e) {
+                    JDialogError ecranErreur = new JDialogError();
+                    ecranErreur.setVisible(true);
+            }
+            ecranGestion.setVisible(true);
     }
 
 
@@ -236,15 +222,16 @@ public class FrameIHM {
             }
             ecranGestion.setVisible(true);
     }*/
+    
     // affichage
-    public void refAfficher(String nomTable) {
+    public void refAfficher(String nomTable){
         ListIHM lst = new ListIHM(this.connTakeYourMoney, nomTable);
-    }
-
+    }   
+    
     // méthodes concernant les affichages particuliers sur les produits
-    public void refAffParticuliersProd(String nomTable) {
+    public void refAffParticuliersProd(String nomTable){       
         SQLRequete rq = new SQLRequete(this.connTakeYourMoney);
-
+        
         // actualisation des vues (à (dé)commenter selon les besoins)
         /*
         // liste des produits les moins vendus
@@ -273,13 +260,14 @@ public class FrameIHM {
         
         rq.pullRequest(reqProdPlusVendus);
         rq.pullRequest(reqProdMoinsVendus);        
-        rq.pullRequest(reqProdJamaisVendus); */
+        rq.pullRequest(reqProdJamaisVendus); */       
+        
         // à ce stade, les vues sont actualisées
         ListIHM lst = new ListIHM(this.connTakeYourMoney, nomTable);
     }
-
+    
     // statistiques
-    public void refStat() {
+    public void refStat(){
         StatistiquesIHM stat = new StatistiquesIHM();
     }
 }

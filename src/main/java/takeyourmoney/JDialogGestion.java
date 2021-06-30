@@ -75,12 +75,9 @@ public class JDialogGestion extends JDialog {
         switch (type) {
             case "Clients":
                 CallableStatement cs_clients = this.conTYM.prepareCall("{call P_lister_client(?)}");
-//                cstmt.setString(1, topicname);
                 cs_clients.registerOutParameter(1, java.sql.Types.VARCHAR);
                 ResultSet rs_clients = cs_clients.executeQuery();
                 while (rs_clients.next()) {
-//                    int i = rs.getInt("userid");
-//                    String str = rs.getString("client");
                     System.out.println(rs_clients.getString("clients"));
                 }
                 liste = new String[]{"Texte", "Texte"// IMPORTER NOMS CLIENTS PAR ORDRE ALPHABETIQUE ********************
@@ -266,12 +263,7 @@ public class JDialogGestion extends JDialog {
     public void modifierData(String type, String valeurSelectionnee) {
         if ("Produits".equals(type)) {
             JDialogSaisieModifierProd modifierProduit = null;
-            try {
-                modifierProduit = new JDialogSaisieModifierProd(conTYM, valeurSelectionnee);
-            } catch (IOException e1) {
-                JDialogError ecranErreur = new JDialogError();
-                ecranErreur.setVisible(true);
-            }
+            modifierProduit = new JDialogSaisieModifierProd(conTYM, valeurSelectionnee);
             modifierProduit.setModal(true);
             modifierProduit.setVisible(true);
         } else if ("Clients".equals(type)) {
@@ -299,12 +291,7 @@ public class JDialogGestion extends JDialog {
             ajouterProduit.setVisible(true);
         } else if ("Clients".equals(type)) {
             JDialogSaisieAjouterClient ajouterClient = null;
-            try {
-                ajouterClient = new JDialogSaisieAjouterClient(conTYM);
-            } catch (IOException e1) {
-                JDialogError ecranErreur = new JDialogError();
-                ecranErreur.setVisible(true);
-            }
+            ajouterClient = new JDialogSaisieAjouterClient(conTYM);
             ajouterClient.setModal(true);
             ajouterClient.setVisible(true);
 
