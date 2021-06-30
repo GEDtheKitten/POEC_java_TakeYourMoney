@@ -41,48 +41,64 @@ public class FrameIHM{
         String gererText = "Gérer";
         JLabel gererLabel = new JLabel(gererText, JLabel.CENTER);
         
-         // label lister
-        String listerText = "Lister";        
+         // label affichage
+        String listerText = "Afficher";        
         JLabel listerLabel = new JLabel(listerText, JLabel.CENTER);
         
-        // boutons de gestion interface principale
+         // label affichage particulier sur les produits
+        String produitText = "Affichages particuliers sur les produits";        
+        JLabel produitLabel = new JLabel(produitText, JLabel.CENTER);
+        
+        // boutons de gestion
         JButton gererClients = new JButton("Client");
         JButton gererProduits = new JButton("Produits");
         JButton gererCommandes = new JButton("Commandes");
         
-        // boutons de gestion interface principale
+        // boutons d'affichage
         JButton listerClients = new JButton("Client");
         JButton listerProduits = new JButton("Produits");
         JButton listerCommandes = new JButton("Commandes");
         
-        // boutons de statistiques et fermeture interface principale
+        // boutons d'affichage particulier sur les produits
+        JButton produitsPlusVendus = new JButton("Les plus vendus");
+        JButton produitsMoinsVendus = new JButton("Les moins vendus");
+        JButton produitsJamaisVendus = new JButton("Ceux jamais vendus");
+        
+        // boutons de statistiques et fermeture
         JButton statCA = new JButton("statistiques");
         JButton quit = new JButton("quitter");
         
-        // assemblage des boutons de gestion interface principale       
+        // assemblage des boutons de gestion      
         JPanel gererBoutonPan = new JPanel();
-        gererBoutonPan.setBackground(Color.white);
+        gererBoutonPan.setBackground(Color.WHITE);
             gererBoutonPan.add(gererLabel);
             gererBoutonPan.add(gererClients);
             gererBoutonPan.add(gererProduits);
             gererBoutonPan.add(gererCommandes);
             
-        // assemblage des boutons de listage interface principale       
+        // assemblage des boutons d'affichage      
         JPanel listerBoutonPan = new JPanel();
-        listerBoutonPan.setBackground(Color.white);
+        listerBoutonPan.setBackground(Color.WHITE);
             listerBoutonPan.add(listerLabel);
             listerBoutonPan.add(listerClients);
             listerBoutonPan.add(listerProduits);
             listerBoutonPan.add(listerCommandes);
             
-        // assemblage des boutons de stat et fermeture interface principale
+        // assemblage des boutons d'affichage particulier sur les produits      
+        JPanel produitBoutonPan = new JPanel();
+        produitBoutonPan.setBackground(Color.WHITE);
+            produitBoutonPan.add(produitLabel);
+            produitBoutonPan.add(produitsPlusVendus);
+            produitBoutonPan.add(produitsMoinsVendus);
+            produitBoutonPan.add(produitsJamaisVendus);
+            
+        // assemblage des boutons de stat et fermeture
         JPanel statBoutonPan = new JPanel();
-        statBoutonPan.setBackground(Color.white);
+        statBoutonPan.setBackground(Color.WHITE);
             statBoutonPan.add(statCA);
             statBoutonPan.add(quit);            
                      
         // label presentation        
-        //String banName = "C:\\Users\\Pascal\\epsi\\M5\\TakeYourMoney\\src\\main\\java\\takeyourmoney\\banniereTYM.jpg";
         String banName = "banniereTYM.jpg";
         JLabel banLabel = new JLabel("", new ImageIcon(banName), JLabel.CENTER);
         
@@ -95,13 +111,17 @@ public class FrameIHM{
         JPanel gererPan = new JPanel(new BorderLayout());
             gererPan.add(gererLabel, BorderLayout.NORTH);
             gererPan.add(gererBoutonPan, BorderLayout.SOUTH);
-            gererPan.setBackground(Color.white);
+            gererPan.setBackground(Color.WHITE);
         
         JPanel listerPan = new JPanel(new BorderLayout());
             listerPan.add(listerLabel, BorderLayout.NORTH);
-            listerPan.add(listerBoutonPan, BorderLayout.SOUTH);
+            listerPan.add(listerBoutonPan, BorderLayout.SOUTH);            
+            listerPan.setBackground(Color.WHITE);
             
-            listerPan.setBackground(Color.white);
+        JPanel produitPan = new JPanel(new BorderLayout());
+            produitPan.add(produitLabel, BorderLayout.NORTH);
+            produitPan.add(produitBoutonPan, BorderLayout.SOUTH);            
+            produitPan.setBackground(Color.WHITE);
             
         GridLayout gl = new GridLayout(5,1, 0, 20);
         globalPan.setLayout(gl);
@@ -109,30 +129,40 @@ public class FrameIHM{
             // assemblage du bloc de boutons
             globalPan.add(gererPan);
             globalPan.add(listerPan);
+            globalPan.add(produitPan);
             globalPan.add(statBoutonPan);
+            globalPan.setBackground(Color.WHITE);
       
         //jf.add(bienvenueLabel, BorderLayout.CENTER);
         jf.add(banLabel, BorderLayout.NORTH);
         jf.add(bienvenueLabel, BorderLayout.CENTER);
         jf.add(globalPan, BorderLayout.SOUTH);
         
+        
         // reflexes pour les boutons de l'interface principale
         // "à la lambda"
         
         // gerer
-        gererClients.addActionListener(e ->    { refGererClients();   });        
-        gererProduits.addActionListener(e ->   { refGererProduits();  });
-        gererCommandes.addActionListener(e ->  { try {
+        gererClients.addActionListener(e ->    { refGerer("Clients");   });        
+        gererProduits.addActionListener(e ->   { refGerer("Produits");  });
+        gererCommandes.addActionListener(e ->  { refGerer("Commandes"); });
+        
+        /*gererCommandes.addActionListener(e ->  { try {
             refGererCommandes();
             } catch (IOException ex) {
                 Logger.getLogger(FrameIHM.class.getName()).log(Level.SEVERE, null, ex);
             }
-});
+});*/
         
-        // lister
-        listerClients.addActionListener(e ->   { refListerClients();   });        
-        listerProduits.addActionListener(e ->  { refListerProduits();  });
-        listerCommandes.addActionListener(e -> { refListerCommandes(); });
+        // affichage
+        listerClients.addActionListener(e ->   { refAfficher("Clients");   });        
+        listerProduits.addActionListener(e ->  { refAfficher("Produits");  });
+        listerCommandes.addActionListener(e -> { refAfficher("Commandes"); });
+                
+        // affichages particuliers sur les produits        
+        produitsPlusVendus.addActionListener(e ->   { refAffParticuliersProd("V_produits_plus_vendus");   });
+        produitsMoinsVendus.addActionListener(e ->  { refAffParticuliersProd("V_produits_moins_vendus");  });
+        produitsJamaisVendus.addActionListener(e -> { refAffParticuliersProd("V_produits_jamais_vendus"); });
                 
         // statistiques et fermeture (on ferme également la connexion à TYM)
         statCA.addActionListener(e -> { refStat();    });
@@ -140,19 +170,20 @@ public class FrameIHM{
         
         
         // Paramètres sur JFrame visible et fermeture
-        jf.getContentPane().setBackground(Color.white);
+        jf.getContentPane().setBackground(Color.WHITE);
         jf.setVisible(true);
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
     }
 
     
-    // reflexe gerer Client
-    public void refGererClients() {
+    // gestion
+    
+    public void refGerer(String nomTable) {
 
             JDialogGestion ecranGestion = null;
             try {
-                    ecranGestion = new JDialogGestion(this.connTakeYourMoney, "Clients");
+                    ecranGestion = new JDialogGestion(this.connTakeYourMoney, nomTable);
 
             } catch (HeadlessException e) {
             } catch (IOException e) {
@@ -162,21 +193,8 @@ public class FrameIHM{
             ecranGestion.setVisible(true);
     }
 
-    public void refGererProduits() {
 
-            JDialogGestion ecranGestion = null;
-            try {
-                    ecranGestion = new JDialogGestion(this.connTakeYourMoney, "Produits");
-
-            } catch (HeadlessException e) {
-            } catch (IOException e) {
-                    JDialogError ecranErreur = new JDialogError();
-                    ecranErreur.setVisible(true);
-            }
-            ecranGestion.setVisible(true);
-    }
-
-    public void refGererCommandes() throws IOException {
+    /*public void refGererCommandes() throws IOException {
 
             JDialogGestion ecranGestion = null;
             try {
@@ -188,20 +206,52 @@ public class FrameIHM{
                     ecranErreur.setVisible(true);
             }
             ecranGestion.setVisible(true);
+    }*/
+    
+    // affichage
+    public void refAfficher(String nomTable){
+        ListIHM lst = new ListIHM(this.connTakeYourMoney, nomTable);
+    }   
+    
+    // méthodes concernant les affichages particuliers sur les produits
+    public void refAffParticuliersProd(String nomTable){       
+        SQLRequete rq = new SQLRequete(this.connTakeYourMoney);
+        
+        // actualisation des vues (à (dé)commenter selon les besoins)
+        /*
+        // liste des produits les moins vendus
+        String reqProdPlusVendus = "CREATE OR REPLACE VIEW V_produits_plus_vendus AS" + 
+                                        "SELECT p.produit_ID AS produit_ID, produit_designation, qte_produit" +
+                                        "FROM Produits AS p" +
+                                        "JOIN Produits_Commandes AS pc ON p.produit_ID = pc.produit_ID" +
+                                        "WHERE commande_ID IS NOT NULL" +
+                                            "GROUP BY p.produit_ID ORDER BY qte_produit DESC;";
+                                           
+        // liste des produits les moins vendus  
+        String reqProdMoinsVendus = "CREATE OR REPLACE VIEW V_produits_moins_vendus AS" +
+                                        "SELECT p.produit_ID AS produit_ID, produit_designation, qte_produit" + 
+                                        "FROM Produits AS p" + 
+                                        "JOIN Produits_Commandes AS pc ON p.produit_ID = pc.produit_ID" + 
+                                        "WHERE commande_ID IS NOT NULL" + 
+                                            "GROUP BY p.produit_ID ORDER BY qte_produit;";
+
+        // liste des produits jamais vendus
+        String reqProdJamaisVendus = "CREATE OR REPLACE VIEW V_produits_jamais_vendus AS" + 
+                                        "SELECT p.produit_ID AS produit_ID, produit_designation, qte_produit" +  
+                                        "FROM Produits AS p" + 
+                                        "LEFT JOIN Produits_Commandes AS pc ON p.produit_ID = pc.produit_ID" + 
+                                        "WHERE commande_ID IS NULL;";
+        
+        
+        rq.pullRequest(reqProdPlusVendus);
+        rq.pullRequest(reqProdMoinsVendus);        
+        rq.pullRequest(reqProdJamaisVendus); */       
+        
+        // à ce stade, les vues sont actualisées
+        ListIHM lst = new ListIHM(this.connTakeYourMoney, nomTable);
     }
     
-    public void refListerClients(){
-        ListIHM listerClient = new ListIHM(this.connTakeYourMoney, "Clients");
-    }
-    
-    public void refListerProduits(){       
-        ListIHM listerClient = new ListIHM(this.connTakeYourMoney, "Produits");
-    }    
-    
-    public void refListerCommandes(){       
-        ListIHM listerClient = new ListIHM(this.connTakeYourMoney, "Commandes");
-    }
-      
+    // statistiques
     public void refStat(){
         StatistiquesIHM stat = new StatistiquesIHM();
     }

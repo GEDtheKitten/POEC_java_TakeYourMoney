@@ -336,3 +336,4 @@ public class JDialogGestion extends JDialog {
 		display.repaint();
 	}
 }
+

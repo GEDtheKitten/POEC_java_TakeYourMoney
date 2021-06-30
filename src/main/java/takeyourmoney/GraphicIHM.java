@@ -24,7 +24,7 @@ public class GraphicIHM extends JPanel {
         super.paintComponent(g);
 
         // On dessine les courbes statistiques ici
-        g.setColor(Color.YELLOW);
+        g.setColor(Color.BLUE);
         g.drawLine(30, 40, 100, 200);
         g.drawOval(150, 180, 10, 10);
         g.drawRect(200, 210, 20, 30);
@@ -35,8 +35,8 @@ public class GraphicIHM extends JPanel {
         g.fillRect(400, 350, 60, 50);
 
         // texte
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Monospaced", Font.BOLD, 16));
         g.drawString("Graphiques de statistiques à dessiner ...", 10, 20);
     }
 }

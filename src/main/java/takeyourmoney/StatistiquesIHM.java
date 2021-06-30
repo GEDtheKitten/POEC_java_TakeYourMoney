@@ -7,6 +7,7 @@ package takeyourmoney;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.Border;
 
 /**
  *
@@ -29,15 +30,24 @@ public class StatistiquesIHM {
         statDialog.setSize(800, 800);
         statDialog.setTitle("Affichage des statistiques");
 
+        // label presentation        
+        String banName = "banniereTYM.jpg";
+        JLabel banLabel = new JLabel("", new ImageIcon(banName), JLabel.CENTER);
+        
         // creation du canvas pour afficher les statistiques
         GraphicIHM cnv = new GraphicIHM();
         cnv.setSize(800, 800);
-        cnv.setBackground(Color.LIGHT_GRAY);
+        cnv.setBackground(Color.WHITE);
 
+        // création d'un objet bordure
+        Border lineborder = BorderFactory.createLineBorder(Color.black, 1);
+        cnv.setBorder(lineborder);
+        
         // creation du bouton fermer
         JButton fermerJButton = new JButton("Fermer");
         JPanel fermerPan = new JPanel();
         fermerPan.add(fermerJButton);
+        fermerPan.setBackground(Color.WHITE);
 
         // reflexe de fermeture de la fenetre
         fermerJButton.addActionListener(e -> {
@@ -46,8 +56,10 @@ public class StatistiquesIHM {
 
         // assemblage
         JPanel statPan = new JPanel(new BorderLayout());
-        statPan.add(cnv);
-        statPan.add(fermerPan, BorderLayout.SOUTH);
+            statPan.add(banLabel, BorderLayout.NORTH);
+            statPan.add(cnv, BorderLayout.CENTER);
+            statPan.add(fermerPan, BorderLayout.SOUTH);
+        
         statDialog.add(statPan);
 
         // affichage de la fenetre
