@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.io.IOException;
+import java.sql.Connection;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,8 +22,11 @@ import javax.swing.SwingConstants;
 
 public class JDialogSaisieAjouterCommande extends JDialog {
 
-    public JDialogSaisieAjouterCommande(String nomClient) throws IOException {
+    private final Connection conTYM;
+
+    public JDialogSaisieAjouterCommande(Connection connTakeYourMoney, String nomClient) throws IOException {
         super();
+        this.conTYM = connTakeYourMoney;
         constructJDialog(nomClient);
     }
 
@@ -64,13 +69,23 @@ public class JDialogSaisieAjouterCommande extends JDialog {
         panelListeDeroulanteProduits.setPreferredSize(new Dimension(300, 50));
         panelListeDeroulanteProduits.setBackground(Color.white);
 
-        Object[] liste;
+//        Object[] liste;
+//
+//        liste = new String[]{"Texte", "Texte"// IMPORTER NOMS PRODUITS PAR ORDRE ALPHABETIQUE -- Utiliser le nom de la
+//        // table "Produits" !!! ************************************
+//        };
+        // exctraction des donnees et insertion dans un ArrayList
+        ArrayList<String> liste = new ArrayList();
+        DataTables dat = new DataTables(this.conTYM, "Produits");
 
-        liste = new String[]{"Texte", "Texte"// IMPORTER NOMS PRODUITS PAR ORDRE ALPHABETIQUE -- Utiliser le nom de la
-        // table "Produits" !!! ************************************
-        };
+        dat.getDataFromRequest("call P_lister_produits();");
 
-        JComboBox listeDeroulanteProduits = new JComboBox(liste);
+        // insertion des donne dans jcombo
+        for (int i = 0; i < dat.nbLignes; i++) {
+            liste.add(dat.getData()[i][0].toString());
+        }
+
+        JComboBox listeDeroulanteProduits = new JComboBox(liste.toArray());
         listeDeroulanteProduits.setPreferredSize(new Dimension(300, 30));
         panelListeDeroulanteProduits.add(listeDeroulanteProduits);
         panelCommande.add(panelListeDeroulanteProduits);
@@ -125,15 +140,16 @@ public class JDialogSaisieAjouterCommande extends JDialog {
             if (!VerificationSaisie.testerSiVide(quantiteSaisie)) {
                 JDialogTextFieldNonRempli ecranInfosManquantes = new JDialogTextFieldNonRempli("Quantité");
                 ecranInfosManquantes.setVisible(true);
-            } else if (!Character.isDigit(Integer.parseInt(quantiteSaisie))) {
+                if (!Character.isDigit(Integer.parseInt(quantiteSaisie))) {
                 JDialogErreurSaisie ecranErreurSaisie = new JDialogErreurSaisie(
                         "La quantité saisie n'est pas valide.");
                 ecranErreurSaisie.setVisible(true);
-            } else {
+                } else {
                 ajouterProduitDansCommande(produitSelectionne, quantiteSaisie);
 
                 // Réactualiser la JTextArea display
                 mettreAJourTextArea(display);
+            }
             }
         });
 

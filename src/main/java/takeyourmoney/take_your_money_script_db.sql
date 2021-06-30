@@ -174,6 +174,7 @@ INSERT INTO Produits_Commandes(produit_ID, commande_ID, qte_produit) VALUES (3, 
 
 DROP PROCEDURE IF EXISTS P_lister_client;
 DROP PROCEDURE IF EXISTS P_lister_produits;
+DROP PROCEDURE IF EXISTS P_lister_commandes;
 DROP PROCEDURE IF EXISTS P_num_commande;
 DROP PROCEDURE IF EXISTS P_lister_produits_and_price;
 DROP PROCEDURE IF EXISTS P_get_client;
@@ -210,7 +211,8 @@ DROP PROCEDURE IF EXISTS P_CA_total;
 DELIMITER //
 
 -- Procedure - lister les clients 
-CREATE PROCEDURE P_lister_client (OUT clients VARCHAR(50))
+-- CREATE PROCEDURE P_lister_client (OUT clients VARCHAR(50))
+CREATE PROCEDURE P_lister_client ()
 BEGIN
     SELECT CONCAT(client_nom, ' ', client_prenom) AS clients
     FROM Clients
@@ -219,11 +221,20 @@ END //
 
 
 -- Procedure - lister les produits
-CREATE PROCEDURE P_lister_produits (OUT produits VARCHAR(50))
+CREATE PROCEDURE P_lister_produits ()
 BEGIN
     SELECT produit_designation AS produits
     FROM Produits 
     ORDER BY produit_designation;
+END //
+
+
+-- Procedure - lister les produits
+CREATE PROCEDURE P_lister_commandes ()
+BEGIN
+    SELECT commande_ID AS commandes
+    FROM Commandes 
+    ORDER BY commande_ID;
 END //
 
 

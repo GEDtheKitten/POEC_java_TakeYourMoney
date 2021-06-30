@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+import java.util.*;
 
 public class JDialogGestion extends JDialog {
 
@@ -70,44 +71,30 @@ public class JDialogGestion extends JDialog {
         panelSelection.setLayout(new GridLayout(3, 1));
         panelListeDeroulante.setBackground(Color.white);
 
-        Object[] liste;
+        // exctraction des donnees et insertion dans un ArrayList
+        ArrayList<String> liste = new ArrayList();
+        DataTables dat = new DataTables(this.conTYM, type);
 
         switch (type) {
             case "Clients":
-                CallableStatement cs_clients = this.conTYM.prepareCall("{call P_lister_client(?)}");
-                cs_clients.registerOutParameter(1, java.sql.Types.VARCHAR);
-                ResultSet rs_clients = cs_clients.executeQuery();
-                while (rs_clients.next()) {
-                    System.out.println(rs_clients.getString("clients"));
-                }
-                liste = new String[]{"Texte", "Texte"// IMPORTER NOMS CLIENTS PAR ORDRE ALPHABETIQUE ********************
-                };
+                dat.getDataFromRequest("call P_lister_client();");
                 break;
             case "Produits":
-                CallableStatement cs_produits = this.conTYM.prepareCall("{call P_lister_produits(?)}");
-                cs_produits.registerOutParameter(1, java.sql.Types.VARCHAR);
-                ResultSet rs_produits = cs_produits.executeQuery();
-                while (rs_produits.next()) {
-                    System.out.println(rs_produits.getString("produits"));
-                }
-                liste = new Object[]{"Texte", "Texte"// IMPORTER DESIGNATIONS PRODUITS PAR ORDRE ALPHABETIQUE *********************
-                };
+                dat.getDataFromRequest("call P_lister_produits();");
                 break;
-            default:
-                CallableStatement cs_num_commande = this.conTYM.prepareCall("{call P_num_commande(?)}");
-                cs_num_commande.registerOutParameter(1, java.sql.Types.INTEGER);
-                ResultSet rs_num_commande = cs_num_commande.executeQuery();
-                while (rs_num_commande.next()) {
-                    int num_commande = rs_num_commande.getInt("num_commande");
-                    System.out.println(Integer.toString(num_commande));
-                }
-                liste = new Object[]{"Texte", "Texte"// IMPORTER NUM COMMANDE ? ************************
-                };
+            case "Commandes":
+                dat.getDataFromRequest("call P_lister_commandes();");
                 break;
         }
 
-        JComboBox listeDeroulante = new JComboBox(liste);
+        // insertion des donne dans jcombo
+        for (int i = 0; i < dat.nbLignes; i++) {
+            liste.add(dat.getData()[i][0].toString());
+        }
 
+        JComboBox listeDeroulante = new JComboBox(liste.toArray());
+
+        // parametre jcombo
         listeDeroulante.setPreferredSize(new Dimension(350, 30));
         panelListeDeroulante.add(listeDeroulante);
         panelSelection.add(panelListeDeroulante);
@@ -449,4 +436,3 @@ public class JDialogGestion extends JDialog {
         display.repaint();
     }
 }
-

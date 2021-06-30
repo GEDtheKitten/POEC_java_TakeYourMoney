@@ -9,6 +9,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -40,22 +41,20 @@ public class JDialogSaisieAjouterCommandeClient extends JDialog {
         JPanel panelListeDeroulanteClients = new JPanel();
         panelListeDeroulanteClients.setBackground(Color.white);
 
-        Object[] liste;
+        // exctraction des donnees et insertion dans un ArrayList
+        ArrayList<String> liste = new ArrayList();
+        DataTables dat = new DataTables(this.conTYM, "Clients");
+        dat.getDataFromRequest("call P_lister_client();");
 
-        CallableStatement cs_clients = this.conTYM.prepareCall("{call P_lister_client(?)}");
-        cs_clients.registerOutParameter(1, java.sql.Types.VARCHAR);
-        ResultSet rs_clients = cs_clients.executeQuery();
-        while (rs_clients.next()) {
-            System.out.println(rs_clients.getString("clients"));
+        // insertion des donne dans jcombo
+        for (int i = 0; i < dat.nbLignes; i++) {
+            liste.add(dat.getData()[i][0].toString());
         }
 
-        liste = new String[]{"Texte", "Texte"// IMPORTER NOMS CLIENTS PAR ORDRE ALPHABETIQUE -- Utiliser le nom de la
-        // table "Clients" !!!
-        // ******************************************************
+        JComboBox listeDeroulante = new JComboBox(liste.toArray());
 
-        };
-
-        JComboBox listeDeroulanteClients = new JComboBox(liste);
+        // parametre jcombo
+        JComboBox listeDeroulanteClients = new JComboBox(liste.toArray());
         listeDeroulanteClients.setPreferredSize(new Dimension(350, 30));
         panelListeDeroulanteClients.add(listeDeroulanteClients);
         panel.add(panelListeDeroulanteClients);
@@ -90,8 +89,16 @@ public class JDialogSaisieAjouterCommandeClient extends JDialog {
                     "Êtes-vous sûr(e) de vouloir créer une commande pour ce client ?", "Confirmation",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
             if (confirmation == JOptionPane.YES_OPTION) {
-
                 String clientSelectionne = (listeDeroulanteClients.getSelectedItem()).toString();
+
+                JDialogSaisieAjouterCommande ajouterCommande = null;
+                try {
+                    ajouterCommande = new JDialogSaisieAjouterCommande(this.conTYM, clientSelectionne);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                ajouterCommande.setModal(true);
+                ajouterCommande.setVisible(true);
             }
         });
 
